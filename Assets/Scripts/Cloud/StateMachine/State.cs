@@ -16,7 +16,7 @@ public abstract class State : MonoBehaviour
         speed = Target.Speed * 2;
     }
 
-    public void Enter(Player player, PlayerMovement target)
+    public virtual void Enter(Player player, PlayerMovement target)
     {
         if(enabled == false)
         {

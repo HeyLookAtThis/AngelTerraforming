@@ -8,11 +8,17 @@ public class CloudReservoir : MonoBehaviour
     private float _currentWaterReserve;
     private float _targetWaterReserve;
 
+    private float _fullSize = 0.06f;
+    private float _emptySize = 0.02f;
+    private float _currentSize;
+    private float _sizeOfStep;
+
+    private Cloud _cloud;
     private Coroutine _waterReserveChanger;
 
     public Player Player { get; private set; }
 
-    public float FullReservoir { get; } = 100;
+    public float FullReservoir { get; } = 10;
 
     public float EmptyReservoir { get; } = 0;
 
@@ -28,45 +34,61 @@ public class CloudReservoir : MonoBehaviour
 
     private void Awake()
     {
-        Player = GetComponent<Cloud>().Player;
+        _cloud = GetComponent<Cloud>();
+        Player = _cloud.Player;
         _currentWaterReserve = FullReservoir;
+        _sizeOfStep = (_fullSize - _emptySize) / FullReservoir;
     }
 
     private void OnEnable()
     {
-        Player.FoundWater += BeginChangeWaterValue;
+        _cloud.FoundGround += OnFoundGround;
+        _cloud.FoundGround += OnFoundWater;
     }
 
     private void OnDisable()
     {
-        Player.FoundWater -= BeginChangeWaterValue;
+        _cloud.FoundGround -= OnFoundGround;
+        _cloud.FoundGround -= OnFoundWater;
     }
 
-    private void Update()
+    private void OnFoundWater()
     {
-        Debug.Log(_currentWaterReserve);
+        _currentWaterReserve += Time.deltaTime;
+
+        if (_currentSize < _fullSize)
+        {
+            _currentSize += _sizeOfStep;
+            transform.localScale = new Vector3(_currentSize, _emptySize, _currentSize);
+        }
+
+        //BeginChangeWaterValue(index, FullReservoir);
     }
 
-    private void BeginChangeWaterValue()
+    private void OnFoundGround()
     {
-        float changerStep = 0;
-        float targetWaterReserve = _currentWaterReserve;
+        if (_currentWaterReserve > EmptyReservoir)
+        {
+            _currentWaterReserve -= Time.deltaTime;
 
-        //if(collider.TryGetComponent<Water>(out Water water))
-        //{
-        //    changerStep = 1;
-        //    targetWaterReserve = FullReservoir;
-        //}
-        //else if (collider.TryGetComponent<Ground>(out Ground ground))
-        //{
-        //    changerStep = -1;
-        //    targetWaterReserve = EmptyReservoir;
-        //}
+            if (_currentSize > _emptySize)
+            {
+                _currentSize -= _sizeOfStep;
+                transform.localScale = new Vector3(_currentSize, _emptySize, _currentSize);                
+            }
+        }
+        else
+        {
+            _waterIsOver?.Invoke();
+        }            
+    }
 
+    private void BeginChangeWaterValue(float index, float targetWaterReserve)
+    {
         if (_waterReserveChanger != null)
             StopCoroutine(_waterReserveChanger);
 
-        StartCoroutine(WaterReserveChanger(changerStep, targetWaterReserve));
+        StartCoroutine(WaterReserveChanger(index, targetWaterReserve));
     }
 
     private IEnumerator WaterReserveChanger(float index, float targetWaterReserve)
@@ -77,8 +99,9 @@ public class CloudReservoir : MonoBehaviour
         while(_currentWaterReserve != targetWaterReserve)
         {
             _currentWaterReserve += index;
+            _currentSize += _sizeOfStep * index;
 
-            if (_currentWaterReserve == EmptyReservoir)
+            if (_currentWaterReserve <= EmptyReservoir)
                 _waterIsOver?.Invoke();
 
             yield return waitTime;

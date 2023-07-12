@@ -16,4 +16,11 @@ public class NoWaterState : State
         if (Vector3.Distance(Target.transform.position, transform.position) > _distance)
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
     }
+
+    public override void Enter(Player player, PlayerMovement target)
+    {
+        base.Enter(player, target);
+
+        Target.TurnOnGravity();
+    }
 }
