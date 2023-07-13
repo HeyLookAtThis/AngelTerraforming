@@ -8,8 +8,6 @@ public class Cloud : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private PlayerMovement _playerMovement;
 
-    private RaycastHit _hit;
-
     public Player Player => _player;
 
     public PlayerMovement PlayerMovement => _playerMovement;
@@ -31,19 +29,19 @@ public class Cloud : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Physics.Raycast(transform.position, Vector3.down, out _hit);
+        Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
 
-        CheckCollider();
+        CheckCollider(hit);
     }
 
-    private void CheckCollider()
+    private void CheckCollider(RaycastHit hit)
     {
-        if (_hit.collider.TryGetComponent<Water>(out Water water))
+        if (hit.collider.TryGetComponent<Water>(out Water water))
         {
             _foundWater?.Invoke();
             Debug.Log("вода");
         }
-        else if (_hit.collider.TryGetComponent<Ground>(out Ground ground))
+        else if (hit.collider.TryGetComponent<Ground>(out Ground ground))
         {
             _foundGround?.Invoke();
             Debug.Log("земля");
