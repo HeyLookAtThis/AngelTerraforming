@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -252,6 +252,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 424238316}
     m_Modifications:
+    - target: {fileID: 2256938643210294034, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256938643210294034, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6904429587770008198, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
       propertyPath: m_Name
       value: UniformHighPolyPlane (1)
@@ -488,6 +496,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 424238316}
     m_Modifications:
+    - target: {fileID: 2256938643210294034, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256938643210294034, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6904429587770008198, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
       propertyPath: m_Name
       value: UniformHighPolyPlane (2)
@@ -814,10 +830,14 @@ PrefabInstance:
       objectReference: {fileID: 1100150892}
     - target: {fileID: 3371170824707408992, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: _transitions.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3371170824707408992, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: _transitions.Array.data[0]
+      value: 
+      objectReference: {fileID: 1100150885}
+    - target: {fileID: 3371170824707408992, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
+      propertyPath: _transitions.Array.data[1]
       value: 
       objectReference: {fileID: 1100150892}
     - target: {fileID: 4817821728440366097, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
@@ -870,11 +890,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6713818974215638641, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 44.1
+      value: 39.03
       objectReference: {fileID: 0}
     - target: {fileID: 6713818974215638641, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.4
+      value: 3.46
       objectReference: {fileID: 0}
     - target: {fileID: 6713818974215638641, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -921,6 +941,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 424238316}
     m_Modifications:
+    - target: {fileID: 2256938643210294034, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256938643210294034, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6904429587770008198, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
       propertyPath: m_Name
       value: UniformHighPolyPlane (3)
@@ -990,6 +1018,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 424238316}
     m_Modifications:
+    - target: {fileID: 2256938643210294034, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256938643210294034, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6904429587770008198, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
       propertyPath: m_Name
       value: UniformHighPolyPlane (4)
@@ -1135,6 +1171,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 424238316}
     m_Modifications:
+    - target: {fileID: 2256938643210294034, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256938643210294034, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6904429587770008198, guid: 04d357f1d3dd50b459f0f577a0456af7, type: 3}
       propertyPath: m_Name
       value: UniformHighPolyPlane

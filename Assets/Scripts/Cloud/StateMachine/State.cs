@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class State : MonoBehaviour
 {
-    [SerializeField] private Transition _transition;
+    [SerializeField] private List<Transition> _transitions;
 
     protected float speed;
     protected Vector3 targetPosition;
@@ -24,15 +24,19 @@ public abstract class State : MonoBehaviour
 
             Target = target;
 
-            _transition.enabled = true;
-            _transition.Initialize(player);
+            foreach(var transition in _transitions)
+            {
+                transition.enabled = true;
+                transition.Initialize(target);
+            }
         }
     }
 
     public State GetNext()
     {
-        if (_transition.NeedTransit)
-            return _transition.TargetState;
+        foreach (var transition in _transitions)
+            if (transition.NeedTransit)
+                return transition.TargetState;
 
         return null;
     }
@@ -41,7 +45,9 @@ public abstract class State : MonoBehaviour
     {
         if (enabled)
         {
-            _transition.enabled = false;
+            foreach (var transition in _transitions)
+                transition.enabled = false;
+
             enabled = false;
         }
     }

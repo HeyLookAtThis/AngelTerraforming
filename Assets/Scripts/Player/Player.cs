@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.collider.TryGetComponent<Water>(out Water water))
+        {
             _foundWater?.Invoke();
+            Debug.Log("Салам Алейкум");
+        }
     }
 }

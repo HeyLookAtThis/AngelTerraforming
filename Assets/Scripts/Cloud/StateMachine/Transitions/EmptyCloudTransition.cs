@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class EmptyCloudTransition : Transition
 {
+    private CloudReservoir _reservoir;
+
+    private void Awake()
+    {
+        _reservoir = GetComponent<CloudReservoir>();
+    }
+
     private void OnEnable()
     {
-        reservoir.WaterIsOver += TurnOnNeedTransit;
+        _reservoir.WaterIsOver += TurnOnNeedTransit;
     }
 
     private void OnDisable()
     {
-        reservoir.WaterIsOver -= TurnOnNeedTransit;
+        _reservoir.WaterIsOver -= TurnOnNeedTransit;
     }
 }

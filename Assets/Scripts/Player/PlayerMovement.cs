@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _direction;
     private bool _grounded;
 
-    private float _circleRadius = 0.1f;
+    private float _circleRadius = 0.01f;
     private float _gravityValue = -9.81f;
     private float _noGravityValue = 0;
     private float _currentGravityValue;
@@ -45,8 +45,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _grounded = Physics.CheckSphere(transform.position, _circleRadius, _layerMask);
-
         Move();
 
         Rotate();
@@ -54,8 +52,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_grounded && _velosity.y < 0)
-            _velosity.y = 0;
+        if (_currentGravityValue == _gravityValue)
+            UzeGravity();
     }
 
     public void TurnOnGravity()
@@ -74,13 +72,21 @@ public class PlayerMovement : MonoBehaviour
         _currentGravityValue = _noGravityValue;
     }
 
+    private void UzeGravity()
+    {
+        _grounded = Physics.CheckSphere(transform.position, _circleRadius, _layerMask);
+
+        if (_grounded && _velosity.y < 0)
+            _velosity.y = 0;
+
+        _velosity.y += _currentGravityValue * Time.deltaTime;
+        _controller.Move(_velosity * Time.deltaTime);
+    }
+
     private void TakeJump()
     {
         if (_grounded)
             _velosity.y += Mathf.Sqrt(_jumpForce * -3.0f * _gravityValue);
-
-        _velosity.y += _currentGravityValue * Time.deltaTime;
-        _controller.Move(_velosity * Time.deltaTime);
     }
 
     private void Move()
