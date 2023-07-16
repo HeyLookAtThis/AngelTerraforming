@@ -8,7 +8,6 @@ public class FoundWaterTransition : Transition
     private Cloud _cloud;
     private CloudReservoir _reservoir;
 
-
     private void Awake()
     {
         _reservoir = GetComponent<CloudReservoir>();

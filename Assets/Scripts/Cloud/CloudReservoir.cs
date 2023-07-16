@@ -8,6 +8,7 @@ public class CloudReservoir : MonoBehaviour
     private float _currentWaterReserve;
 
     private Cloud _cloud;
+    private Coroutine _waterReserveChanger;
 
     public Player Player { get; private set; }
 
@@ -52,7 +53,7 @@ public class CloudReservoir : MonoBehaviour
     {
         if (_currentWaterReserve < FullReservoir)
         {
-            _currentWaterReserve += Time.deltaTime;
+            BeginChangeWaterReserve(FullReservoir);
             _cloud.IncreaseSize();
         }
     }
@@ -61,12 +62,35 @@ public class CloudReservoir : MonoBehaviour
     {
         if (_currentWaterReserve > EmptyReservoir)
         {
-            _currentWaterReserve -= Time.deltaTime;
+            BeginChangeWaterReserve(EmptyReservoir);
             _cloud.ReduceSize();
         }
-        else
-        {
-            _waterIsOver?.Invoke();
-        }
     }
+
+    private void BeginChangeWaterReserve(float targetWaterReserve)
+    {
+        if (_waterReserveChanger != null)
+            StopCoroutine(_waterReserveChanger);
+
+        _waterReserveChanger = StartCoroutine(WaterReserveChanger(targetWaterReserve));
+    }
+
+    private IEnumerator WaterReserveChanger(float targetWaterReserve)
+    {
+        var waitTime = new WaitForEndOfFrame();
+
+        while (_currentWaterReserve != targetWaterReserve)
+        {
+            _currentWaterReserve = Mathf.MoveTowards(_currentWaterReserve, targetWaterReserve, Time.deltaTime);
+
+            if (_currentWaterReserve == EmptyReservoir)
+                _waterIsOver?.Invoke();
+
+            yield return waitTime;
+        }
+
+        if (_currentWaterReserve == targetWaterReserve)
+            yield break;
+    }
+
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -830,12 +830,12 @@ PrefabInstance:
       objectReference: {fileID: 1100150892}
     - target: {fileID: 3371170824707408992, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: _transitions.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3371170824707408992, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: _transitions.Array.data[0]
       value: 
-      objectReference: {fileID: 1100150885}
+      objectReference: {fileID: 1100150892}
     - target: {fileID: 3371170824707408992, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: _transitions.Array.data[1]
       value: 
@@ -931,6 +931,14 @@ PrefabInstance:
     - target: {fileID: 7289286475984931613, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: m_Name
       value: Cloud_Cumulus_Med
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983240581660615599, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983240581660615599, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}

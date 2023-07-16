@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class WithWaterState : State
 {
-    private Vector3 _previousPosition;
-
     private void Awake()
     {
         positionIndent = new Vector3(0, 0.4f, 0.2f);

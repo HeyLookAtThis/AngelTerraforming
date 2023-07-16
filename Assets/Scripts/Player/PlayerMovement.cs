@@ -53,7 +53,10 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if (_currentGravityValue == _gravityValue)
+        {
+            _grounded = Physics.CheckSphere(transform.position, _circleRadius, _layerMask);
             UzeGravity();
+        }
     }
 
     public void TurnOnGravity()
@@ -74,8 +77,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void UzeGravity()
     {
-        _grounded = Physics.CheckSphere(transform.position, _circleRadius, _layerMask);
-
         if (_grounded && _velosity.y < 0)
             _velosity.y = 0;
 
@@ -87,6 +88,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_grounded)
             _velosity.y += Mathf.Sqrt(_jumpForce * -3.0f * _gravityValue);
+
+        _controller.Move(_velosity * Time.deltaTime);
     }
 
     private void Move()

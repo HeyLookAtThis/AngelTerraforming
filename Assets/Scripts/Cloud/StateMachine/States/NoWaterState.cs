@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class NoWaterState : State
 {
-    private float _distance { get { return 1.5f; } }
+    private float _distance { get { return 2f; } }
 
     private Coroutine _positionChanger;
 
@@ -19,15 +19,15 @@ public class NoWaterState : State
         if (Vector3.Distance(Target.transform.position, transform.position) > _distance)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
-            //transform.forward = Target.transform.forward;
+            transform.LookAt(Target.transform.position);
         }
     }
 
-    public override void Enter(Player player, PlayerMovement target)
+    public override void Enter(PlayerMovement target)
     {
-        base.Enter(player, target);
+        base.Enter(target);
 
-        Target.TurnOnGravity();
+        target.TurnOnGravity();
         BeginChangePosition();
     }
 
@@ -47,7 +47,7 @@ public class NoWaterState : State
         while (transform.position != targetPosition)
         {
             targetPosition = Target.transform.position + positionIndent;
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * seconds);
             yield return waitTime;
         }
 

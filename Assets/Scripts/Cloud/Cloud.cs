@@ -1,11 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(CloudReservoir))]
+[RequireComponent(typeof(MeshCollider))]
 public class Cloud : MonoBehaviour
 {
     [SerializeField] private Player _player;
@@ -13,11 +11,13 @@ public class Cloud : MonoBehaviour
 
     private float _fullSize = 0.06f;
     private float _emptySize = 0.02f;
+
     private float _currentSize;
-    private float _targetSize;
-    private float _sizeOfStep;
+    private float _sizeChangerStep;
 
     private Coroutine _sizeChanger;
+    private MeshCollider _cloudCollider;
+    private Collider _previousHitCollider;
 
     public Player Player => _player;
 
@@ -40,9 +40,10 @@ public class Cloud : MonoBehaviour
 
     private void Start()
     {
-        SetSize(_fullSize);
+        _cloudCollider = GetComponent<MeshCollider>();
 
-        _sizeOfStep = (_fullSize - _emptySize) / GetComponent<CloudReservoir>().FullReservoir;
+        _sizeChangerStep = (_fullSize - _emptySize) / GetComponent<CloudReservoir>().FullReservoir;
+        SetSize(_fullSize);
     }
 
     private void Update()
@@ -55,37 +56,25 @@ public class Cloud : MonoBehaviour
     public void IncreaseSize()
     {
         if (_currentSize < _fullSize)
-        {
-            _targetSize = _currentSize + _sizeOfStep;
-            BeginchangeSize();
-            _currentSize = _targetSize;
-        }
-        else
-        {
-            SetSize(_fullSize);
-        }
+            BeginChangeSize(_fullSize);
     }
 
     public void ReduceSize()
     {
         if (_currentSize > _emptySize)
-        {
-            _targetSize = _currentSize - _sizeOfStep;
-            BeginchangeSize();
-            _currentSize = _targetSize;
-        }
-        else
-        {
-            SetSize(_emptySize);
-        }
-    }
-
-    private void SetSize(float size)
-    {
-        transform.localScale = new Vector3(size, _emptySize, size);
+            BeginChangeSize(_emptySize);
     }
 
     private void CheckCollider(RaycastHit hit)
+    {
+        if (hit.collider != _previousHitCollider)
+        {
+            TryCallEvent(hit);
+            _previousHitCollider = hit.collider;
+        }
+    }
+
+    private void TryCallEvent(RaycastHit hit)
     {
         if (hit.collider.TryGetComponent<Water>(out Water water))
             _foundWater?.Invoke();
@@ -93,28 +82,33 @@ public class Cloud : MonoBehaviour
             _foundGround?.Invoke();
     }
 
-    private void BeginchangeSize( )
+    private void BeginChangeSize(float targetSize)
     {
         if (_sizeChanger != null)
             StopCoroutine(_sizeChanger);
 
-        _sizeChanger = StartCoroutine(SizeChanger());
+        _sizeChanger = StartCoroutine(SizeChanger(targetSize));
     }
 
-    private IEnumerator SizeChanger( )
+    private IEnumerator SizeChanger(float targetSize)
     {
-        float seconds = 1f;
-        var waitTime = new WaitForSeconds(seconds);
+        var waitTime = new WaitForEndOfFrame();
 
-        while (_currentSize != _targetSize)
+        while (_currentSize != targetSize)
         {
-            _currentSize = Mathf.MoveTowards(_currentSize, _targetSize, seconds);
+            _currentSize = Mathf.MoveTowards(_currentSize, targetSize, _sizeChangerStep * Time.deltaTime);
             SetSize(_currentSize);
             yield return waitTime;
         }
 
-        if (_currentSize == _targetSize)
+        if (_currentSize == targetSize)
             yield break;
+    }
 
+    private void SetSize(float size)
+    {
+        _currentSize = size;
+
+        transform.localScale = new Vector3(_currentSize, _emptySize, _currentSize);
     }
 }

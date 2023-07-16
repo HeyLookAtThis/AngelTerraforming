@@ -366,7 +366,6 @@ GameObject:
   - component: {fileID: 1255797624213265795}
   - component: {fileID: 1031616696280987901}
   - component: {fileID: 165728619207226038}
-  - component: {fileID: 7846176174768120230}
   - component: {fileID: 4639067976530727255}
   - component: {fileID: 1957417979659011418}
   m_Layer: 0
@@ -429,20 +428,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.2, z: 0}
---- !u!64 &7846176174768120230
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884384696376395577}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1135308588659036581, guid: 0a1518a46625d18419ae6a5eb5c00ae9, type: 3}
 --- !u!114 &4639067976530727255
 MonoBehaviour:
   m_ObjectHideFlags: 0

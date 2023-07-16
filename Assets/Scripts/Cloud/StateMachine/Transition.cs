@@ -12,14 +12,14 @@ public abstract class Transition : MonoBehaviour
 
     public bool NeedTransit { get; private set; }
 
-    private void OnEnable()
-    {
-        NeedTransit = false;
-    }
-
     public void Initialize(PlayerMovement player)
     {
         Target = player;
+    }
+
+    public void TurnOffNeedTransit()
+    {
+        NeedTransit = false;
     }
 
     protected void TurnOnNeedTransit()

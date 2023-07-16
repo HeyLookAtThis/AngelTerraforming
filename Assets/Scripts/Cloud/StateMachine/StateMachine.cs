@@ -32,7 +32,7 @@ public class StateMachine : MonoBehaviour
         _currentState = state;
 
         if (_currentState != null)
-            _currentState.Enter(GetComponent<Cloud>().Player, GetComponent<Cloud>().PlayerMovement);
+            _currentState.Enter(GetComponent<Cloud>().PlayerMovement);
     }
 
     private void Transit(State nextState)
