@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,22 +10,35 @@ public class PlayerMovement : MonoBehaviour
     private const string Vertical = "Vertical";
 
     [SerializeField] private float _speed;
-    [SerializeField] private float _jumpForce;
-    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private float _jumpForse;
+    [SerializeField] private LayerMask _groundLayerMask;
+    [SerializeField] private LayerMask _cloudLayerMask;
+    [SerializeField] private Transform _pivot;
 
     private CharacterController _controller;
+    private Coroutine _jumper;
     private Player _player;
 
     private Vector3 _velosity;
     private Vector3 _direction;
     private bool _grounded;
+    private bool _isOnCloud;
 
-    private float _circleRadius = 0.01f;
+    private float _sphereRadius = 0.15f;
+
     private float _gravityValue = -9.81f;
     private float _noGravityValue = 0;
     private float _currentGravityValue;
 
+    private UnityAction _satOnCloud;
+
     public float Speed => _speed;
+
+    public event UnityAction SatOnCloud
+    {
+        add => _satOnCloud += value;
+        remove => _satOnCloud -= value;
+    }
 
     private void Awake()
     {
@@ -46,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Move();
-
         Rotate();
     }
 
@@ -54,8 +67,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_currentGravityValue == _gravityValue)
         {
-            _grounded = Physics.CheckSphere(transform.position, _circleRadius, _layerMask);
+            _grounded = Physics.CheckSphere(_pivot.position, _sphereRadius, _groundLayerMask);
             UzeGravity();
+        }
+        else
+        {
+            _isOnCloud = Physics.CheckSphere(_pivot.position, _sphereRadius, _cloudLayerMask);
+
+            if (_isOnCloud)
+                _satOnCloud?.Invoke();
         }
     }
 
@@ -66,8 +86,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnJumpOnCloud()
     {
-        TakeJump();
         TurnOffGravity();
+        BegitToJump();
     }
 
     private void TurnOffGravity()
@@ -80,16 +100,8 @@ public class PlayerMovement : MonoBehaviour
         if (_grounded && _velosity.y < 0)
             _velosity.y = 0;
 
-        _velosity.y += _currentGravityValue * Time.deltaTime;
-        _controller.Move(_velosity * Time.deltaTime);
-    }
-
-    private void TakeJump()
-    {
-        if (_grounded)
-            _velosity.y += Mathf.Sqrt(_jumpForce * -3.0f * _gravityValue);
-
-        _controller.Move(_velosity * Time.deltaTime);
+        _velosity.y += _currentGravityValue * Time.fixedDeltaTime;
+        _controller.Move(_velosity * Time.fixedDeltaTime);
     }
 
     private void Move()
@@ -103,5 +115,32 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_direction != Vector3.zero)
             transform.forward = _direction;
-    }    
+    }
+
+    private void BegitToJump()
+    {
+        if (_jumper != null)
+            StopCoroutine(_jumper);
+
+        _jumper = StartCoroutine(JumpTaker());
+    }
+    
+    private IEnumerator JumpTaker()
+    {
+        var waitTime = new WaitForEndOfFrame();
+
+        Vector3 targetHeight = Vector3.up * _jumpForse;
+        float heightCounter = 0;
+        float jumpTime = 0.3f;
+
+        while (heightCounter < jumpTime)
+        {
+            heightCounter += Time.deltaTime;
+            _controller.Move(targetHeight * Time.deltaTime);
+            yield return waitTime;
+        }
+
+        if (heightCounter >= jumpTime)
+            yield break;
+    }
 }

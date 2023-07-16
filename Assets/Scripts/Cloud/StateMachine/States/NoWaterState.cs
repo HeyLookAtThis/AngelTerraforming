@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class NoWaterState : State
 {
-    private float _distance { get { return 2f; } }
+    private float _distance { get { return Vector3.Distance(Target.transform.position, Target.transform.position + positionIndent); } }
 
     private Coroutine _positionChanger;
 
     private void Awake()
     {
-        positionIndent = new Vector3(0, 1f, -1.5f);
+        positionIndent = new Vector3(0, 2f, -1.5f);
     }
 
     private void Update()

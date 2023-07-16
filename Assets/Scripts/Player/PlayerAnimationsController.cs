@@ -4,10 +4,12 @@ using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Player))]
+[RequireComponent(typeof(PlayerMovement))]
 public class PlayerAnimationsController : MonoBehaviour
 {
     private Animator _animator;
     private Player _player;
+    private PlayerMovement _movement;
 
     private void Awake()
     {
@@ -18,13 +20,13 @@ public class PlayerAnimationsController : MonoBehaviour
     private void OnEnable()
     {
         _player.FoundGround += PlayRunning;
-        _player.SatOnCloud += PlaySitting;
+        _movement.SatOnCloud += PlaySitting;
     }
 
     private void OnDisable()
     {
         _player.FoundGround -= PlayRunning;
-        _player.SatOnCloud -= PlaySitting;
+        _movement.SatOnCloud -= PlaySitting;
     }
 
     private void PlayRunning()

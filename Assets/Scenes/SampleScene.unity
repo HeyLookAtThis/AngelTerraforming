@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1169,6 +1169,26 @@ PrefabInstance:
     - target: {fileID: 1884384696376395577, guid: be8313c5b8e3a5e468a8850661903468, type: 3}
       propertyPath: m_Name
       value: Cosmo_angel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957417979659011418, guid: be8313c5b8e3a5e468a8850661903468, type: 3}
+      propertyPath: _jumpForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957417979659011418, guid: be8313c5b8e3a5e468a8850661903468, type: 3}
+      propertyPath: _jumpForse
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957417979659011418, guid: be8313c5b8e3a5e468a8850661903468, type: 3}
+      propertyPath: _jumpHeight
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957417979659011418, guid: be8313c5b8e3a5e468a8850661903468, type: 3}
+      propertyPath: _cloudLayerMask.m_Bits
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957417979659011418, guid: be8313c5b8e3a5e468a8850661903468, type: 3}
+      propertyPath: _groundLayerMask.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be8313c5b8e3a5e468a8850661903468, type: 3}

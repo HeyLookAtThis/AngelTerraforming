@@ -8,19 +8,12 @@ public class Player : MonoBehaviour
     private Collider _previousCollider;
 
     private UnityAction _foundWater;
-    private UnityAction _satOnCloud;
     private UnityAction _foundGround;
 
     public event UnityAction FoundWater
     {
         add => _foundWater += value;
         remove => _foundWater -= value;
-    }
-
-    public event UnityAction SatOnCloud
-    {
-        add=>_satOnCloud += value;
-        remove => _satOnCloud -= value;
     }
 
     public event UnityAction FoundGround
@@ -36,9 +29,6 @@ public class Player : MonoBehaviour
 
         if (hit.collider.TryGetComponent<Ground>(out Ground ground))
             TryCallAction(hit.collider, _foundGround);
-
-        if (hit.collider.TryGetComponent<Cloud>(out Cloud cloud))
-            TryCallAction(hit.collider, _satOnCloud);
     }
 
     private void TryCallAction(Collider collider, UnityAction action)
