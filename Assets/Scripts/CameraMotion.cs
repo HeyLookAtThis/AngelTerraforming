@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class CameraMotion : MonoBehaviour
 {
-    [SerializeField] private Transform _target;
+    [SerializeField] private PlayerMovement _target;
+    [SerializeField] private Vector3 _interval;
 
-    private Vector3 _interval = new Vector3(0, 7, -5);
-    private float _delay = 2.9f;
+    private float _speed = 10;
 
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _target.position + _interval, _delay * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _target.transform.position + _interval, _speed * Time.deltaTime);
     }
 }

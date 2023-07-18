@@ -9,11 +9,13 @@ public abstract class State : MonoBehaviour
     protected Vector3 targetPosition;
     protected Vector3 positionIndent;
 
+    private float _speedMultiplier = 5;
+
     protected PlayerMovement Target { get; private set; }
 
     private void Start()
     {
-        speed = Target.Speed * 2;
+        speed = Target.Speed * _speedMultiplier;
     }
 
     public virtual void Enter(PlayerMovement target)

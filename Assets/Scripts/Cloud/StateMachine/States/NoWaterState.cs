@@ -9,7 +9,7 @@ public class NoWaterState : State
 
     private void Awake()
     {
-        positionIndent = new Vector3(0, 2f, -1.5f);
+        positionIndent = new Vector3(-1.5f, 2f, -1.5f);
     }
 
     private void Update()

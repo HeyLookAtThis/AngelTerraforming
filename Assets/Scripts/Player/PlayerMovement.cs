@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private float _currentGravityValue;
 
     private UnityAction _satOnCloud;
+    private UnityAction<float> _moved;
 
     public float Speed => _speed;
 
@@ -38,6 +39,12 @@ public class PlayerMovement : MonoBehaviour
     {
         add => _satOnCloud += value;
         remove => _satOnCloud -= value;
+    }
+
+    public event UnityAction<float> Moved
+    {
+        add=> _moved += value;
+        remove => _moved -= value;
     }
 
     private void Awake()
@@ -69,14 +76,12 @@ public class PlayerMovement : MonoBehaviour
         {
             _grounded = Physics.CheckSphere(_pivot.position, _sphereRadius, _groundLayerMask);
             UzeGravity();
-        }
-        else
-        {
-            _isOnCloud = Physics.CheckSphere(_pivot.position, _sphereRadius, _cloudLayerMask);
+        }        
 
-            if (_isOnCloud)
-                _satOnCloud?.Invoke();
-        }
+        _isOnCloud = Physics.CheckSphere(_pivot.position, _sphereRadius, _cloudLayerMask);
+
+        if (_isOnCloud)
+            _satOnCloud?.Invoke();
     }
 
     public void TurnOnGravity()
@@ -107,6 +112,11 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         _direction = new Vector3(Input.GetAxis(Horizontal), 0, Input.GetAxis(Vertical));
+
+        if (_grounded && _direction != Vector3.zero)
+            _moved?.Invoke(_speed);
+        else
+            _moved?.Invoke(0);
 
         _controller.Move(_direction * _speed * Time.deltaTime);
     }
