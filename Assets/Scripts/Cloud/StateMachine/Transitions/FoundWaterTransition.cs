@@ -6,23 +6,21 @@ using UnityEngine;
 public class FoundWaterTransition : Transition
 {
     private Cloud _cloud;
-    private CloudReservoir _reservoir;
 
     private void Awake()
     {
-        _reservoir = GetComponent<CloudReservoir>();
         _cloud = GetComponent<Cloud>();
     }
 
     private void OnEnable()
     {
-        _reservoir.Player.FoundWater += TurnOnNeedTransit;
+        _cloud.Player.FoundWater += TurnOnNeedTransit;
         _cloud.FoundWater += TurnOnNeedTransit;
     }
 
     private void OnDisable()
     {
-        _reservoir.Player.FoundWater -= TurnOnNeedTransit;
+        _cloud.Player.FoundWater -= TurnOnNeedTransit;
         _cloud.FoundWater -= TurnOnNeedTransit;
     }
 }

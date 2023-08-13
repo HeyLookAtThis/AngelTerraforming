@@ -6,11 +6,12 @@ using UnityEngine.Events;
 public class CloudReservoir : MonoBehaviour
 {
     private float _currentWaterReserve;
+    private bool _isEmpty;
 
     private Cloud _cloud;
     private Coroutine _waterReserveChanger;
 
-    public Player Player { get; private set; }
+    private UnityAction _waterIsOver;
 
     public float FullReservoir { get; } = 5;
 
@@ -18,7 +19,7 @@ public class CloudReservoir : MonoBehaviour
 
     public float CurrentWaterReserve => _currentWaterReserve;
 
-    private UnityAction _waterIsOver;
+    public bool IsEmpty => _isEmpty;
 
     public event UnityAction WaterIsOver
     {
@@ -29,18 +30,17 @@ public class CloudReservoir : MonoBehaviour
     private void Awake()
     {
         _cloud = GetComponent<Cloud>();
-        Player = _cloud.Player;
     }
 
     private void OnEnable()
     {
-        _cloud.FoundGround += OnMakeRain;
+        _cloud.FoundEmptyGround += OnMakeRain;
         _cloud.FoundWater += OnReplenishReservoir;
     }
 
     private void OnDisable()
     {
-        _cloud.FoundGround -= OnMakeRain;
+        _cloud.FoundEmptyGround -= OnMakeRain;
         _cloud.FoundWater -= OnReplenishReservoir;
     }
 
@@ -54,16 +54,20 @@ public class CloudReservoir : MonoBehaviour
         if (_currentWaterReserve < FullReservoir)
         {
             BeginChangeWaterReserve(FullReservoir);
-            _cloud.IncreaseSize();
+            _isEmpty = false;
         }
     }
 
-    private void OnMakeRain()
+    private void OnMakeRain(bool hasGroundGrass)
     {
-        if (_currentWaterReserve > EmptyReservoir)
+        if (_currentWaterReserve > EmptyReservoir && hasGroundGrass == false)
         {
             BeginChangeWaterReserve(EmptyReservoir);
-            _cloud.ReduceSize();
+        }
+        else
+        {
+            _isEmpty = true;
+            _waterIsOver?.Invoke();
         }
     }
 
@@ -82,15 +86,10 @@ public class CloudReservoir : MonoBehaviour
         while (_currentWaterReserve != targetWaterReserve)
         {
             _currentWaterReserve = Mathf.MoveTowards(_currentWaterReserve, targetWaterReserve, Time.deltaTime);
-
-            if (_currentWaterReserve == EmptyReservoir)
-                _waterIsOver?.Invoke();
-
             yield return waitTime;
         }
 
         if (_currentWaterReserve == targetWaterReserve)
             yield break;
     }
-
 }
