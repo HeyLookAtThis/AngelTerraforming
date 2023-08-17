@@ -22,12 +22,14 @@ public class CloudResizer : MonoBehaviour
     {
         _cloud.FoundEmptyGround += OnReduceSize;
         _cloud.FoundWater += OnIncreaseSize;
+        _cloud.FoundGrass += StopChangeSize;
     }
 
     private void OnDisable()
     {
         _cloud.FoundEmptyGround -= OnReduceSize;
         _cloud.FoundWater -= OnIncreaseSize;
+        _cloud.FoundGrass -= StopChangeSize;
     }
 
     private void Start()
@@ -51,10 +53,14 @@ public class CloudResizer : MonoBehaviour
 
     private void BeginChangeSize(float targetSize)
     {
+        StopChangeSize();
+        _sizeChanger = StartCoroutine(SizeChanger(targetSize));
+    }
+
+    private void StopChangeSize()
+    {
         if (_sizeChanger != null)
             StopCoroutine(_sizeChanger);
-
-        _sizeChanger = StartCoroutine(SizeChanger(targetSize));
     }
 
     private IEnumerator SizeChanger(float targetSize)

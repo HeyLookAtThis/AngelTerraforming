@@ -15,15 +15,22 @@ public class Cloud : MonoBehaviour
 
     public PlayerMovement PlayerMovement => _playerMovement;
 
-    public bool HasFieldGrass {get; private set;}
+    public bool HaveFieldGrass {get; private set;}
 
     private UnityAction _foundWater;
+    private UnityAction _foundGrass;
     private UnityAction<bool> _foundEmptyGround;
 
     public event UnityAction FoundWater
     {
         add => _foundWater += value;
         remove => _foundWater -= value;
+    }
+
+    public event UnityAction FoundGrass
+    {
+        add=>_foundGrass += value;
+        remove => _foundGrass -= value;
     }
 
     public event UnityAction<bool> FoundEmptyGround
@@ -36,31 +43,39 @@ public class Cloud : MonoBehaviour
     {
         Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
 
-        if(TryGetNextCollider(hit) != null)
-        {
-            TryCallEvents(hit);
-            _previousHitCollider = hit.collider;
-        }
+        TryCallEvents(hit);
     }
-
-    private Collider TryGetNextCollider(RaycastHit hit)
-    {
-        if (hit.collider != _previousHitCollider)
-            return hit.collider;
-
-        return null;
-    }
-
     private void TryCallEvents(RaycastHit hit)
     {
         if (hit.collider.TryGetComponent<Water>(out Water water))
-            _foundWater?.Invoke();
+            TryCallWaterEvent(hit);
+        else
+            TryCallGroundEvent(hit, _tilemapPlaceholder.IsFieldOccupied(hit.point));
 
-        if (hit.collider.TryGetComponent<Ground>(out Ground ground) && GetComponent<CloudReservoir>().IsEmpty != true)
+        _previousHitCollider = hit.collider;
+    }
+
+    private void TryCallWaterEvent(RaycastHit hit)
+    {
+        if (hit.collider != _previousHitCollider)
         {
-            HasFieldGrass = _tilemapPlaceholder.IsFieldOccupied(hit.point);
-            Debug.Log(HasFieldGrass);
-            _foundEmptyGround?.Invoke(HasFieldGrass);
+            Debug.Log("Water");
+            _foundWater?.Invoke();        
+        }
+    }
+
+    private void TryCallGroundEvent(RaycastHit hit, bool haveGroundGrass)
+    {
+        if (haveGroundGrass == false && GetComponent<CloudReservoir>().IsEmpty == false)
+        {
+            Debug.Log("EmptyGround");
+            _foundEmptyGround?.Invoke(HaveFieldGrass);
+        }
+
+        if (haveGroundGrass)
+        {
+            Debug.Log("Grass");
+            _foundGrass?.Invoke();
         }
     }
 }

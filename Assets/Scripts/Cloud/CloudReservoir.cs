@@ -36,12 +36,14 @@ public class CloudReservoir : MonoBehaviour
     {
         _cloud.FoundEmptyGround += OnMakeRain;
         _cloud.FoundWater += OnReplenishReservoir;
+        _cloud.FoundGrass += StopChangeWaterReserveValue;
     }
 
     private void OnDisable()
     {
         _cloud.FoundEmptyGround -= OnMakeRain;
         _cloud.FoundWater -= OnReplenishReservoir;
+        _cloud.FoundGrass -= StopChangeWaterReserveValue;
     }
 
     private void Start()
@@ -53,7 +55,7 @@ public class CloudReservoir : MonoBehaviour
     {
         if (_currentWaterReserve < FullReservoir)
         {
-            BeginChangeWaterReserve(FullReservoir);
+            BeginChangeWaterReserveValue(FullReservoir);
             _isEmpty = false;
         }
     }
@@ -62,7 +64,7 @@ public class CloudReservoir : MonoBehaviour
     {
         if (_currentWaterReserve > EmptyReservoir && hasGroundGrass == false)
         {
-            BeginChangeWaterReserve(EmptyReservoir);
+            BeginChangeWaterReserveValue(EmptyReservoir);
         }
         else
         {
@@ -71,12 +73,16 @@ public class CloudReservoir : MonoBehaviour
         }
     }
 
-    private void BeginChangeWaterReserve(float targetWaterReserve)
+    private void BeginChangeWaterReserveValue(float targetWaterReserve)
+    {
+        StopChangeWaterReserveValue();
+        _waterReserveChanger = StartCoroutine(WaterReserveChanger(targetWaterReserve));
+    }
+
+    private void StopChangeWaterReserveValue()
     {
         if (_waterReserveChanger != null)
             StopCoroutine(_waterReserveChanger);
-
-        _waterReserveChanger = StartCoroutine(WaterReserveChanger(targetWaterReserve));
     }
 
     private IEnumerator WaterReserveChanger(float targetWaterReserve)
