@@ -19,7 +19,7 @@ public class Cloud : MonoBehaviour
 
     private UnityAction _foundWater;
     private UnityAction _foundGrass;
-    private UnityAction<bool> _foundEmptyGround;
+    private UnityAction _foundEmptyGround;
 
     public event UnityAction FoundWater
     {
@@ -33,7 +33,7 @@ public class Cloud : MonoBehaviour
         remove => _foundGrass -= value;
     }
 
-    public event UnityAction<bool> FoundEmptyGround
+    public event UnityAction FoundEmptyGround
     {
         add => _foundEmptyGround += value;
         remove => _foundEmptyGround -= value;
@@ -49,8 +49,9 @@ public class Cloud : MonoBehaviour
     {
         if (hit.collider.TryGetComponent<Water>(out Water water))
             TryCallWaterEvent(hit);
-        else
-            TryCallGroundEvent(hit, _tilemapPlaceholder.IsFieldOccupied(hit.point));
+
+        if ((hit.collider.TryGetComponent<Ground>(out Ground ground)))
+            TryCallGroundEvent(_tilemapPlaceholder.IsFieldOccupied(hit.point));
 
         _previousHitCollider = hit.collider;
     }
@@ -58,24 +59,15 @@ public class Cloud : MonoBehaviour
     private void TryCallWaterEvent(RaycastHit hit)
     {
         if (hit.collider != _previousHitCollider)
-        {
-            Debug.Log("Water");
             _foundWater?.Invoke();        
-        }
     }
 
-    private void TryCallGroundEvent(RaycastHit hit, bool haveGroundGrass)
+    private void TryCallGroundEvent(bool haveGroundGrass)
     {
         if (haveGroundGrass == false && GetComponent<CloudReservoir>().IsEmpty == false)
-        {
-            Debug.Log("EmptyGround");
-            _foundEmptyGround?.Invoke(HaveFieldGrass);
-        }
+            _foundEmptyGround?.Invoke();
 
         if (haveGroundGrass)
-        {
-            Debug.Log("Grass");
             _foundGrass?.Invoke();
-        }
     }
 }

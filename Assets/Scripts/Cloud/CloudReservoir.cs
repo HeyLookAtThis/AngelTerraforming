@@ -13,7 +13,7 @@ public class CloudReservoir : MonoBehaviour
 
     private UnityAction _waterIsOver;
 
-    public float FullReservoir { get; } = 5;
+    public float FullReservoir { get; } = 1;
 
     public float EmptyReservoir { get; } = 0;
 
@@ -60,9 +60,9 @@ public class CloudReservoir : MonoBehaviour
         }
     }
 
-    private void OnMakeRain(bool hasGroundGrass)
+    private void OnMakeRain()
     {
-        if (_currentWaterReserve > EmptyReservoir && hasGroundGrass == false)
+        if (_currentWaterReserve > EmptyReservoir)
         {
             BeginChangeWaterReserveValue(EmptyReservoir);
         }

@@ -387,7 +387,7 @@ MonoBehaviour:
   _cloud: {fileID: 1735117507}
   _tilemap: {fileID: 1114737920}
   _tile: {fileID: 11400000, guid: f379e7c90e28a9f4680c1ddf6142c321, type: 2}
-  _distance: 1
+  _distance: 2
 --- !u!1001 &700774227
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1062,6 +1062,14 @@ PrefabInstance:
       objectReference: {fileID: 1114737920}
     - target: {fileID: 4902712330702064744, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: _distance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4917134773123566391, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4917134773123566391, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
+      propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5075421571741658956, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}

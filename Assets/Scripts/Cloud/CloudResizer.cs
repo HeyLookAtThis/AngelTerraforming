@@ -45,9 +45,9 @@ public class CloudResizer : MonoBehaviour
             BeginChangeSize(_fullSize);
     }
 
-    private void OnReduceSize(bool hasGroundGrass)
+    private void OnReduceSize()
     {
-        if (_currentSize > _emptySize && hasGroundGrass == false)
+        if (_currentSize > _emptySize)
             BeginChangeSize(_emptySize);
     }
 
