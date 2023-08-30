@@ -2,6 +2,7 @@ using System.Collections;
 using System.Drawing;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 public class TilemapPainter : MonoBehaviour
@@ -9,11 +10,18 @@ public class TilemapPainter : MonoBehaviour
     [SerializeField] private Cloud _cloud;
     [SerializeField] private Tilemap _tilemap;
     [SerializeField] private TileBase _tile;
-    [SerializeField] private int _distance;
 
     private Coroutine _cellFiller;
     private Vector3Int _cellPosition;
     private Vector3Int[] _neighborCells;
+
+    private UnityAction _fieldFilled;
+
+    public event UnityAction FieldFilled
+    {
+        add => _fieldFilled += value;
+        remove => _fieldFilled -= value;
+    }
 
     private void OnEnable()
     {
@@ -38,7 +46,10 @@ public class TilemapPainter : MonoBehaviour
     private void FillField(Vector3Int cell)
     {
         if (_tilemap.GetTile(cell) != _tile)
+        {
             _tilemap.BoxFill(cell, _tile, cell.x, cell.y, cell.x, cell.y);
+            _fieldFilled?.Invoke();
+        }
     }
 
     private Vector3Int[] GetNeighborCells()

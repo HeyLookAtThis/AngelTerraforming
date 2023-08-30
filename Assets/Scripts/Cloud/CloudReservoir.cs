@@ -13,7 +13,7 @@ public class CloudReservoir : MonoBehaviour
 
     private UnityAction _waterIsOver;
 
-    public float FullReservoir { get; } = 1;
+    public float FullReservoir { get; } = 3;
 
     public float EmptyReservoir { get; } = 0;
 
