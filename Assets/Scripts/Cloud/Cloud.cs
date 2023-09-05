@@ -20,6 +20,7 @@ public class Cloud : MonoBehaviour
     private UnityAction _foundWater;
     private UnityAction _foundGrass;
     private UnityAction _foundEmptyGround;
+    private UnityAction _foundTree;
 
     public event UnityAction FoundWater
     {
@@ -39,6 +40,12 @@ public class Cloud : MonoBehaviour
         remove => _foundEmptyGround -= value;
     }
 
+    private event UnityAction FoundTree
+    {
+        add => _foundTree += value;
+        remove => _foundTree -= value;
+    }
+
     private void Update()
     {
         Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
@@ -50,8 +57,11 @@ public class Cloud : MonoBehaviour
         if (hit.collider.TryGetComponent<Water>(out Water water))
             TryCallWaterEvent(hit);
 
-        if ((hit.collider.TryGetComponent<Ground>(out Ground ground)))
+        if (hit.collider.TryGetComponent<Ground>(out Ground ground))
             TryCallGroundEvent(_tilemapPlaceholder.IsFieldOccupied(hit.point));
+
+        if (hit.collider.TryGetComponent<Tree>(out Tree tree))
+            _foundTree?.Invoke();
 
         _previousHitCollider = hit.collider;
     }

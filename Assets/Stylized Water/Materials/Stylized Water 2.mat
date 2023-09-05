@@ -34,7 +34,7 @@ Material:
     m_Floats:
     - _DepthDensity: 1
     - _DistanceDensity: 0.0075
-    - _EdgeFoamDepth: 1
+    - _EdgeFoamDepth: 0.5
     - _FancyShadows: 1
     - _FoamContribution: 0.657
     - _FoamNoiseScale: 0.32

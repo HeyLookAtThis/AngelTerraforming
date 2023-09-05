@@ -57,10 +57,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BaseStages: -1
-    - _BendRotationRandom: 1
-    - _BladeCurve: 2
-    - _BladeForward: 0.38
-    - _BladeHeight: 0.5
+    - _BendRotationRandom: 0.913
+    - _BladeCurve: 1.9
+    - _BladeForward: 0.188
+    - _BladeHeight: 0.25
     - _BladeHeightRandom: 0
     - _BladeWidth: 0.05
     - _BladeWidthRandom: 0
@@ -76,9 +76,12 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _ShadowStrength: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SquashAmount: 1
     - _SrcBlend: 1
+    - _TranslucencyViewDependency: 0.7
     - _TranslucentGain: 0.5
     - _UVSec: 0
     - _ViewLOD: 10000
@@ -88,5 +91,8 @@ Material:
     - _BottomColor: {r: 0.041829824, g: 0.18867922, b: 0.045501076, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TopColor: {r: 0.37187093, g: 0.6132076, b: 0.1533019, a: 1}
+    - _TopColor: {r: 0.308321, g: 0.5188679, b: 0.11503203, a: 1}
+    - _TranslucencyColor: {r: 0.73, g: 0.85, b: 0.41, a: 1}
+    - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

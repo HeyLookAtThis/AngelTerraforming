@@ -4,16 +4,19 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class TilemapPainter : MonoBehaviour
 {
     [SerializeField] private Cloud _cloud;
     [SerializeField] private Tilemap _tilemap;
-    [SerializeField] private TileBase _tile;
+    [SerializeField] private TileBase _tileBase;
 
+    private int _distance = 1;
     private Coroutine _cellFiller;
+
     private Vector3Int _cellPosition;
-    private Vector3Int[] _neighborCells;
+    private Vector3Int[] _cellsArround;
 
     private UnityAction _fieldFilled;
 
@@ -37,38 +40,32 @@ public class TilemapPainter : MonoBehaviour
     {
         _cellPosition = _tilemap.WorldToCell(point);
 
-        if (_tilemap.GetTile(_cellPosition) == _tile)
+        if (_tilemap.GetTile(_cellPosition) == _tileBase)
             return true;
 
         return false;    
     }
 
-    private void FillField(Vector3Int cell)
+    private void FillField(Vector3Int position)
     {
-        if (_tilemap.GetTile(cell) != _tile)
+        if (_tilemap.GetTile(position) != _tileBase)
         {
-            _tilemap.BoxFill(cell, _tile, cell.x, cell.y, cell.x, cell.y);
+            _tilemap.BoxFill(position, _tileBase, position.x, position.y, position.x, position.y);
             _fieldFilled?.Invoke();
         }
     }
 
-    private Vector3Int[] GetNeighborCells()
+    private Vector3Int[] GetCellsAround()
     {
-        int cellStep = 1;
+        Vector3Int topRightCell = new Vector3Int(_cellPosition.x + _distance, _cellPosition.y + _distance, _cellPosition.z);
+        Vector3Int rightCell = new Vector3Int(_cellPosition.x + _distance, _cellPosition.y, _cellPosition.z);
+        Vector3Int buttomRightCell = new Vector3Int(_cellPosition.x + _distance, _cellPosition.y - _distance, _cellPosition.z);
 
-        Vector3Int topCell = new Vector3Int(_cellPosition.x, _cellPosition.y + cellStep, _cellPosition.z);
-        Vector3Int buttomCell = new Vector3Int(_cellPosition.x, _cellPosition.y - cellStep, _cellPosition.z);
+        Vector3Int topLeftCell = new Vector3Int(_cellPosition.x, _cellPosition.y + _distance, _cellPosition.z);
+        Vector3Int leftCell = new Vector3Int(_cellPosition.x - _distance, _cellPosition.y, _cellPosition.z);
+        Vector3Int buttomLeftCell = new Vector3Int(_cellPosition.x, _cellPosition.y - _distance, _cellPosition.z);
 
-        Vector3Int rightCell = new Vector3Int(_cellPosition.x + cellStep, _cellPosition.y, _cellPosition.z);
-        Vector3Int leftCell = new Vector3Int(_cellPosition.x - cellStep, _cellPosition.y, _cellPosition.z);
-
-        Vector3Int topRightCell = new Vector3Int(_cellPosition.x + cellStep, _cellPosition.y + cellStep, _cellPosition.z);
-        Vector3Int topLeftCell = new Vector3Int(_cellPosition.x - cellStep, _cellPosition.y + cellStep, _cellPosition.z);
-
-        Vector3Int buttomRightCell = new Vector3Int(_cellPosition.x + cellStep, _cellPosition.y - cellStep, _cellPosition.z);
-        Vector3Int buttomLeftCell = new Vector3Int(_cellPosition.x - cellStep, _cellPosition.y - cellStep, _cellPosition.z);
-
-        return new Vector3Int[] { _cellPosition, topCell, buttomCell, rightCell, leftCell, topRightCell, topLeftCell, buttomRightCell, buttomLeftCell };
+        return new Vector3Int[] { topRightCell, rightCell, buttomRightCell, topLeftCell, leftCell, buttomLeftCell };
     }
 
     private void BeginFillCell()
@@ -82,19 +79,20 @@ public class TilemapPainter : MonoBehaviour
     private IEnumerator CellFiller()
     {
         float seconds = 0.02f;
-        var waitTime = new WaitForSeconds(seconds);
+        var waitTime = new WaitForEndOfFrame();
         int cycleCounter = 0;
 
-        _neighborCells = GetNeighborCells();
+        FillField(_cellPosition);
+        _cellsArround = GetCellsAround();
 
-        for (int i = 0; i < _neighborCells.Length; i++)
+        for (int i = 0; i < _cellsArround.Length; i++)
         {
-            FillField(_neighborCells[i]);
+            FillField(_cellsArround[i]);
             cycleCounter++;
             yield return waitTime;
         }        
 
-        if (cycleCounter == _neighborCells.Length)
+        if (cycleCounter == _cellsArround.Length)
             yield break;
     }
 }
