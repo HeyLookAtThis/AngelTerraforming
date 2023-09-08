@@ -5,11 +5,14 @@ using UnityEngine.Events;
 [RequireComponent(typeof(CloudReservoir))]
 public class Cloud : MonoBehaviour
 {
+    [SerializeField] private int _level;
     [SerializeField] private Player _player;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private TilemapPainter _tilemapPlaceholder;
 
     private Collider _previousHitCollider;
+
+    public int Level => _level;
 
     public Player Player => _player;
 
