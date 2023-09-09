@@ -20,14 +20,14 @@ public class CloudResizer : MonoBehaviour
 
     private void OnEnable()
     {
-        _cloud.FoundEmptyGround += OnReduceSize;
+        //_cloud.FoundEmptyGround += OnReduceSize;
         _cloud.FoundWater += OnIncreaseSize;
         _cloud.FoundGrass += StopChangeSize;
     }
 
     private void OnDisable()
     {
-        _cloud.FoundEmptyGround -= OnReduceSize;
+        //_cloud.FoundEmptyGround -= OnReduceSize;
         _cloud.FoundWater -= OnIncreaseSize;
         _cloud.FoundGrass -= StopChangeSize;
     }

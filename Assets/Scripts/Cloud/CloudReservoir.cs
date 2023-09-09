@@ -17,8 +17,6 @@ public class CloudReservoir : MonoBehaviour
 
     public float EmptyReservoir { get; } = 0;
 
-    public float CurrentWaterReserve => _currentWaterReserve;
-
     public bool IsEmpty => _isEmpty;
 
     public event UnityAction WaterIsOver
@@ -34,14 +32,14 @@ public class CloudReservoir : MonoBehaviour
 
     private void OnEnable()
     {
-        _cloud.FoundEmptyGround += OnMakeRain;
+        //_cloud.FoundEmptyGround += OnMakeRain;
         _cloud.FoundWater += OnReplenishReservoir;
         _cloud.FoundGrass += StopChangeWaterReserveValue;
     }
 
     private void OnDisable()
     {
-        _cloud.FoundEmptyGround -= OnMakeRain;
+        //_cloud.FoundEmptyGround -= OnMakeRain;
         _cloud.FoundWater -= OnReplenishReservoir;
         _cloud.FoundGrass -= StopChangeWaterReserveValue;
     }

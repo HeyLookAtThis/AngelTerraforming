@@ -5,14 +5,14 @@ using UnityEngine.Events;
 [RequireComponent(typeof(CloudReservoir))]
 public class Cloud : MonoBehaviour
 {
-    [SerializeField] private int _level;
     [SerializeField] private Player _player;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private TilemapPainter _tilemapPlaceholder;
 
-    private Collider _previousHitCollider;
+    private int _radius = 2;
+    private bool _isGrassGrowDiferred = true;
 
-    public int Level => _level;
+    private Collider _previousHitCollider;
 
     public Player Player => _player;
 
@@ -22,7 +22,7 @@ public class Cloud : MonoBehaviour
 
     private UnityAction _foundWater;
     private UnityAction _foundGrass;
-    private UnityAction _foundEmptyGround;
+    private UnityAction<int, bool> _foundEmptyGround;
     private UnityAction _foundTree;
 
     public event UnityAction FoundWater
@@ -37,7 +37,7 @@ public class Cloud : MonoBehaviour
         remove => _foundGrass -= value;
     }
 
-    public event UnityAction FoundEmptyGround
+    public event UnityAction<int, bool> FoundEmptyGround
     {
         add => _foundEmptyGround += value;
         remove => _foundEmptyGround -= value;
@@ -78,7 +78,7 @@ public class Cloud : MonoBehaviour
     private void TryCallGroundEvent(bool haveGroundGrass)
     {
         if (haveGroundGrass == false && GetComponent<CloudReservoir>().IsEmpty == false)
-            _foundEmptyGround?.Invoke();
+            _foundEmptyGround?.Invoke(_radius, _isGrassGrowDiferred);
 
         if (haveGroundGrass)
             _foundGrass?.Invoke();

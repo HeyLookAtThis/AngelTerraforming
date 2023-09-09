@@ -49,38 +49,37 @@ public class TilemapPainter : MonoBehaviour
         }
     }
 
-    private void OnBeginFillCell()
+    private void OnBeginFillCell(int radius, bool isDeferred)
     {
         if (_cellFiller != null)
             StopCoroutine(_cellFiller);
 
-        _cellFiller = StartCoroutine(CellFiller());
+        _cellFiller = StartCoroutine(CellFiller(radius, isDeferred));        
     }
 
-    private IEnumerator CellFiller()
+    private IEnumerator CellFiller(int radius, bool isDeferred)
     {
-        float seconds = 0.01f;
-        var waitTime = new WaitForSeconds(seconds / _cloud.Level);
+        var waitTime = new WaitForEndOfFrame();
 
         FillField(_fieldPosition);
         Debug.Log(_fieldPosition);
 
-        for (int i = -_cloud.Level; i <= _cloud.Level; i++)
+        for (int i = -radius; i <= radius; i++)
         {
-            for (int j = _cloud.Level; j >= -_cloud.Level; j--)
+            for (int j = radius; j >= -radius; j--)
             {
-                if (-_cloud.Level <= i + j && i + j <= _cloud.Level)
+                Vector3Int neighborFieldPosition = new Vector3Int(_fieldPosition.x + i, _fieldPosition.y + j, _fieldPosition.z);
+
+                if (Vector3Int.Distance(_fieldPosition, neighborFieldPosition) <= radius)
                 {
-                    Vector3Int neighborFieldPosition = new Vector3Int(_fieldPosition.x + i, _fieldPosition.y + j, _fieldPosition.z);
                     FillField(neighborFieldPosition);
 
-                    Debug.Log($"{i}, {j}");
-
-                    yield return waitTime;
+                    if (isDeferred)
+                        yield return waitTime;
                 }
             }
 
-            if (i > _cloud.Level)
+            if (i > radius)
                 yield break;
         }
     }

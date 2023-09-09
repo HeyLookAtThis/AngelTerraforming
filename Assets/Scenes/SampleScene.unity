@@ -374,9 +374,9 @@ Grid:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656201195}
   m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 0}
+  m_CellSize: {x: 0.4, y: 0.4, z: 0}
   m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 1
+  m_CellLayout: 0
   m_CellSwizzle: 1
 --- !u!4 &656201197
 Transform:
@@ -407,7 +407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cloud: {fileID: 1735117507}
   _tilemap: {fileID: 1114737920}
-  _tileBase: {fileID: 11400000, guid: e2e6a8d6097d8234bbebe7ed8a56712f, type: 2}
+  _tileBase: {fileID: 11400000, guid: b4f575551767c92499e97e8eb973f66b, type: 2}
 --- !u!1001 &700774227
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1133,7 +1133,7 @@ PrefabInstance:
       objectReference: {fileID: 1100150892}
     - target: {fileID: 4817821728440366097, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: _level
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4817821728440366097, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: _player
@@ -1205,7 +1205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6713818974215638641, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 35.27
+      value: 31.38
       objectReference: {fileID: 0}
     - target: {fileID: 6713818974215638641, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1579,7 +1579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1255797624213265795, guid: be8313c5b8e3a5e468a8850661903468, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 35.12
+      value: 31.46
       objectReference: {fileID: 0}
     - target: {fileID: 1255797624213265795, guid: be8313c5b8e3a5e468a8850661903468, type: 3}
       propertyPath: m_LocalPosition.y
