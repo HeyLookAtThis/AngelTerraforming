@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -405,7 +405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50f16150da3051440ae6a8ff57a2a978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cloud: {fileID: 1735117507}
   _tilemap: {fileID: 1114737920}
   _tileBase: {fileID: 11400000, guid: b4f575551767c92499e97e8eb973f66b, type: 2}
 --- !u!1001 &700774227
@@ -677,6 +676,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9118588001581387132, guid: f850971937d20074eaeefe5382c4d967, type: 3}
+      propertyPath: _radius
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -9118588001581387132, guid: f850971937d20074eaeefe5382c4d967, type: 3}
+      propertyPath: _painter
+      value: 
+      objectReference: {fileID: 656201198}
     - target: {fileID: 1083929390763847362, guid: f850971937d20074eaeefe5382c4d967, type: 3}
       propertyPath: m_Name
       value: Tree
@@ -1251,19 +1258,9 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1706853516420257423, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
---- !u!114 &1735117507 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4817821728440366097, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
-  m_PrefabInstance: {fileID: 1701869911}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 373ffc36efd1a1643ac2a59a4e4d4844, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1850876043
 GameObject:
   m_ObjectHideFlags: 0

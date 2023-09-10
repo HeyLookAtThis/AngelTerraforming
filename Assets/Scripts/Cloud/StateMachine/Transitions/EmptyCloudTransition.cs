@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class EmptyCloudTransition : Transition
 {
-    private CloudReservoir _reservoir;
+    private WaterReservoir _reservoir;
 
     private void Awake()
     {
-        _reservoir = GetComponent<CloudReservoir>();
+        _reservoir = GetComponent<WaterReservoir>();
     }
 
     private void OnEnable()

@@ -3,14 +3,12 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Cloud))]
-public class CloudReservoir : MonoBehaviour
+public class WaterReservoir : MonoBehaviour
 {
     private float _currentWaterReserve;
     private bool _isEmpty;
 
-    private Cloud _cloud;
     private Coroutine _waterReserveChanger;
-
     private UnityAction _waterIsOver;
 
     public float FullReservoir { get; } = 3;
@@ -23,33 +21,14 @@ public class CloudReservoir : MonoBehaviour
     {
         add => _waterIsOver += value;
         remove => _waterIsOver -= value;
-    }
-
-    private void Awake()
-    {
-        _cloud = GetComponent<Cloud>();
-    }
-
-    private void OnEnable()
-    {
-        //_cloud.FoundEmptyGround += OnMakeRain;
-        _cloud.FoundWater += OnReplenishReservoir;
-        _cloud.FoundGrass += StopChangeWaterReserveValue;
-    }
-
-    private void OnDisable()
-    {
-        //_cloud.FoundEmptyGround -= OnMakeRain;
-        _cloud.FoundWater -= OnReplenishReservoir;
-        _cloud.FoundGrass -= StopChangeWaterReserveValue;
-    }
+    }    
 
     private void Start()
     {
         _currentWaterReserve = FullReservoir;
     }
 
-    private void OnReplenishReservoir()
+    public void OnReplenishReservoir()
     {
         if (_currentWaterReserve < FullReservoir)
         {
@@ -58,7 +37,7 @@ public class CloudReservoir : MonoBehaviour
         }
     }
 
-    private void OnMakeRain()
+    public void OnMakeRain()
     {
         if (_currentWaterReserve > EmptyReservoir)
         {
@@ -70,17 +49,16 @@ public class CloudReservoir : MonoBehaviour
             _waterIsOver?.Invoke();
         }
     }
-
-    private void BeginChangeWaterReserveValue(float targetWaterReserve)
-    {
-        StopChangeWaterReserveValue();
-        _waterReserveChanger = StartCoroutine(WaterReserveChanger(targetWaterReserve));
-    }
-
-    private void StopChangeWaterReserveValue()
+    public void OnStopChangeWaterValue()
     {
         if (_waterReserveChanger != null)
             StopCoroutine(_waterReserveChanger);
+    }
+
+    private void BeginChangeWaterReserveValue(float targetWaterReserve)
+    {
+        OnStopChangeWaterValue();
+        _waterReserveChanger = StartCoroutine(WaterReserveChanger(targetWaterReserve));
     }
 
     private IEnumerator WaterReserveChanger(float targetWaterReserve)

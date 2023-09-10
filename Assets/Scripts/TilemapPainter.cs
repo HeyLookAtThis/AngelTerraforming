@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class TilemapPainter : MonoBehaviour
 {
-    [SerializeField] private Cloud _cloud;
     [SerializeField] private Tilemap _tilemap;
     [SerializeField] private TileBase _tileBase;
 
@@ -20,16 +19,6 @@ public class TilemapPainter : MonoBehaviour
         remove => _fieldFilled -= value;
     }
 
-    private void OnEnable()
-    {
-        _cloud.FoundEmptyGround += OnBeginFillCell;
-    }
-
-    private void OnDisable()
-    {
-        _cloud.FoundEmptyGround -= OnBeginFillCell;
-    }
-
     public bool IsFieldOccupied(Vector3 point)
     {
         _fieldPosition = _tilemap.WorldToCell(point);
@@ -38,6 +27,14 @@ public class TilemapPainter : MonoBehaviour
             return true;
 
         return false;    
+    }
+
+    public void OnBeginFillCell(int radius, bool isDeferred)
+    {
+        if (_cellFiller != null)
+            StopCoroutine(_cellFiller);
+
+        _cellFiller = StartCoroutine(CellFiller(radius, isDeferred));        
     }
 
     private void FillField(Vector3Int position)
@@ -49,20 +46,11 @@ public class TilemapPainter : MonoBehaviour
         }
     }
 
-    private void OnBeginFillCell(int radius, bool isDeferred)
-    {
-        if (_cellFiller != null)
-            StopCoroutine(_cellFiller);
-
-        _cellFiller = StartCoroutine(CellFiller(radius, isDeferred));        
-    }
-
     private IEnumerator CellFiller(int radius, bool isDeferred)
     {
         var waitTime = new WaitForEndOfFrame();
 
         FillField(_fieldPosition);
-        Debug.Log(_fieldPosition);
 
         for (int i = -radius; i <= radius; i++)
         {

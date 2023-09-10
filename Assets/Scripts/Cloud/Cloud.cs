@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(CloudReservoir))]
+[RequireComponent(typeof(WaterReservoir))]
 public class Cloud : MonoBehaviour
 {
     [SerializeField] private Player _player;
@@ -13,17 +13,14 @@ public class Cloud : MonoBehaviour
     private bool _isGrassGrowDiferred = true;
 
     private Collider _previousHitCollider;
+    private WaterReservoir _reservoir;
+    private Resizer _resizer;
 
     public Player Player => _player;
 
     public PlayerMovement PlayerMovement => _playerMovement;
 
-    public bool HaveFieldGrass {get; private set;}
-
     private UnityAction _foundWater;
-    private UnityAction _foundGrass;
-    private UnityAction<int, bool> _foundEmptyGround;
-    private UnityAction _foundTree;
 
     public event UnityAction FoundWater
     {
@@ -31,56 +28,46 @@ public class Cloud : MonoBehaviour
         remove => _foundWater -= value;
     }
 
-    public event UnityAction FoundGrass
+    private void Start()
     {
-        add=>_foundGrass += value;
-        remove => _foundGrass -= value;
-    }
-
-    public event UnityAction<int, bool> FoundEmptyGround
-    {
-        add => _foundEmptyGround += value;
-        remove => _foundEmptyGround -= value;
-    }
-
-    private event UnityAction FoundTree
-    {
-        add => _foundTree += value;
-        remove => _foundTree -= value;
+        _reservoir = GetComponent<WaterReservoir>();
+        _resizer = GetComponent<Resizer>();
     }
 
     private void Update()
     {
         Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
 
-        TryCallEvents(hit);
-    }
-    private void TryCallEvents(RaycastHit hit)
-    {
-        if (hit.collider.TryGetComponent<Water>(out Water water))
-            TryCallWaterEvent(hit);
-
         if (hit.collider.TryGetComponent<Ground>(out Ground ground))
-            TryCallGroundEvent(_tilemapPlaceholder.IsFieldOccupied(hit.point));
+        {
+            if (_tilemapPlaceholder.IsFieldOccupied(hit.point) == false && _reservoir.IsEmpty == false)
+            {
+                _tilemapPlaceholder.OnBeginFillCell(_radius, _isGrassGrowDiferred);
+                _reservoir.OnMakeRain();
+                _resizer.OnReduceSize();
+            }
+            else
+            {
+                _reservoir.OnStopChangeWaterValue();
+                _resizer.StopChangeSize();
+            }
+        }
+
+        if (hit.collider != _previousHitCollider)
+            _previousHitCollider = hit.collider;
+        else
+            return;
+
+        if (hit.collider.TryGetComponent<Water>(out Water water))
+        {
+            _foundWater?.Invoke();
+            _reservoir.OnReplenishReservoir();
+            _resizer.OnIncreaseSize();
+        }
 
         if (hit.collider.TryGetComponent<Tree>(out Tree tree))
-            _foundTree?.Invoke();
-
-        _previousHitCollider = hit.collider;
-    }
-
-    private void TryCallWaterEvent(RaycastHit hit)
-    {
-        if (hit.collider != _previousHitCollider)
-            _foundWater?.Invoke();        
-    }
-
-    private void TryCallGroundEvent(bool haveGroundGrass)
-    {
-        if (haveGroundGrass == false && GetComponent<CloudReservoir>().IsEmpty == false)
-            _foundEmptyGround?.Invoke(_radius, _isGrassGrowDiferred);
-
-        if (haveGroundGrass)
-            _foundGrass?.Invoke();
+        {
+            tree.GrowGrassAround();
+        }
     }
 }

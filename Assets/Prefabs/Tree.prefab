@@ -29,7 +29,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6330644376229130581}
+  - {fileID: 5988257192382260577}
   - {fileID: 6936215428317180722}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -60,6 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ec1d21b04665a499e4abf38b58046a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _painter: {fileID: 0}
+  _radius: 0
 --- !u!1001 &1285072180485698791
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74,6 +76,18 @@ PrefabInstance:
     - target: {fileID: 4686538670523690347, guid: 29cd3ae224253dd4092f54a05fe79ba1, type: 3}
       propertyPath: m_Name
       value: OptimizedTree
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814328651137503622, guid: 29cd3ae224253dd4092f54a05fe79ba1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814328651137503622, guid: 29cd3ae224253dd4092f54a05fe79ba1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814328651137503622, guid: 29cd3ae224253dd4092f54a05fe79ba1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 5048405243161740722, guid: 29cd3ae224253dd4092f54a05fe79ba1, type: 3}
       propertyPath: m_RootOrder
@@ -133,9 +147,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29cd3ae224253dd4092f54a05fe79ba1, type: 3}
---- !u!4 &6330644376229130581 stripped
+--- !u!4 &5988257192382260577 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5048405243161740722, guid: 29cd3ae224253dd4092f54a05fe79ba1, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4814328651137503622, guid: 29cd3ae224253dd4092f54a05fe79ba1, type: 3}
   m_PrefabInstance: {fileID: 1285072180485698791}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1442275125680217937
@@ -207,7 +221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9154215057541871321, guid: 2554008d6447a2540b44e55f0c0b576e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2554008d6447a2540b44e55f0c0b576e, type: 3}

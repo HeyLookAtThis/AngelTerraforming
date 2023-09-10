@@ -6,18 +6,18 @@ using UnityEngine;
 public class Tree : MonoBehaviour
 {
     [SerializeField] private TilemapPainter _painter;
-    [SerializeField] private Cloud _cloud;
-    [SerializeField] private float _radius;
+    [SerializeField] private int _radius;
 
-    private void OnEnable()
+    private bool _isGrassGrowDiferred => false;
+
+    private bool _isGrowGrassAround;
+
+    public void GrowGrassAround()
     {
-        
+        if (_isGrowGrassAround == false)
+        {
+            _painter.OnBeginFillCell(_radius, _isGrassGrowDiferred);
+            _isGrowGrassAround = true;
+        }
     }
-
-    private void OnDisable()
-    {
-        
-    }
-
-
 }
