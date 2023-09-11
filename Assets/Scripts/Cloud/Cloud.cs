@@ -3,11 +3,12 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(WaterReservoir))]
+[RequireComponent(typeof(Resizer))]
 public class Cloud : MonoBehaviour
 {
     [SerializeField] private Player _player;
     [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private TilemapPainter _tilemapPlaceholder;
+    [SerializeField] private TilemapPainter _tilemapPainter;
 
     private int _radius = 2;
     private bool _isGrassGrowDiferred = true;
@@ -40,9 +41,9 @@ public class Cloud : MonoBehaviour
 
         if (hit.collider.TryGetComponent<Ground>(out Ground ground))
         {
-            if (_tilemapPlaceholder.IsFieldOccupied(hit.point) == false && _reservoir.IsEmpty == false)
+            if (_tilemapPainter.CanGrowGrass(hit.point) && _reservoir.IsEmpty == false)
             {
-                _tilemapPlaceholder.OnBeginFillCell(_radius, _isGrassGrowDiferred);
+                _tilemapPainter.OnBeginFillCell(_radius, _isGrassGrowDiferred);
                 _reservoir.OnMakeRain();
                 _resizer.OnReduceSize();
             }

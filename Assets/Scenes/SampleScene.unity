@@ -768,7 +768,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6958383216988130890, guid: f850971937d20074eaeefe5382c4d967, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 38.45
+      value: 46.63
       objectReference: {fileID: 0}
     - target: {fileID: 6958383216988130890, guid: f850971937d20074eaeefe5382c4d967, type: 3}
       propertyPath: m_LocalPosition.y
@@ -776,7 +776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6958383216988130890, guid: f850971937d20074eaeefe5382c4d967, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 41.02
+      value: 44.76
       objectReference: {fileID: 0}
     - target: {fileID: 6958383216988130890, guid: f850971937d20074eaeefe5382c4d967, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1229,6 +1229,10 @@ PrefabInstance:
       propertyPath: _playerMovement
       value: 
       objectReference: {fileID: 243638980}
+    - target: {fileID: 4817821728440366097, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
+      propertyPath: _tilemapPainter
+      value: 
+      objectReference: {fileID: 656201198}
     - target: {fileID: 4817821728440366097, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: _tilemapPlaceholder
       value: 

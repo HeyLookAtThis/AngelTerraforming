@@ -19,7 +19,7 @@ public class Tree : MonoBehaviour
 
     public void GrowGrassAround()
     {
-        if (_painter.IsFieldOccupied(transform.position) == false)
+        if (_painter.CanGrowGrass(transform.position))
         {
             _painter.OnBeginFillCell(_radius, _isGrassGrowDelay);
             CustomizeLeaves();
@@ -28,7 +28,7 @@ public class Tree : MonoBehaviour
 
     private void CustomizeLeaves()
     {
-        if (_painter.IsFieldOccupied(transform.position))
+        if (_painter.CanGrowGrass(transform.position))
         {
             foreach (var tunk in _emptyTunks)
                 tunk.SetActive(false);

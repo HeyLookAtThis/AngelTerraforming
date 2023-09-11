@@ -19,11 +19,11 @@ public class TilemapPainter : MonoBehaviour
         remove => _fieldFilled -= value;
     }
 
-    public bool IsFieldOccupied(Vector3 point)
+    public bool CanGrowGrass(Vector3 point)
     {
         _fieldPosition = _tilemap.WorldToCell(point);
 
-        if (_tilemap.GetTile(_fieldPosition) == _tileBase)
+        if (_tilemap.GetTile(_fieldPosition) != _tileBase)
             return true;
 
         return false;    
@@ -37,20 +37,32 @@ public class TilemapPainter : MonoBehaviour
         _cellFiller = StartCoroutine(CellFiller(radius, isDeferred));        
     }
 
-    private void FillField(Vector3Int position)
+    private void TryFillCell(Vector3Int position)
     {
-        if (_tilemap.GetTile(position) != _tileBase)
+        if (_tilemap.GetTile(position) != _tileBase && IsThisGround(position))
         {
             _tilemap.BoxFill(position, _tileBase, position.x, position.y, position.x, position.y);
             _fieldFilled?.Invoke();
         }
     }
 
+    private bool IsThisGround(Vector3Int cell)
+    {
+        Vector3 worldPosition = _tilemap.CellToWorld(cell);
+
+        Physics.Raycast(worldPosition, Vector3.down, out RaycastHit hit);
+
+        if(hit.collider.TryGetComponent<Ground>(out Ground ground))
+            return true;
+
+        return false;
+    }
+
     private IEnumerator CellFiller(int radius, bool isDeferred)
     {
         var waitTime = new WaitForEndOfFrame();
 
-        FillField(_fieldPosition);
+        TryFillCell(_fieldPosition);
 
         for (int i = -radius; i <= radius; i++)
         {
@@ -60,7 +72,7 @@ public class TilemapPainter : MonoBehaviour
 
                 if (Vector3Int.Distance(_fieldPosition, neighborFieldPosition) <= radius)
                 {
-                    FillField(neighborFieldPosition);
+                    TryFillCell(neighborFieldPosition);
 
                     if (isDeferred)
                         yield return waitTime;
