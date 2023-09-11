@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 50f16150da3051440ae6a8ff57a2a978
+guid: 54d2ecdac5e87094fb41e31b0d905f25
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - _tilemap: {instanceID: 0}
-  - _tile: {fileID: 11400000, guid: f379e7c90e28a9f4680c1ddf6142c321, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

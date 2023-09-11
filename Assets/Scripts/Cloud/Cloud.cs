@@ -8,7 +8,7 @@ public class Cloud : MonoBehaviour
 {
     [SerializeField] private Player _player;
     [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private TilemapPainter _tilemapPainter;
+    [SerializeField] private GrassPainter _tilemapPainter;
 
     private int _radius = 2;
     private bool _isGrassGrowDiferred = true;
@@ -41,9 +41,10 @@ public class Cloud : MonoBehaviour
 
         if (hit.collider.TryGetComponent<Ground>(out Ground ground))
         {
-            if (_tilemapPainter.CanGrowGrass(hit.point) && _reservoir.IsEmpty == false)
+            if (_tilemapPainter.CanFillCell(hit.point) && _reservoir.IsEmpty == false)
             {
-                _tilemapPainter.OnBeginFillCell(_radius, _isGrassGrowDiferred);
+                _tilemapPainter.BeginFillCell(hit.point, _radius, _isGrassGrowDiferred);
+
                 _reservoir.OnMakeRain();
                 _resizer.OnReduceSize();
             }

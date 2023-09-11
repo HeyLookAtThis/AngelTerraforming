@@ -468,7 +468,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 656201195}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50f16150da3051440ae6a8ff57a2a978, type: 3}
+  m_Script: {fileID: 11500000, guid: 54d2ecdac5e87094fb41e31b0d905f25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _tilemap: {fileID: 1114737920}
@@ -1236,7 +1236,7 @@ PrefabInstance:
     - target: {fileID: 4817821728440366097, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: _tilemapPlaceholder
       value: 
-      objectReference: {fileID: 656201198}
+      objectReference: {fileID: 0}
     - target: {fileID: 4902712330702064744, guid: 6b7ec93b6a128164a9f59a4eaf1d01e0, type: 3}
       propertyPath: _tilemap
       value: 

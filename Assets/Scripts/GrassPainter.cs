@@ -1,15 +1,16 @@
 using System.Collections;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
-public class TilemapPainter : MonoBehaviour
+public class GrassPainter : MonoBehaviour
 {
     [SerializeField] private Tilemap _tilemap;
     [SerializeField] private TileBase _tileBase;
 
     private Coroutine _cellFiller;
-    private Vector3Int _fieldPosition;
 
     private UnityAction _fieldFilled;
 
@@ -19,22 +20,22 @@ public class TilemapPainter : MonoBehaviour
         remove => _fieldFilled -= value;
     }
 
-    public bool CanGrowGrass(Vector3 point)
+    public bool CanFillCell(Vector3 worldCellPosition)
     {
-        _fieldPosition = _tilemap.WorldToCell(point);
+        Vector3Int cellPosition = _tilemap.WorldToCell(worldCellPosition);
 
-        if (_tilemap.GetTile(_fieldPosition) != _tileBase)
+        if (_tilemap.GetTile(cellPosition) != _tileBase && IsThisGround(cellPosition))
             return true;
 
-        return false;    
+        return false;
     }
 
-    public void OnBeginFillCell(int radius, bool isDeferred)
+    public void BeginFillCell(Vector3 cellCenter, int radius, bool isDeferred)
     {
         if (_cellFiller != null)
             StopCoroutine(_cellFiller);
 
-        _cellFiller = StartCoroutine(CellFiller(radius, isDeferred));        
+        _cellFiller = StartCoroutine(CellFiller(cellCenter, radius, isDeferred));
     }
 
     private void TryFillCell(Vector3Int position)
@@ -58,19 +59,21 @@ public class TilemapPainter : MonoBehaviour
         return false;
     }
 
-    private IEnumerator CellFiller(int radius, bool isDeferred)
+    private IEnumerator CellFiller(Vector3 cellWorldPosition ,int radius, bool isDeferred)
     {
         var waitTime = new WaitForEndOfFrame();
 
-        TryFillCell(_fieldPosition);
+        Vector3Int cellPosition = _tilemap.WorldToCell(cellWorldPosition);
+
+        TryFillCell(cellPosition);
 
         for (int i = -radius; i <= radius; i++)
         {
             for (int j = radius; j >= -radius; j--)
             {
-                Vector3Int neighborFieldPosition = new Vector3Int(_fieldPosition.x + i, _fieldPosition.y + j, _fieldPosition.z);
+                Vector3Int neighborFieldPosition = new Vector3Int(cellPosition.x + i, cellPosition.y + j, cellPosition.z);
 
-                if (Vector3Int.Distance(_fieldPosition, neighborFieldPosition) <= radius)
+                if (Vector3Int.Distance(cellPosition, neighborFieldPosition) <= radius)
                 {
                     TryFillCell(neighborFieldPosition);
 

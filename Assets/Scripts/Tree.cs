@@ -5,44 +5,35 @@ using UnityEngine;
 
 public class Tree : MonoBehaviour
 {
-    [SerializeField] private TilemapPainter _painter;
+    [SerializeField] private GrassPainter _painter;
     [SerializeField] private int _radius;
     [SerializeField] private List<GameObject> _emptyTunks;
     [SerializeField] private List<GameObject> _greenTrunks;
 
+    private bool _hasGrassAround = false;
+
     private bool _isGrassGrowDelay => false;
+
+    private bool _isTrunkEmpty => _hasGrassAround ? false : true;
 
     private void Start()
     {
-        CustomizeLeaves();
+        ChangeLeaves();
     }
 
     public void GrowGrassAround()
     {
-        if (_painter.CanGrowGrass(transform.position))
-        {
-            _painter.OnBeginFillCell(_radius, _isGrassGrowDelay);
-            CustomizeLeaves();
-        }
+        _painter.BeginFillCell(transform.position, _radius, _isGrassGrowDelay);
+        _hasGrassAround = true;
+        ChangeLeaves();
     }
 
-    private void CustomizeLeaves()
+    private void ChangeLeaves()
     {
-        if (_painter.CanGrowGrass(transform.position))
-        {
-            foreach (var tunk in _emptyTunks)
-                tunk.SetActive(false);
+        foreach (var tunk in _emptyTunks)
+            tunk.SetActive(_isTrunkEmpty);
 
-            foreach(var tunk in _greenTrunks)
-                tunk.SetActive(true);
-        }
-        else
-        {
-            foreach (var tunk in _emptyTunks)
-                tunk.SetActive(true);
-
-            foreach (var tunk in _greenTrunks)
-                tunk.SetActive(false);
-        }
+        foreach (var tunk in _greenTrunks)
+            tunk.SetActive(_hasGrassAround);
     }
 }
