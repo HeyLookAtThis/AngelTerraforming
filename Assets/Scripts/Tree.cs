@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Tree : MonoBehaviour
 {
-    [SerializeField] private GrassPainter _painter;
     [SerializeField] private int _radius;
     [SerializeField] private List<GameObject> _emptyTunks;
     [SerializeField] private List<GameObject> _greenTrunks;
 
+    private GrassPainter _painter;
     private bool _hasGrassAround = false;
 
     private bool _isGrassGrowDelay => false;
@@ -19,6 +19,11 @@ public class Tree : MonoBehaviour
     private void Start()
     {
         ChangeLeaves();
+    }
+
+    public void Initialize(GrassPainter grassPainter)
+    {
+        _painter = grassPainter;
     }
 
     public void GrowGrassAround()
