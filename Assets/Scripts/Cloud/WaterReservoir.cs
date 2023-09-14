@@ -5,15 +5,17 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Cloud))]
 public class WaterReservoir : MonoBehaviour
 {
+    [SerializeField] private float _capacity;
+
     private float _currentWaterReserve;
     private bool _isEmpty;
 
     private Coroutine _waterReserveChanger;
     private UnityAction _waterIsOver;
 
-    public float FullReservoir { get; } = 3;
+    public float Capacity => _capacity;
 
-    public float EmptyReservoir { get; } = 0;
+    public float EmptyReservoir => 0;
 
     public bool IsEmpty => _isEmpty;
 
@@ -25,19 +27,19 @@ public class WaterReservoir : MonoBehaviour
 
     private void Start()
     {
-        _currentWaterReserve = FullReservoir;
+        _currentWaterReserve = Capacity;
     }
 
-    public void OnReplenishReservoir()
+    public void Replenish()
     {
-        if (_currentWaterReserve < FullReservoir)
+        if (_currentWaterReserve < Capacity)
         {
-            BeginChangeWaterReserveValue(FullReservoir);
+            BeginChangeWaterReserveValue(Capacity);
             _isEmpty = false;
         }
     }
 
-    public void OnMakeRain()
+    public void MakeRain()
     {
         if (_currentWaterReserve > EmptyReservoir)
         {
@@ -49,7 +51,7 @@ public class WaterReservoir : MonoBehaviour
             _waterIsOver?.Invoke();
         }
     }
-    public void OnStopChangeWaterValue()
+    public void StopChangeWaterValue()
     {
         if (_waterReserveChanger != null)
             StopCoroutine(_waterReserveChanger);
@@ -57,7 +59,7 @@ public class WaterReservoir : MonoBehaviour
 
     private void BeginChangeWaterReserveValue(float targetWaterReserve)
     {
-        OnStopChangeWaterValue();
+        StopChangeWaterValue();
         _waterReserveChanger = StartCoroutine(WaterReserveChanger(targetWaterReserve));
     }
 

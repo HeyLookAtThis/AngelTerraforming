@@ -3,33 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(Player))]
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerAnimationsController : MonoBehaviour
 {
     private Animator _animator;
-    private PlayerColliderController _playerCollider;
     private PlayerMovement _movement;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _playerCollider = GetComponent<PlayerColliderController>();
         _movement = GetComponent<PlayerMovement>();
     }
 
     private void OnEnable()
     {
         _movement.Falling += PlayIdle;
-        _playerCollider.SatOnCloud += PlaySitting;
-        _movement.Moved += SetSpeed;
+        _movement.Sitting += PlaySitting;
+        _movement.Runnibg += SetSpeed;
     }
 
     private void OnDisable()
     {
         _movement.Falling -= PlayIdle;
-        _playerCollider.SatOnCloud -= PlaySitting;
-        _movement.Moved -= SetSpeed;
+        _movement.Sitting -= PlaySitting;
+        _movement.Runnibg -= SetSpeed;
     }
 
     private void PlayIdle()

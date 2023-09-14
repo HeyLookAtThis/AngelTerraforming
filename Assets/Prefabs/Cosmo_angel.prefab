@@ -456,13 +456,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _jumpForse: 0
-  _groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  _cloudLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  _pivot: {fileID: 3397794363241957252}
 --- !u!114 &5612615149824871492
 MonoBehaviour:
   m_ObjectHideFlags: 0

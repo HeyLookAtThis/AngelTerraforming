@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 1583619257078246477}
   - component: {fileID: 5075421571741658956}
   - component: {fileID: 5156231589319423723}
-  - component: {fileID: 4917134773123566391}
   m_Layer: 0
   m_Name: Cloud_Cumulus_Med
   m_TagString: Untagged
@@ -102,9 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 373ffc36efd1a1643ac2a59a4e4d4844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 0}
+  _playerCollider: {fileID: 0}
   _playerMovement: {fileID: 0}
-  _tilemapPlaceholder: {fileID: 0}
+  _tilemapPainter: {fileID: 0}
 --- !u!114 &3136379545435953073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a3612e55b23634ebe1e5c826146118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _capacity: 0
 --- !u!114 &1219290852241450352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,17 +194,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetState: {fileID: 3371170824707408992}
---- !u!64 &4917134773123566391
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7289286475984931613}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 74b8105a60af1c84394ac279e7081b79, type: 3}

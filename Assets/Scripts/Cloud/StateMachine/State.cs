@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Cloud))]
 public abstract class State : MonoBehaviour
 {
     [SerializeField] private Transition _transition;
+
+    private Cloud _cloud;
 
     protected float speed;
     protected Vector3 targetPosition;
@@ -13,8 +16,12 @@ public abstract class State : MonoBehaviour
 
     protected PlayerMovement Target { get; private set; }
 
+    public Cloud Cloud => _cloud;
+
     private void Start()
     {
+        _cloud = GetComponent<Cloud>();
+
         speed = Target.Speed * _speedMultiplier;
     }
 

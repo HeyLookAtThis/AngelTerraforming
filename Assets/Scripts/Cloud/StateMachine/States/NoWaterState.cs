@@ -44,6 +44,8 @@ public class NoWaterState : State
         float seconds = 0.01f;
         var waitTime = new WaitForSeconds(seconds);
 
+        Cloud.TurnOffLacationUnderPlayer();
+
         while (transform.position != targetPosition)
         {
             targetPosition = Target.transform.position + positionIndent;

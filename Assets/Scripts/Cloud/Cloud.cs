@@ -12,6 +12,7 @@ public class Cloud : MonoBehaviour
 
     private int _radius = 2;
     private bool _isGrassGrowDiferred = true;
+    private bool _locatedUnderPlayer;
 
     private Collider _previousHitCollider;
     private WaterReservoir _reservoir;
@@ -20,6 +21,8 @@ public class Cloud : MonoBehaviour
     public PlayerColliderController PlayerCollider => _playerCollider;
 
     public PlayerMovement PlayerMovement => _playerMovement;
+
+    public bool LocatedUnderPlayer => _locatedUnderPlayer;
 
     private UnityAction _foundWater;
 
@@ -37,39 +40,52 @@ public class Cloud : MonoBehaviour
 
     private void Update()
     {
-        Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
-
-        if (hit.collider.TryGetComponent<Ground>(out Ground ground))
+        if( _locatedUnderPlayer )
         {
-            if (_tilemapPainter.CanFillCell(hit.point) && _reservoir.IsEmpty == false)
-            {
-                _tilemapPainter.BeginFillCell(hit.point, _radius, _isGrassGrowDiferred);
+            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
 
-                _reservoir.OnMakeRain();
-                _resizer.OnReduceSize();
+            if (hit.collider.TryGetComponent<Ground>(out Ground ground))
+            {
+                if (_tilemapPainter.CanFillCell(hit.point) && _reservoir.IsEmpty == false)
+                {
+                    _tilemapPainter.BeginFillCell(hit.point, _radius, _isGrassGrowDiferred);
+
+                    _reservoir.MakeRain();
+                    _resizer.ReduceSize();
+                }
+                else
+                {
+                    _reservoir.StopChangeWaterValue();
+                    _resizer.StopChangeSize();
+                }
             }
+
+            if (hit.collider != _previousHitCollider)
+                _previousHitCollider = hit.collider;
             else
+                return;
+
+            if (hit.collider.TryGetComponent<Water>(out Water water))
             {
-                _reservoir.OnStopChangeWaterValue();
-                _resizer.StopChangeSize();
+                _foundWater?.Invoke();
+                _reservoir.Replenish();
+                _resizer.IncreaseSize();
             }
-        }
 
-        if (hit.collider != _previousHitCollider)
-            _previousHitCollider = hit.collider;
-        else
-            return;
+            if (hit.collider.TryGetComponent<Tree>(out Tree tree))
+            {
+                tree.GrowGrassAround();
+            }
+        }        
+    }
 
-        if (hit.collider.TryGetComponent<Water>(out Water water))
-        {
-            _foundWater?.Invoke();
-            _reservoir.OnReplenishReservoir();
-            _resizer.OnIncreaseSize();
-        }
+    public void TurnOnLocationUnderPlayer()
+    {
+        _locatedUnderPlayer = true;
+    }
 
-        if (hit.collider.TryGetComponent<Tree>(out Tree tree))
-        {
-            tree.GrowGrassAround();
-        }
+    public void TurnOffLacationUnderPlayer()
+    {
+        _locatedUnderPlayer = false;
     }
 }

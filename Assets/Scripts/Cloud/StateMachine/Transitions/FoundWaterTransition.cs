@@ -15,12 +15,10 @@ public class FoundWaterTransition : Transition
     private void OnEnable()
     {
         _cloud.PlayerCollider.FoundWater += TurnOnNeedTransit;
-        _cloud.FoundWater += TurnOnNeedTransit;
     }
 
     private void OnDisable()
     {
         _cloud.PlayerCollider.FoundWater -= TurnOnNeedTransit;
-        _cloud.FoundWater -= TurnOnNeedTransit;
     }
 }

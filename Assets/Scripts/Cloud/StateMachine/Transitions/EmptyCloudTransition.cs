@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(WaterReservoir))]
 public class EmptyCloudTransition : Transition
 {
     private WaterReservoir _reservoir;

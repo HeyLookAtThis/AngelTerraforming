@@ -14,5 +14,15 @@ public class WithWaterState : State
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
         transform.forward = Target.transform.forward;
+
+        if(targetPosition == transform.position && Cloud.LocatedUnderPlayer == false)
+            Cloud.TurnOnLocationUnderPlayer();
+    }
+
+    public override void Enter(PlayerMovement target)
+    {
+        base.Enter(target);
+
+        target.TurnOffGravity();
     }
 }

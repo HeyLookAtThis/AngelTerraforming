@@ -15,18 +15,18 @@ public class Resizer : MonoBehaviour
 
     private void Start()
     {
-        _sizeChangerStep = (_fullSize - _emptySize) / GetComponent<WaterReservoir>().FullReservoir;
+        _sizeChangerStep = (_fullSize - _emptySize) / GetComponent<WaterReservoir>().Capacity;
 
         SetSize(_fullSize);
     }
 
-    public void OnIncreaseSize()
+    public void IncreaseSize()
     {
         if (_currentSize < _fullSize)
             BeginChangeSize(_fullSize);
     }
 
-    public void OnReduceSize()
+    public void ReduceSize()
     {
         if (_currentSize > _emptySize)
             BeginChangeSize(_emptySize);
