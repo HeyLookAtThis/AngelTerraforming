@@ -17,12 +17,10 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController _controller;
     private Coroutine _jumper;
-    private Player _player;
+    private PlayerColliderController _playerCollider;
 
     private Vector3 _velosity;
     private Vector3 _direction;
-    private bool _grounded;
-    private bool _isOnCloud;
 
     private float _sphereRadius = 0.15f;
 
@@ -30,38 +28,39 @@ public class PlayerMovement : MonoBehaviour
     private float _noGravityValue = 0;
     private float _currentGravityValue;
 
-    private UnityAction _satOnCloud;
     private UnityAction<float> _moved;
+    private UnityAction _falling;
 
     public float Speed => _speed;
 
-    public event UnityAction SatOnCloud
-    {
-        add => _satOnCloud += value;
-        remove => _satOnCloud -= value;
-    }
-
     public event UnityAction<float> Moved
     {
-        add=> _moved += value;
+        add => _moved += value;
         remove => _moved -= value;
+    }
+
+    public event UnityAction Falling
+    {
+        add => _falling += value;
+        remove => _falling -= value;
     }
 
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
-        _player = GetComponent<Player>();
+        _playerCollider = GetComponent<PlayerColliderController>();
+
         TurnOffGravity();
     }
 
     private void OnEnable()
     {
-        _player.FoundWater += OnJumpOnCloud;
+        _playerCollider.FoundWater += OnJumpOnCloud;
     }
 
     private void OnDisable()
     {
-        _player.FoundWater -= OnJumpOnCloud;
+        _playerCollider.FoundWater -= OnJumpOnCloud;
     }
 
     private void Update()
@@ -73,26 +72,19 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if (_currentGravityValue == _gravityValue)
-        {
-            _grounded = Physics.CheckSphere(_pivot.position, _sphereRadius, _groundLayerMask);
             UzeGravity();
-        }        
-
-        _isOnCloud = Physics.CheckSphere(_pivot.position, _sphereRadius, _cloudLayerMask);
-
-        if (_isOnCloud)
-            _satOnCloud?.Invoke();
-    }
-
-    public void TurnOnGravity()
-    {
-        _currentGravityValue = _gravityValue;
     }
 
     private void OnJumpOnCloud()
     {
         TurnOffGravity();
-        BegitToJump();
+        BeginToJump();
+    }
+
+    public void TurnOnGravity()
+    {
+        _currentGravityValue = _gravityValue;
+        _falling?.Invoke();
     }
 
     private void TurnOffGravity()
@@ -102,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void UzeGravity()
     {
-        if (_grounded && _velosity.y < 0)
+        if (_playerCollider.IsGrounded && _velosity.y < 0)
             _velosity.y = 0;
 
         _velosity.y += _currentGravityValue * Time.fixedDeltaTime;
@@ -113,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _direction = new Vector3(Input.GetAxis(Horizontal), 0, Input.GetAxis(Vertical));
 
-        if (_grounded && _direction != Vector3.zero)
+        if (_playerCollider.IsGrounded && _direction != Vector3.zero)
             _moved?.Invoke(_speed);
         else
             _moved?.Invoke(0);
@@ -127,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
             transform.forward = _direction;
     }
 
-    private void BegitToJump()
+    private void BeginToJump()
     {
         if (_jumper != null)
             StopCoroutine(_jumper);

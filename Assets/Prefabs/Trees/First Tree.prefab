@@ -60,7 +60,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ec1d21b04665a499e4abf38b58046a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _painter: {fileID: 0}
   _radius: 10
   _emptyTunks:
   - {fileID: 3178293815232738300}
@@ -159,6 +158,10 @@ PrefabInstance:
     - target: {fileID: 4686538670523690347, guid: 745b4020a01bb0c46ae0ba5f291d4fcf, type: 3}
       propertyPath: m_Name
       value: Empty Tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 4686538670523690347, guid: 745b4020a01bb0c46ae0ba5f291d4fcf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5048405243161740722, guid: 745b4020a01bb0c46ae0ba5f291d4fcf, type: 3}
       propertyPath: m_RootOrder

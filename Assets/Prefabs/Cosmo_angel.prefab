@@ -369,6 +369,7 @@ GameObject:
   - component: {fileID: 4639067976530727255}
   - component: {fileID: 1957417979659011418}
   - component: {fileID: 5612615149824871492}
+  - component: {fileID: 3278540443719284276}
   m_Layer: 0
   m_Name: Cosmo_angel
   m_TagString: Untagged
@@ -472,6 +473,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41d842414ca559244b368ae767059869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3278540443719284276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884384696376395577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c6113ef68a225409a5260a5c33d791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1907513067407162979

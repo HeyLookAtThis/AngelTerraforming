@@ -8,27 +8,27 @@ using UnityEngine;
 public class PlayerAnimationsController : MonoBehaviour
 {
     private Animator _animator;
-    private Player _player;
+    private PlayerColliderController _playerCollider;
     private PlayerMovement _movement;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _player = GetComponent<Player>();
+        _playerCollider = GetComponent<PlayerColliderController>();
         _movement = GetComponent<PlayerMovement>();
     }
 
     private void OnEnable()
     {
-        _player.FoundGround += PlayIdle;
-        _movement.SatOnCloud += PlaySitting;
+        _movement.Falling += PlayIdle;
+        _playerCollider.SatOnCloud += PlaySitting;
         _movement.Moved += SetSpeed;
     }
 
     private void OnDisable()
     {
-        _player.FoundGround -= PlayIdle;
-        _movement.SatOnCloud -= PlaySitting;
+        _movement.Falling -= PlayIdle;
+        _playerCollider.SatOnCloud -= PlaySitting;
         _movement.Moved -= SetSpeed;
     }
 

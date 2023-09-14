@@ -6,7 +6,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Resizer))]
 public class Cloud : MonoBehaviour
 {
-    [SerializeField] private Player _player;
+    [SerializeField] private PlayerColliderController _playerCollider;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private GrassPainter _tilemapPainter;
 
@@ -17,7 +17,7 @@ public class Cloud : MonoBehaviour
     private WaterReservoir _reservoir;
     private Resizer _resizer;
 
-    public Player Player => _player;
+    public PlayerColliderController PlayerCollider => _playerCollider;
 
     public PlayerMovement PlayerMovement => _playerMovement;
 
