@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ec1d21b04665a499e4abf38b58046a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radius: 15
+  _radius: 10
   _emptyTunks:
   - {fileID: 4023145705325697865}
   - {fileID: 7513841944923931802}
@@ -330,6 +330,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6908706718090245268}
     m_Modifications:
+    - target: {fileID: 577645841722992489, guid: 745b4020a01bb0c46ae0ba5f291d4fcf, type: 3}
+      propertyPath: m_SelectedEditorRenderState
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4686538670523690347, guid: 745b4020a01bb0c46ae0ba5f291d4fcf, type: 3}
       propertyPath: m_Name
       value: EmptyTree (1)
@@ -496,6 +500,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6908706718090245268}
     m_Modifications:
+    - target: {fileID: 577645841722992489, guid: 745b4020a01bb0c46ae0ba5f291d4fcf, type: 3}
+      propertyPath: m_SelectedEditorRenderState
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4686538670523690347, guid: 745b4020a01bb0c46ae0ba5f291d4fcf, type: 3}
       propertyPath: m_Name
       value: EmptyTree
