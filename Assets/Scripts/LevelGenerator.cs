@@ -1,47 +1,51 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 [RequireComponent(typeof(Terrain))]
 public class LevelGenerator : MonoBehaviour
 {
     [SerializeField] private GrassPainter _grassPainter;
-    [SerializeField] private List<Tree> _treePrefabs;
+    [SerializeField] private List<Tree> _treesPrefabs;
+    [SerializeField] private List<Flower> _flowersPrefabs;
 
-    private int _counterCycleOfTree;
+    private int _treesOfOneTypeCounter;
+    private int _flowersOfOneTypeCounter;
     private int _distanceBetwenObjects;
 
     private int _indentation;
     private int _yAxisValue;
-    private Vector3Int _levelStart;
-    private Vector3Int _levelEnd;
+
+    private List<Vector3> _treesPositions;
+    private Vector3 _levelStart;
+    private Vector3 _levelEnd;
 
     private void Start()
     {
-        _counterCycleOfTree = 5;
-        _distanceBetwenObjects = 20;
-
+        _distanceBetwenObjects = 10;
+        _treesOfOneTypeCounter = 7;
+        _flowersOfOneTypeCounter = 20;
         _indentation = 5;
         _yAxisValue = 1;
-        GetLevelCoordinateBoundary();
+        _treesPositions = new List<Vector3>();
 
+        GetLevelCoordinateBoundary();
         InstantiateTrees();
     }
 
     private void GetLevelCoordinateBoundary()
     {
-        _levelEnd = new Vector3Int((int)GetComponent<Terrain>().terrainData.size.x - _indentation, _yAxisValue, (int)GetComponent<Terrain>().terrainData.size.z - _indentation);
-        _levelStart = new Vector3Int(_indentation, _yAxisValue, _indentation);
+        _levelEnd = new Vector3(GetComponent<Terrain>().terrainData.size.x - _indentation, _yAxisValue, GetComponent<Terrain>().terrainData.size.z - _indentation);
+        _levelStart = new Vector3(_indentation, _yAxisValue, _indentation);
     }
 
     private Vector3 GetRandomCoordinate()
     {
         bool isSuccess = false;
-        Vector3Int position = new Vector3Int();
+        Vector3 position = new Vector3();
 
         while (isSuccess != true)
         {
-            position = new Vector3Int(Random.Range(_levelStart.x, _levelEnd.x), _yAxisValue, Random.Range(_levelStart.z, _levelEnd.z));
+            position = new Vector3(Random.Range(_levelStart.x, _levelEnd.x), _yAxisValue, Random.Range(_levelStart.z, _levelEnd.z));
             isSuccess = CanInstantiateObject(position);
         }
 
@@ -56,57 +60,15 @@ public class LevelGenerator : MonoBehaviour
         return new Vector3(startAxisValue, Random.Range(startAxisValue, endAxisValue), startAxisValue);
     }
 
-    private bool CanInstantiateObject(Vector3Int coordinate)
+    private bool CanInstantiateObject(Vector3 coordinate)
     {
-        Vector3Int origin = new Vector3Int(coordinate.x, coordinate.y + _yAxisValue, coordinate.z);
+        Vector3 checkingCoordinate = new Vector3(coordinate.x, coordinate.y + _yAxisValue, coordinate.z);
 
-        if(IsEmptyGround(origin) && IsRequiredDistanceFromAdgeLevel(origin))
+        if(IsEmptyGround(checkingCoordinate) && IsRequiredDistanceFromAdgeLevel(checkingCoordinate))
         {
-            float distance = (float)_distanceBetwenObjects;
-            float cycleStep = 0.1f;
-            float leftDirection = -1f;
-            float rightDirection = 1f;
-
-            for (float i = leftDirection; i <= rightDirection; i += cycleStep)
-            {
-                float zCoordinate;
-
-                if (i < 0)
-                    zCoordinate = 1 + i;
-                else
-                    zCoordinate = 1 - i;
-
-                Vector3 direction = new Vector3(i, 0, zCoordinate);
-
-                Physics.Raycast(origin, direction, out RaycastHit hit, distance);
-
-                if (hit.collider != null)
+            foreach (var treePosition in _treesPositions)
+                if (Vector3.Distance(treePosition, checkingCoordinate) < _distanceBetwenObjects)
                     return false;
-            }
-
-            for (float i = rightDirection; i >= leftDirection; i -= cycleStep)
-            {
-                float zCoordinate;
-
-                if (i > 0)
-                    zCoordinate = i - 1;
-                else
-                    zCoordinate = 1 - i;
-
-                Vector3 direction = new Vector3(i, 0, zCoordinate);
-
-                Physics.Raycast(origin, direction, out RaycastHit hit, distance);
-
-                if (hit.collider != null)
-                    return false;
-            }
-
-            /*
-            Vector3.left (-1.0.0)
-            Vector3.foreward (0.0.1)
-            Vector3.right (1.0.0)
-            Veector3.back (0.0.-1)
-            */
         }
         else
         {
@@ -116,7 +78,7 @@ public class LevelGenerator : MonoBehaviour
         return true;
     }
 
-    private bool IsEmptyGround(Vector3Int position)
+    private bool IsEmptyGround(Vector3 position)
     {
         Physics.Raycast(position, Vector3.down, out RaycastHit hit);
 
@@ -126,13 +88,13 @@ public class LevelGenerator : MonoBehaviour
         return false;
     }
 
-    private bool IsRequiredDistanceFromAdgeLevel(Vector3Int position)
+    private bool IsRequiredDistanceFromAdgeLevel(Vector3 position)
     {
         for (int i = -_distanceBetwenObjects; i <= _distanceBetwenObjects; i++)
         {
             for (int j = _distanceBetwenObjects; j >= -_distanceBetwenObjects; j--)
             {
-                Vector3Int checkingCoordinate = new Vector3Int(position.x + i, position.y, position.z + j);
+                Vector3 checkingCoordinate = new Vector3(position.x + i, position.y, position.z + j);
 
                 if (checkingCoordinate.x >= _levelEnd.x || checkingCoordinate.x <= _levelStart.x)
                     return false;
@@ -146,21 +108,25 @@ public class LevelGenerator : MonoBehaviour
 
     private void InstantiateTrees()
     {
-        int treeCount = _counterCycleOfTree;
+        int treesCycleCounter = _treesOfOneTypeCounter;
 
-        while(treeCount > 0)
+        while (treesCycleCounter > 0)
         {
-            foreach(Tree tree in _treePrefabs)
+            foreach(Tree tree in _treesPrefabs)
             {
                 Tree instantiatedTree = Instantiate(tree, GetRandomCoordinate(), Quaternion.identity, transform);
 
                 instantiatedTree.transform.Rotate(GetRandomRotation());
 
                 instantiatedTree.Initialize(_grassPainter);
+
+                _treesPositions.Add(instantiatedTree.transform.position);
                 Debug.Log(instantiatedTree);
             }
 
-            treeCount--;
+            treesCycleCounter--;
         }
+
+        _treesPositions.Clear();
     }
 }
