@@ -7,10 +7,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private GrassPainter _grassPainter;
     [SerializeField] private List<Tree> _treesPrefabs;
     [SerializeField] private List<Flower> _flowersPrefabs;
-
-    private int _treesOfOneTypeCounter;
-    private int _flowersOfOneTypeCounter;
-    private int _distanceBetwenObjects;
+    [SerializeField] private Transform _treesContainer;
 
     private int _indentation;
     private int _yAxisValue;
@@ -21,12 +18,9 @@ public class LevelGenerator : MonoBehaviour
 
     private void Start()
     {
-        _distanceBetwenObjects = 10;
-        _treesOfOneTypeCounter = 7;
-        _flowersOfOneTypeCounter = 20;
+        _treesPositions = new List<Vector3>();
         _indentation = 5;
         _yAxisValue = 1;
-        _treesPositions = new List<Vector3>();
 
         GetLevelCoordinateBoundary();
         InstantiateTrees();
@@ -38,6 +32,28 @@ public class LevelGenerator : MonoBehaviour
         _levelStart = new Vector3(_indentation, _yAxisValue, _indentation);
     }
 
+    private void InstantiateTrees()
+    {
+        int treeCount = 15;
+
+        while (treeCount > 0)
+        {
+            foreach (var tree in _treesPrefabs)
+            {
+                Vector3 treePosition = GetRandomCoordinate();
+
+                Instantiate(tree, treePosition, Quaternion.identity, _treesContainer).Initialize(_grassPainter);
+                _treesPositions.Add(treePosition);
+                treeCount--;
+
+                if(treeCount == 0)
+                    break;
+            }
+        }
+
+        _treesPositions.Clear();
+    }
+
     private Vector3 GetRandomCoordinate()
     {
         bool isSuccess = false;
@@ -46,34 +62,42 @@ public class LevelGenerator : MonoBehaviour
         while (isSuccess != true)
         {
             position = new Vector3(Random.Range(_levelStart.x, _levelEnd.x), _yAxisValue, Random.Range(_levelStart.z, _levelEnd.z));
-            isSuccess = CanInstantiateObject(position);
+            isSuccess = IsRequiredPosition(position);
         }
 
         return position;
     }
 
-    private Vector3 GetRandomRotation()
+    private bool IsRequiredPosition(Vector3 coordinates)
     {
-        float startAxisValue = 0;
-        float endAxisValue = 360;
+        int objectsDistance = 5;
 
-        return new Vector3(startAxisValue, Random.Range(startAxisValue, endAxisValue), startAxisValue);
+        for (int i = -objectsDistance; i <= objectsDistance; i++)
+        {
+            for (int j = objectsDistance; j >= -objectsDistance; j--)
+            {
+                Vector3 checkingCoordinate = new Vector3(coordinates.x + i, coordinates.y + _yAxisValue, coordinates.z + j);
+
+                if (IsStayInBoundaries(checkingCoordinate) == false)
+                    return false;
+
+                else if (IsEmptyGround(checkingCoordinate) == false)
+                    return false;
+
+                else if(IsRequiredDistanceBetweenObjects(checkingCoordinate, objectsDistance) == false)
+                    return false;
+            }
+        }
+
+        return true;
     }
 
-    private bool CanInstantiateObject(Vector3 coordinate)
+    private bool IsStayInBoundaries(Vector3 checkingCoordinate)
     {
-        Vector3 checkingCoordinate = new Vector3(coordinate.x, coordinate.y + _yAxisValue, coordinate.z);
-
-        if(IsEmptyGround(checkingCoordinate) && IsRequiredDistanceFromAdgeLevel(checkingCoordinate))
-        {
-            foreach (var treePosition in _treesPositions)
-                if (Vector3.Distance(treePosition, checkingCoordinate) < _distanceBetwenObjects)
-                    return false;
-        }
-        else
-        {
+        if (checkingCoordinate.x >= _levelEnd.x || checkingCoordinate.x <= _levelStart.x)
             return false;
-        }
+        else if (checkingCoordinate.z >= _levelEnd.z || checkingCoordinate.z <= _levelStart.z)
+            return false;
 
         return true;
     }
@@ -82,51 +106,19 @@ public class LevelGenerator : MonoBehaviour
     {
         Physics.Raycast(position, Vector3.down, out RaycastHit hit);
 
-        if(hit.collider.TryGetComponent<Ground>(out Ground ground))
-            return true;
+        if (hit.collider != null)
+            if (hit.collider.TryGetComponent<Ground>(out Ground ground))
+                return true;
 
         return false;
     }
 
-    private bool IsRequiredDistanceFromAdgeLevel(Vector3 position)
+    private bool IsRequiredDistanceBetweenObjects(Vector3 checkingCoordinate, int objectsDistance)
     {
-        for (int i = -_distanceBetwenObjects; i <= _distanceBetwenObjects; i++)
-        {
-            for (int j = _distanceBetwenObjects; j >= -_distanceBetwenObjects; j--)
-            {
-                Vector3 checkingCoordinate = new Vector3(position.x + i, position.y, position.z + j);
-
-                if (checkingCoordinate.x >= _levelEnd.x || checkingCoordinate.x <= _levelStart.x)
-                    return false;
-                else if (checkingCoordinate.z >= _levelEnd.z || checkingCoordinate.z <= _levelStart.z)
-                    return false;
-            }
-        }
+        foreach (var treePosition in _treesPositions)
+            if (Vector3.Distance(treePosition, checkingCoordinate) < objectsDistance)
+                return false;
 
         return true;
-    }
-
-    private void InstantiateTrees()
-    {
-        int treesCycleCounter = _treesOfOneTypeCounter;
-
-        while (treesCycleCounter > 0)
-        {
-            foreach(Tree tree in _treesPrefabs)
-            {
-                Tree instantiatedTree = Instantiate(tree, GetRandomCoordinate(), Quaternion.identity, transform);
-
-                instantiatedTree.transform.Rotate(GetRandomRotation());
-
-                instantiatedTree.Initialize(_grassPainter);
-
-                _treesPositions.Add(instantiatedTree.transform.position);
-                Debug.Log(instantiatedTree);
-            }
-
-            treesCycleCounter--;
-        }
-
-        _treesPositions.Clear();
     }
 }
