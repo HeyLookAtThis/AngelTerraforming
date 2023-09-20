@@ -13,8 +13,8 @@ public class TreesGenerator : MonoBehaviour
 
     private void Start()
     {
-        _positions = new List<Vector3>();
         _ground = GetComponent<Ground>();
+        _positions = new List<Vector3>();
 
         InstantiateTrees();
     }
@@ -48,7 +48,7 @@ public class TreesGenerator : MonoBehaviour
 
         while (isSuccess != true)
         {
-            position = new Vector3(Random.Range(_ground.StartingCoordinate.x, _ground.EndingCoordinate.x), 0, Random.Range(_ground.StartingCoordinate.z, _ground.EndingCoordinate.z));
+            position = new Vector3(Random.Range(_ground.StartingCoordinate.x, _ground.EndingCoordinate.x), _ground.StartingCoordinate.y, Random.Range(_ground.StartingCoordinate.z, _ground.EndingCoordinate.z));
             isSuccess = IsRequiredPosition(position);
         }
 
@@ -57,11 +57,11 @@ public class TreesGenerator : MonoBehaviour
 
     private bool IsRequiredPosition(Vector3 coordinates)
     {
-        int objectsDistance = 5;
+        const int ObjectsDistance = 5;
 
-        for (int i = -objectsDistance; i <= objectsDistance; i++)
+        for (int i = -ObjectsDistance; i <= ObjectsDistance; i += ObjectsDistance)
         {
-            for (int j = objectsDistance; j >= -objectsDistance; j--)
+            for (int j = ObjectsDistance; j >= -ObjectsDistance; j -= ObjectsDistance)
             {
                 Vector3 checkingCoordinate = new Vector3(coordinates.x + i, coordinates.y, coordinates.z + j);
 
@@ -71,7 +71,7 @@ public class TreesGenerator : MonoBehaviour
                 else if (IsEmptyGround(checkingCoordinate) == false)
                     return false;
 
-                else if(IsRequiredDistanceBetweenObjects(checkingCoordinate, objectsDistance) == false)
+                else if (IsRequiredDistanceBetweenObjects(checkingCoordinate, ObjectsDistance) == false)
                     return false;
             }
         }
@@ -91,7 +91,10 @@ public class TreesGenerator : MonoBehaviour
 
     private bool IsEmptyGround(Vector3 position)
     {
-        Physics.Raycast(position, Vector3.down, out RaycastHit hit);
+        const float RayOriginHeight = 0.2f;
+
+        Vector3 rayPoint = new Vector3(position.x, position.y + RayOriginHeight, position.z);
+        Physics.Raycast(rayPoint, Vector3.down, out RaycastHit hit);
 
         if (hit.collider != null)
             if (hit.collider.TryGetComponent<Ground>(out Ground ground))

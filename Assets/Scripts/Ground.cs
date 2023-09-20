@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Terrain))]
 public class Ground : MonoBehaviour
 {
-    private int _indentation;
-    private int _yAxisValue;
+    private float _indentation;
+    private float _yAxisValue;
 
     private Terrain _terrain;
 
