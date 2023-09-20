@@ -327,12 +327,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _grassPainter: {fileID: 656201198}
-  _treesPrefabs:
+  _prefabs:
   - {fileID: -9118588001581387132, guid: f850971937d20074eaeefe5382c4d967, type: 3}
   - {fileID: 5707677923366262138, guid: 0861ea40897c38e4f845624482873a33, type: 3}
   - {fileID: 1613714616927459661, guid: 103230d06b8577b4b985f3d971bd0b9b, type: 3}
-  _flowersPrefabs: []
-  _treesContainer: {fileID: 734438308}
+  _container: {fileID: 734438308}
 --- !u!1 &441365540
 GameObject:
   m_ObjectHideFlags: 0

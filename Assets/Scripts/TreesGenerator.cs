@@ -1,35 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Terrain))]
-public class LevelGenerator : MonoBehaviour
+[RequireComponent(typeof(Ground))]
+public class TreesGenerator : MonoBehaviour
 {
     [SerializeField] private GrassPainter _grassPainter;
-    [SerializeField] private List<Tree> _treesPrefabs;
-    [SerializeField] private List<Flower> _flowersPrefabs;
-    [SerializeField] private Transform _treesContainer;
+    [SerializeField] private List<Tree> _prefabs;
+    [SerializeField] private Transform _container;
 
-    private int _indentation;
-    private int _yAxisValue;
-
-    private List<Vector3> _treesPositions;
-    private Vector3 _levelStart;
-    private Vector3 _levelEnd;
+    private Ground _ground;
+    private List<Vector3> _positions;
 
     private void Start()
     {
-        _treesPositions = new List<Vector3>();
-        _indentation = 5;
-        _yAxisValue = 1;
+        _positions = new List<Vector3>();
+        _ground = GetComponent<Ground>();
 
-        GetLevelCoordinateBoundary();
         InstantiateTrees();
-    }
-
-    private void GetLevelCoordinateBoundary()
-    {
-        _levelEnd = new Vector3(GetComponent<Terrain>().terrainData.size.x - _indentation, _yAxisValue, GetComponent<Terrain>().terrainData.size.z - _indentation);
-        _levelStart = new Vector3(_indentation, _yAxisValue, _indentation);
     }
 
     private void InstantiateTrees()
@@ -38,12 +25,12 @@ public class LevelGenerator : MonoBehaviour
 
         while (treeCount > 0)
         {
-            foreach (var tree in _treesPrefabs)
+            foreach (var tree in _prefabs)
             {
                 Vector3 treePosition = GetRandomCoordinate();
 
-                Instantiate(tree, treePosition, Quaternion.identity, _treesContainer).Initialize(_grassPainter);
-                _treesPositions.Add(treePosition);
+                Instantiate(tree, treePosition, Quaternion.identity, _container).Initialize(_grassPainter);
+                _positions.Add(treePosition);
                 treeCount--;
 
                 if(treeCount == 0)
@@ -51,7 +38,7 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        _treesPositions.Clear();
+        _positions.Clear();
     }
 
     private Vector3 GetRandomCoordinate()
@@ -61,7 +48,7 @@ public class LevelGenerator : MonoBehaviour
 
         while (isSuccess != true)
         {
-            position = new Vector3(Random.Range(_levelStart.x, _levelEnd.x), _yAxisValue, Random.Range(_levelStart.z, _levelEnd.z));
+            position = new Vector3(Random.Range(_ground.StartingCoordinate.x, _ground.EndingCoordinate.x), 0, Random.Range(_ground.StartingCoordinate.z, _ground.EndingCoordinate.z));
             isSuccess = IsRequiredPosition(position);
         }
 
@@ -76,7 +63,7 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int j = objectsDistance; j >= -objectsDistance; j--)
             {
-                Vector3 checkingCoordinate = new Vector3(coordinates.x + i, coordinates.y + _yAxisValue, coordinates.z + j);
+                Vector3 checkingCoordinate = new Vector3(coordinates.x + i, coordinates.y, coordinates.z + j);
 
                 if (IsStayInBoundaries(checkingCoordinate) == false)
                     return false;
@@ -94,9 +81,9 @@ public class LevelGenerator : MonoBehaviour
 
     private bool IsStayInBoundaries(Vector3 checkingCoordinate)
     {
-        if (checkingCoordinate.x >= _levelEnd.x || checkingCoordinate.x <= _levelStart.x)
+        if (checkingCoordinate.x >= _ground.EndingCoordinate.x || checkingCoordinate.x <= _ground.StartingCoordinate.x)
             return false;
-        else if (checkingCoordinate.z >= _levelEnd.z || checkingCoordinate.z <= _levelStart.z)
+        else if (checkingCoordinate.z >= _ground.EndingCoordinate.z || checkingCoordinate.z <= _ground.StartingCoordinate.z)
             return false;
 
         return true;
@@ -115,7 +102,7 @@ public class LevelGenerator : MonoBehaviour
 
     private bool IsRequiredDistanceBetweenObjects(Vector3 checkingCoordinate, int objectsDistance)
     {
-        foreach (var treePosition in _treesPositions)
+        foreach (var treePosition in _positions)
             if (Vector3.Distance(treePosition, checkingCoordinate) < objectsDistance)
                 return false;
 
