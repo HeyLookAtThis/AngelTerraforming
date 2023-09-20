@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 public class GrassPainter : MonoBehaviour
 {
@@ -43,8 +41,21 @@ public class GrassPainter : MonoBehaviour
         if (_tilemap.GetTile(position) != _tileBase && IsThisGround(position))
         {
             _tilemap.BoxFill(position, _tileBase, position.x, position.y, position.x, position.y);
+            TryTurnOnFlower(position);
             _fieldFilled?.Invoke();
         }
+    }
+
+    private void TryTurnOnFlower(Vector3Int cellPosition)
+    {
+        Vector3 worldPosition = _tilemap.CellToWorld(cellPosition);
+        worldPosition.y += 2;
+
+        Physics.Raycast(worldPosition, Vector3.down, out RaycastHit hit);
+
+        if (hit.collider != null)
+            if (hit.collider.TryGetComponent<Flower>(out Flower flower))
+                flower.TurnOnVisible();
     }
 
     private bool IsThisGround(Vector3Int cell)
@@ -53,8 +64,9 @@ public class GrassPainter : MonoBehaviour
 
         Physics.Raycast(worldPosition, Vector3.down, out RaycastHit hit);
 
-        if(hit.collider.TryGetComponent<Ground>(out Ground ground))
-            return true;
+        if (hit.collider != null)
+            if (hit.collider.TryGetComponent<Ground>(out Ground ground))
+                return true;
 
         return false;
     }

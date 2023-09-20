@@ -20,17 +20,13 @@ public class Ground : MonoBehaviour
 
         _indentation = 5;
         _yAxisValue = 1;
-        SetLevelBoundary();
+
+        EndingCoordinate = new Vector3(_terrain.terrainData.size.x - _indentation, _yAxisValue, _terrain.terrainData.size.z - _indentation);
+        StartingCoordinate = new Vector3(_indentation, _yAxisValue, _indentation);
     }
 
     public float GetArea()
     {
         return _terrain.terrainData.size.x * _terrain.terrainData.size.z;
-    }
-
-    private void SetLevelBoundary()
-    {
-        EndingCoordinate = new Vector3(_terrain.terrainData.size.x - _indentation, _yAxisValue, _terrain.terrainData.size.z - _indentation);
-        StartingCoordinate = new Vector3(_indentation, _yAxisValue, _indentation);
     }
 }

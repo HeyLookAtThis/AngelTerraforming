@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Ground))]
-public class TreesGenerator : MonoBehaviour
+public class TreesCreator : MonoBehaviour
 {
     [SerializeField] private GrassPainter _grassPainter;
     [SerializeField] private List<Tree> _prefabs;
@@ -11,11 +11,14 @@ public class TreesGenerator : MonoBehaviour
     private Ground _ground;
     private List<Vector3> _positions;
 
-    private void Start()
+    private void Awake()
     {
         _ground = GetComponent<Ground>();
         _positions = new List<Vector3>();
+    }
 
+    private void Start()
+    {
         InstantiateTrees();
     }
 

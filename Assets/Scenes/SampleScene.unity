@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 424238314}
   - component: {fileID: 424238317}
   - component: {fileID: 424238318}
+  - component: {fileID: 424238319}
   m_Layer: 3
   m_Name: Terrain
   m_TagString: Untagged
@@ -299,6 +300,7 @@ Transform:
   m_Children:
   - {fileID: 1870262869}
   - {fileID: 734438308}
+  - {fileID: 530850594}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -332,6 +334,24 @@ MonoBehaviour:
   - {fileID: 5707677923366262138, guid: 0861ea40897c38e4f845624482873a33, type: 3}
   - {fileID: 1613714616927459661, guid: 103230d06b8577b4b985f3d971bd0b9b, type: 3}
   _container: {fileID: 734438308}
+--- !u!114 &424238319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424238313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5074b069e2bfde4bbd693ef6c435de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flowersCount: 300
+  _prefabs:
+  - {fileID: 5129033363317150966, guid: b81b2135f1f522346afbce8690bee226, type: 3}
+  - {fileID: -2381091514886308339, guid: 2ce1924e2fc3fb6478abadf7671a08ee, type: 3}
+  - {fileID: -1632268471408995084, guid: 9dc9f97d3b43fe849a15033e6af2c4d9, type: 3}
+  _container: {fileID: 530850594}
 --- !u!1 &441365540
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,6 +388,36 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &530850593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 530850594}
+  m_Layer: 3
+  m_Name: Flowers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &530850594
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530850593}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 424238316}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &653609139 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3278540443719284276, guid: be8313c5b8e3a5e468a8850661903468, type: 3}
