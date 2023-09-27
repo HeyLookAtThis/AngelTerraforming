@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Player))]
@@ -9,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private const string Horizontal = "Horizontal";
     private const string Vertical = "Vertical";
 
+    [SerializeField] private FloatingJoystick _joystick;
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForse;
 
@@ -109,14 +111,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        _direction = new Vector3(Input.GetAxis(Horizontal), 0, Input.GetAxis(Vertical));
+        _direction = Vector3.zero;
+        _direction.x = _joystick.Horizontal * _speed * Time.deltaTime;
+        _direction.z = _joystick.Vertical * _speed * Time.deltaTime;
 
         if (_playerCollider.IsGrounded && _direction != Vector3.zero)
             _running?.Invoke(_speed);
         else
             _running?.Invoke(0);
 
-        _controller.Move(_direction * _speed * Time.deltaTime);
+        _controller.Move(_direction);
     }
 
     private void Rotate()
