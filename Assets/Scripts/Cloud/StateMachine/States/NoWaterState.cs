@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -7,9 +8,12 @@ public class NoWaterState : State
 
     private Coroutine _positionChanger;
 
+    private Transform _cloud;
+
     private void Awake()
     {
         positionIndent = new Vector3(-1.5f, 2f, -1.5f);
+        _cloud = this.transform;
     }
 
     private void Update()
@@ -18,7 +22,9 @@ public class NoWaterState : State
 
         if (Vector3.Distance(Target.transform.position, transform.position) > _distance)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            _cloud.DOMoveX(targetPosition.x, speed * Time.deltaTime);
+            _cloud.DOMoveZ(targetPosition.z, speed * Time.deltaTime);
+
             transform.LookAt(Target.transform.position);
         }
     }

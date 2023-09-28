@@ -7,9 +7,6 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(Player))]
 public class PlayerMovement : MonoBehaviour
 {
-    private const string Horizontal = "Horizontal";
-    private const string Vertical = "Vertical";
-
     [SerializeField] private FloatingJoystick _joystick;
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForse;

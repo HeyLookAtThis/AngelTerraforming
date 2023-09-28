@@ -7,8 +7,6 @@ public class GrassPainter : MonoBehaviour
 {
     [SerializeField] private Tilemap _tilemap;
     [SerializeField] private TileBase _tileBase;
-    [SerializeField] private Grass _grass;
-    [SerializeField] private Transform _grassContainer;
 
     private Coroutine _cellFiller;
 
@@ -27,7 +25,6 @@ public class GrassPainter : MonoBehaviour
         if (_tilemap.GetTile(cellPosition) != _tileBase && IsThisGround(cellPosition))
             return true;
 
-
         return false;
     }
 
@@ -39,11 +36,19 @@ public class GrassPainter : MonoBehaviour
         _cellFiller = StartCoroutine(CellFiller(cellCenter, radius, isDeferred));
     }
 
-    private void InstantiateGrass(Vector3Int position)
+    private void TryGrowGrass(Vector3Int position)
     {
         Vector3 worldPosition = _tilemap.CellToWorld(position);
+        worldPosition.y += 2;
 
-        Instantiate(_grass, worldPosition, Quaternion.identity, _grassContainer).Grow();
+        Physics.Raycast(worldPosition, Vector3.down, out RaycastHit hit);
+
+        if (hit.collider != null)
+            if (hit.collider.TryGetComponent<Grass>(out Grass grass))
+            {
+                grass.Grow();
+                Debug.Log(grass);
+            }
     }
 
     private void TryFillCell(Vector3Int position)
@@ -51,7 +56,7 @@ public class GrassPainter : MonoBehaviour
         if (_tilemap.GetTile(position) != _tileBase && IsThisGround(position))
         {
             _tilemap.BoxFill(position, _tileBase, position.x, position.y, position.x, position.y);
-            InstantiateGrass(position);
+            TryGrowGrass(position);
             TryTurnOnFlower(position);
             _fieldFilled?.Invoke();
         }

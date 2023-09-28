@@ -10,8 +10,7 @@ public class WithWaterState : State
     private void Update()
     {
         targetPosition = Target.transform.position + positionIndent;
-
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+        transform.position = targetPosition;
 
         transform.forward = Target.transform.forward;
     }

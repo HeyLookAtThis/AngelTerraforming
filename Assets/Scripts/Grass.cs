@@ -6,11 +6,16 @@ public class Grass : MonoBehaviour
     [SerializeField] private ParticleSystem _particleSystem;
 
     private Coroutine _growBeginner;
-    private float _duration = 1f;
+    private float _duration = 0.2f;
 
     public void Grow()
     {
         BeginToGrow();
+    }
+
+    public void TurnOff()
+    {
+        _particleSystem.Stop();
     }
 
     private void BeginToGrow()

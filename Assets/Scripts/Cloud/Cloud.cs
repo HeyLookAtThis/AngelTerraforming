@@ -45,7 +45,7 @@ public class Cloud : MonoBehaviour
 
         Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
 
-        if (hit.collider.TryGetComponent<Ground>(out Ground ground))
+        if (hit.collider.TryGetComponent<Grass>(out Grass grass))
         {
             if (_tilemapPainter.CanFillCell(hit.point) && _reservoir.IsEmpty == false)
             {

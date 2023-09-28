@@ -19,14 +19,14 @@ public class PlayerAnimationsController : MonoBehaviour
     {
         _movement.Falling += PlayIdle;
         _movement.Sitting += PlaySitting;
-        _movement.Runnibg += SetSpeed;
+        _movement.Runnibg += PlayRun;
     }
 
     private void OnDisable()
     {
         _movement.Falling -= PlayIdle;
         _movement.Sitting -= PlaySitting;
-        _movement.Runnibg -= SetSpeed;
+        _movement.Runnibg -= PlayRun;
     }
 
     private void PlayIdle()
@@ -39,7 +39,7 @@ public class PlayerAnimationsController : MonoBehaviour
         _animator.Play(ACPlayer.Stats.Sitting);
     }
 
-    private void SetSpeed(float speed)
+    private void PlayRun(float speed)
     {
         _animator.SetFloat(ACPlayer.Params.Speed, speed);
     }

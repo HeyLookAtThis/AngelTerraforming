@@ -34,7 +34,7 @@ Material:
     m_Floats:
     - _DepthDensity: 0.5
     - _DistanceDensity: 0.025
-    - _EdgeFoamDepth: 0.25
+    - _EdgeFoamDepth: 0.5
     - _FancyShadows: 1
     - _FoamContribution: 0.549
     - _FoamNoiseScale: 0.32
@@ -69,3 +69,4 @@ Material:
     - _ShallowColor: {r: 0.44313726, g: 0.9137255, b: 0.6627451, a: 1}
     - _SparkleColor: {r: 0.54901963, g: 0.9607843, b: 0.8156863, a: 1}
     - _SunSpecularColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

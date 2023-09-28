@@ -49,7 +49,7 @@ Material:
     - _SparkleSpeed: 1
     - _SunSpecularExponent: 1
     - _VertexNormalDelta: 0.01
-    - _Wave1Amplitude: 0.01
+    - _Wave1Amplitude: 0.001
     - _Wave1Direction: 0
     - _Wave1Speed: 1
     - _Wave1Wavelength: 1
@@ -58,7 +58,7 @@ Material:
     - _Wave2Speed: 2
     - _Wave2Wavelength: 1
     - _WaveNormalDelta: 0.01
-    - _WaveNormalScale: 50
+    - _WaveNormalScale: 0
     - _WaveNormalSpeed: 0.01
     m_Colors:
     - _DeepColor: {r: 0.0627451, g: 0.8156863, b: 2.1960785, a: 1}

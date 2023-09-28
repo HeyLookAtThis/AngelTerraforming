@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 424238317}
   - component: {fileID: 424238318}
   - component: {fileID: 424238319}
+  - component: {fileID: 424238320}
   m_Layer: 3
   m_Name: Terrain
   m_TagString: Untagged
@@ -342,6 +343,21 @@ MonoBehaviour:
   - {fileID: -2381091514886308339, guid: 2ce1924e2fc3fb6478abadf7671a08ee, type: 3}
   - {fileID: -1632268471408995084, guid: 9dc9f97d3b43fe849a15033e6af2c4d9, type: 3}
   _container: {fileID: 530850594}
+--- !u!114 &424238320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424238313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f9441cd7b30e324ab5635c87d68ebd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _grid: {fileID: 656201196}
+  _grass: {fileID: -4221053479525628819, guid: 025bdaed35d31164cb58cc707320b56d, type: 3}
+  _container: {fileID: 563527074}
 --- !u!1 &441365540
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,13 +451,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 549283241}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 48.13, y: 0.5, z: 49.11}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 50, y: 1, z: 50}
+  m_LocalScale: {x: 14, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 579464261}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!64 &549283243
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -475,7 +491,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2f280c117f7574253a4a2adca2bf0e6b, type: 2}
+  - {fileID: 2100000, guid: f72d6d75185f842e498cbecf8339192c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -649,10 +665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tilemap: {fileID: 1114737920}
   _tileBase: {fileID: 11400000, guid: b4f575551767c92499e97e8eb973f66b, type: 2}
-  _grid: {fileID: 656201196}
-  _grass: {fileID: -4221053479525628819, guid: 025bdaed35d31164cb58cc707320b56d, type: 3}
   _grassContainer: {fileID: 795909370}
-  _ground: {fileID: 424238317}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,7 +1671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ground: {fileID: 424238317}
-  _water: {fileID: 0}
+  _water: {fileID: 549283246}
   _grid: {fileID: 656201196}
   _painter: {fileID: 656201198}
 --- !u!1 &1975216216
