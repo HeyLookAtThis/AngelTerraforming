@@ -1,117 +1,52 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(CapsuleCollider))]
 public class GrassPainter : MonoBehaviour
 {
-    [SerializeField] private Tilemap _tilemap;
-    [SerializeField] private TileBase _tileBase;
+    private CapsuleCollider _capsuleCollider;
 
-    private Coroutine _cellFiller;
+    private UnityAction _foundWater;
 
-    private UnityAction _fieldFilled;
-
-    public event UnityAction FieldFilled
+    public event UnityAction FoundWater
     {
-        add => _fieldFilled += value;
-        remove => _fieldFilled -= value;
+        add => _foundWater += value;
+        remove => _foundWater -= value;
     }
 
-    public bool CanFillCell(Vector3 worldCellPosition)
+    private void Start()
     {
-        Vector3Int cellPosition = _tilemap.WorldToCell(worldCellPosition);
+        _capsuleCollider = GetComponent<CapsuleCollider>();
 
-        if (_tilemap.GetTile(cellPosition) != _tileBase && IsThisGround(cellPosition))
-            return true;
-
-        return false;
+        _capsuleCollider.isTrigger = true;
+        _capsuleCollider.enabled = false;
     }
 
-    public void BeginFillCell(Vector3 cellCenter, int radius, bool isDeferred)
+    public void Activate()
     {
-        if (_cellFiller != null)
-            StopCoroutine(_cellFiller);
-
-        _cellFiller = StartCoroutine(CellFiller(cellCenter, radius, isDeferred));
+        _capsuleCollider.enabled = true;
     }
 
-    private void TryGrowGrass(Vector3Int position)
+    public void Deactivate()
     {
-        Vector3 worldPosition = _tilemap.CellToWorld(position);
-        worldPosition.y += 2;
-
-        Physics.Raycast(worldPosition, Vector3.down, out RaycastHit hit);
-
-        if (hit.collider != null)
-            if (hit.collider.TryGetComponent<Grass>(out Grass grass))
-            {
-                grass.Grow();
-                Debug.Log(grass);
-            }
+        _capsuleCollider.enabled = false;
     }
 
-    private void TryFillCell(Vector3Int position)
+    private void OnTriggerStay(Collider other)
     {
-        if (_tilemap.GetTile(position) != _tileBase && IsThisGround(position))
+        if (other.TryGetComponent<Grass>(out var grass))
         {
-            _tilemap.BoxFill(position, _tileBase, position.x, position.y, position.x, position.y);
-            TryGrowGrass(position);
-            TryTurnOnFlower(position);
-            _fieldFilled?.Invoke();
+            grass.Grow();
         }
-    }
 
-    private void TryTurnOnFlower(Vector3Int cellPosition)
-    {
-        Vector3 worldPosition = _tilemap.CellToWorld(cellPosition);
-        worldPosition.y += 2;
-
-        Physics.Raycast(worldPosition, Vector3.down, out RaycastHit hit);
-
-        if (hit.collider != null)
-            if (hit.collider.TryGetComponent<Flower>(out Flower flower))
-                flower.TurnOnVisible();
-    }
-
-    private bool IsThisGround(Vector3Int cell)
-    {
-        Vector3 worldPosition = _tilemap.CellToWorld(cell);
-
-        Physics.Raycast(worldPosition, Vector3.down, out RaycastHit hit);
-
-        if (hit.collider != null)
-            if (hit.collider.TryGetComponent<Ground>(out Ground ground))
-                return true;
-
-        return false;
-    }
-
-    private IEnumerator CellFiller(Vector3 cellWorldPosition ,int radius, bool isDeferred)
-    {
-        var waitTime = new WaitForEndOfFrame();
-
-        Vector3Int cellPosition = _tilemap.WorldToCell(cellWorldPosition);
-
-        TryFillCell(cellPosition);
-
-        for (int i = -radius; i <= radius; i++)
+        if (other.TryGetComponent<Flower>(out var flower))
         {
-            for (int j = radius; j >= -radius; j--)
-            {
-                Vector3Int neighborFieldPosition = new Vector3Int(cellPosition.x + i, cellPosition.y + j, cellPosition.z);
+            flower.TurnOnVisible();
+        }
 
-                if (Vector3Int.Distance(cellPosition, neighborFieldPosition) <= radius)
-                {
-                    TryFillCell(neighborFieldPosition);
-
-                    if (isDeferred)
-                        yield return waitTime;
-                }
-            }
-
-            if (i > radius)
-                yield break;
+        if (other.TryGetComponent<Water>(out var water))
+        {
+            _foundWater?.Invoke();
         }
     }
 }

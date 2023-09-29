@@ -5,8 +5,6 @@ using UnityEngine.Events;
 
 public class PlayerColliderController : MonoBehaviour
 {
-    private Collider _previousCollider;
-
     private bool _grounded;
 
     private UnityAction _foundWater;
@@ -27,12 +25,7 @@ public class PlayerColliderController : MonoBehaviour
             _foundWater?.Invoke();
         }
 
-        if (_previousCollider != hit.collider)
-        {          
-            if (hit.collider.TryGetComponent<Ground>(out Ground ground))
-                _grounded = true;
-
-            _previousCollider = hit.collider;
-        }
+        if (hit.collider.TryGetComponent<Ground>(out Ground ground) || hit.collider.TryGetComponent<Grass>(out Grass grass))
+            _grounded = true;
     }
 }

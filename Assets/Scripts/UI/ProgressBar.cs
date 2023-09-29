@@ -25,12 +25,12 @@ public class ProgressBar : MonoBehaviour
 
     private void OnEnable()
     {
-        _painter.FieldFilled += IncreaseValue;
+        //_painter.FieldFilled += IncreaseValue;
     }
 
     private void OnDisable()
     {
-        _painter.FieldFilled -= IncreaseValue;
+        //_painter.FieldFilled -= IncreaseValue;
     }
 
     private void IncreaseValue()

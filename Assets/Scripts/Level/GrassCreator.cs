@@ -5,23 +5,24 @@ using UnityEngine;
 [RequireComponent(typeof(Ground))]
 public class GrassCreator : MonoBehaviour
 {
-    [SerializeField] private Grid _grid;
     [SerializeField] private Grass _grass;
     [SerializeField] private Transform _container;
 
     private Ground _ground;
+    private float _step;
 
     private void Start()
     {
         _ground = GetComponent<Ground>();
+        _step = 0.4f;
         Instantiate();
     }
 
     private void Instantiate()
     {
-        for (float i = _ground.StartingCoordinate.x; i < _ground.EndingCoordinate.x; i += _grid.cellSize.x)
+        for (float i = _ground.StartingCoordinate.x; i < _ground.EndingCoordinate.x; i += _step)
         {
-            for (float j = _ground.StartingCoordinate.z; j < _ground.EndingCoordinate.z; j += _grid.cellSize.y)
+            for (float j = _ground.StartingCoordinate.z; j < _ground.EndingCoordinate.z; j += _step)
             {
                 Vector3 position = new Vector3(i, _ground.StartingCoordinate.y, j);
 

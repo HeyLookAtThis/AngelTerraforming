@@ -4,7 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Ground))]
 public class TreesCreator : MonoBehaviour
 {
-    [SerializeField] private GrassPainter _grassPainter;
     [SerializeField] private List<Tree> _prefabs;
     [SerializeField] private Transform _container;
 
@@ -32,7 +31,7 @@ public class TreesCreator : MonoBehaviour
             {
                 Vector3 treePosition = GetRandomCoordinate();
 
-                Instantiate(tree, treePosition, Quaternion.identity, _container).Initialize(_grassPainter);
+                Instantiate(tree, treePosition, Quaternion.identity, _container);
                 _positions.Add(treePosition);
                 treeCount--;
 

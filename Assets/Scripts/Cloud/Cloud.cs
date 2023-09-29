@@ -9,6 +9,7 @@ public class Cloud : MonoBehaviour
     [SerializeField] private PlayerColliderController _playerCollider;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private GrassPainter _tilemapPainter;
+    [SerializeField] private Transform _targetPlace;
 
     private int _radius = 2;
     private bool _isGrassGrowDiferred = true;
@@ -21,6 +22,8 @@ public class Cloud : MonoBehaviour
     public PlayerColliderController PlayerCollider => _playerCollider;
 
     public PlayerMovement PlayerMovement => _playerMovement;
+
+    public Transform TargetPlace => _targetPlace;
 
     public bool LocatedUnderPlayer => _locatedUnderPlayer;
 
@@ -47,12 +50,11 @@ public class Cloud : MonoBehaviour
 
         if (hit.collider.TryGetComponent<Grass>(out Grass grass))
         {
-            if (_tilemapPainter.CanFillCell(hit.point) && _reservoir.IsEmpty == false)
-            {
-                _tilemapPainter.BeginFillCell(hit.point, _radius, _isGrassGrowDiferred);
-
+            if (_reservoir.IsEmpty == false && grass.Growed == false)
+            {              
                 _reservoir.MakeRain();
                 _resizer.ReduceSize();
+                grass.Grow();
             }
             else
             {
@@ -74,9 +76,8 @@ public class Cloud : MonoBehaviour
         }
 
         if (hit.collider.TryGetComponent<Tree>(out Tree tree))
-        {
-            tree.GrowGrassAround();
-        }
+            if (tree.HasGrassAround != true)
+                tree.GrowGrassAround();
     }
 
     public void TurnOnLocationUnderPlayer()

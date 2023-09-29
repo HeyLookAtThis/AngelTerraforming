@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(WaterReservoir))]
 public abstract class Transition : MonoBehaviour
 {
     [SerializeField] private State _targetState;

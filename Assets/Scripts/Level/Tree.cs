@@ -5,32 +5,28 @@ using UnityEngine;
 
 public class Tree : MonoBehaviour
 {
-    [SerializeField] private int _radius;
     [SerializeField] private List<GameObject> _emptyTunks;
     [SerializeField] private List<GameObject> _greenTrunks;
+    [SerializeField] private GrassPainter _painter;
 
-    private GrassPainter _painter;
     private bool _hasGrassAround = false;
 
-    private bool _isGrassGrowDelay => false;
-
     private bool _isTrunkEmpty => _hasGrassAround ? false : true;
+
+    public bool HasGrassAround => _hasGrassAround;
 
     private void Start()
     {
         ChangeLeaves();
     }
 
-    public void Initialize(GrassPainter grassPainter)
-    {
-        _painter = grassPainter;
-    }
-
     public void GrowGrassAround()
     {
-        _painter.BeginFillCell(transform.position, _radius, _isGrassGrowDelay);
+        _painter.Activate();
         _hasGrassAround = true;
         ChangeLeaves();
+
+        _painter.Deactivate();
     }
 
     private void ChangeLeaves()

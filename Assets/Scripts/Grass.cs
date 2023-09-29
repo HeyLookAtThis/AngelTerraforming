@@ -5,17 +5,29 @@ public class Grass : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _particleSystem;
 
+    private SphereCollider _sphereCollider;
     private Coroutine _growBeginner;
     private float _duration = 0.2f;
 
+    public bool Growed { get; private set; }
+
+    private void Start()
+    {
+        _sphereCollider = GetComponent<SphereCollider>();
+        _sphereCollider.isTrigger = true;
+    }
+
     public void Grow()
     {
+        _particleSystem.gameObject.SetActive(true);
         BeginToGrow();
+        Growed = true;
     }
 
     public void TurnOff()
     {
-        _particleSystem.Stop();
+        Growed = false;
+        _particleSystem.gameObject.SetActive(false);
     }
 
     private void BeginToGrow()

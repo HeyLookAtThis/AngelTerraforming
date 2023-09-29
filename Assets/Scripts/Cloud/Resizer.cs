@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(WaterReservoir))]
 public class Resizer : MonoBehaviour
 {
+    [SerializeField] private GameObject _cloud;
+
     private float _fullSize = 0.06f;
     private float _emptySize = 0.02f;
 
@@ -12,6 +14,8 @@ public class Resizer : MonoBehaviour
     private float _sizeChangerStep;
 
     private Coroutine _sizeChanger;
+
+    public float CurrentSize => _currentSize;
 
     private void Start()
     {
@@ -62,6 +66,6 @@ public class Resizer : MonoBehaviour
     {
         _currentSize = size;
 
-        transform.localScale = new Vector3(_currentSize, _emptySize, _currentSize);
+        _cloud.transform.localScale = new Vector3(_currentSize, _currentSize, _currentSize);
     }
 }

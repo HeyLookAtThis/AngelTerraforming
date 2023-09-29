@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class WithWaterState : State
 {
+    private Resizer _resizer;
+    private Cloud _cloud;
+
+    private float _fullsize = 16f;
+
     private void Awake()
     {
-        positionIndent = new Vector3(0, 0.4f, 0.2f);
+        _resizer = GetComponent<Resizer>();
+        _cloud = GetComponent<Cloud>();
     }
 
     private void Update()
     {
-        targetPosition = Target.transform.position + positionIndent;
+        positionIndent.y = _fullsize * _resizer.CurrentSize;
+
+        targetPosition = _cloud.TargetPlace.position - positionIndent;
         transform.position = targetPosition;
 
         transform.forward = Target.transform.forward;
