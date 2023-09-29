@@ -8,7 +8,7 @@ public class ProgressBar : MonoBehaviour
     [SerializeField] private Ground _ground;
     [SerializeField] private Water _water;
     [SerializeField] private Grid _grid;
-    [SerializeField] private GrassPainter _painter;
+    [SerializeField] private Scanner _painter;
 
     private Slider _slider;
     private float _valueStep;

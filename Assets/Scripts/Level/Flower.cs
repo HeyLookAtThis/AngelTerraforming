@@ -4,6 +4,8 @@ public class Flower : MonoBehaviour
 {
     private GameObject _model;
 
+    public bool IsVisible { get; private set; }
+
     private void Awake()
     {
         _model = transform.GetChild(0).gameObject;
@@ -11,11 +13,18 @@ public class Flower : MonoBehaviour
 
     private void Start()
     {
-        _model.SetActive(false);
+        TurnOffVisible();
     }
 
     public void TurnOnVisible()
     {
         _model.SetActive(true);
+        IsVisible = true;
+    }
+
+    private void TurnOffVisible()
+    {
+        _model.SetActive(false);
+        IsVisible = false;
     }
 }

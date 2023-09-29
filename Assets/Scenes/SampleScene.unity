@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -297,7 +297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3fc41421bfa5b844bb95d09b3dd44a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _grassPainter: {fileID: 0}
   _prefabs:
   - {fileID: -9118588001581387132, guid: f850971937d20074eaeefe5382c4d967, type: 3}
   - {fileID: 5707677923366262138, guid: 0861ea40897c38e4f845624482873a33, type: 3}
@@ -649,7 +648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_AnchorMax.x
@@ -986,6 +985,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -6893515383154308948, guid: 96344f4a10fc9d6418167824db0a7faf, type: 3}
+      propertyPath: _level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6893515383154308948, guid: 96344f4a10fc9d6418167824db0a7faf, type: 3}
       propertyPath: _targetPlace
       value: 
       objectReference: {fileID: 727940136}
@@ -1061,7 +1064,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5569420027136654981, guid: 96344f4a10fc9d6418167824db0a7faf, type: 3}
+    - {fileID: 3036052816375019035, guid: 96344f4a10fc9d6418167824db0a7faf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 96344f4a10fc9d6418167824db0a7faf, type: 3}
 --- !u!114 &1523355072 stripped
 MonoBehaviour:

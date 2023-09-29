@@ -35,7 +35,6 @@ Transform:
   - {fileID: 4525610202823029506}
   - {fileID: 2055532681494190695}
   - {fileID: 9107258778746704808}
-  - {fileID: 840967867594142502}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -73,7 +72,7 @@ MonoBehaviour:
   - {fileID: 8442185758419257618}
   - {fileID: 1715142180401217757}
   - {fileID: 3856737338438068664}
-  _painter: {fileID: 1344494926504905183}
+  _painter: {fileID: 0}
 --- !u!1001 &730398015258476491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -157,91 +156,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8377151309574368355, guid: 2554008d6447a2540b44e55f0c0b576e, type: 3}
   m_PrefabInstance: {fileID: 730398015258476491}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2616786505286171208
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 6908706718090245268}
-    m_Modifications:
-    - target: {fileID: 2450918353444782505, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_Name
-      value: GrassPainter
-      objectReference: {fileID: 0}
-    - target: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5957081655419124118, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_Radius
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5957081655419124118, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_Center.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5957081655419124118, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-      propertyPath: m_Center.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
---- !u!4 &840967867594142502 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3457364456284703086, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-  m_PrefabInstance: {fileID: 2616786505286171208}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1344494926504905183 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3960962556222108567, guid: 6b5ea11fd3ee212418c04e1cc9d6ccdf, type: 3}
-  m_PrefabInstance: {fileID: 2616786505286171208}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e0ffad958b563b4481682308fbd4b85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3700470906156883199
 PrefabInstance:
   m_ObjectHideFlags: 0

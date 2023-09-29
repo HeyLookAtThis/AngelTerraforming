@@ -7,7 +7,6 @@ public class Tree : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _emptyTunks;
     [SerializeField] private List<GameObject> _greenTrunks;
-    [SerializeField] private GrassPainter _painter;
 
     private bool _hasGrassAround = false;
 
@@ -20,13 +19,10 @@ public class Tree : MonoBehaviour
         ChangeLeaves();
     }
 
-    public void GrowGrassAround()
+    public void MakeGreenAround()
     {
-        _painter.Activate();
         _hasGrassAround = true;
         ChangeLeaves();
-
-        _painter.Deactivate();
     }
 
     private void ChangeLeaves()

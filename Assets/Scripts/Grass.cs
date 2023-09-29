@@ -14,7 +14,7 @@ public class Grass : MonoBehaviour
     private void Start()
     {
         _sphereCollider = GetComponent<SphereCollider>();
-        _sphereCollider.isTrigger = true;
+        //_sphereCollider.isTrigger = true;
     }
 
     public void Grow()

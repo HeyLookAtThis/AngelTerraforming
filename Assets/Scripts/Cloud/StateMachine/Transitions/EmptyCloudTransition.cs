@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(WaterReservoir))]
+[RequireComponent(typeof(Reservoir))]
 public class EmptyCloudTransition : Transition
 {
-    private WaterReservoir _reservoir;
+    private Reservoir _reservoir;
 
     private void Awake()
     {
-        _reservoir = GetComponent<WaterReservoir>();
+        _reservoir = GetComponent<Reservoir>();
     }
 
     private void OnEnable()

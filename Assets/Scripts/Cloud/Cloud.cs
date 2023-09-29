@@ -1,23 +1,22 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEditor.ShaderData;
 
-[RequireComponent(typeof(WaterReservoir))]
-[RequireComponent(typeof(Resizer))]
+[RequireComponent(typeof(Reservoir), typeof(Resizer))]
 public class Cloud : MonoBehaviour
 {
+    [SerializeField] private float _level;
     [SerializeField] private PlayerColliderController _playerCollider;
     [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private GrassPainter _tilemapPainter;
     [SerializeField] private Transform _targetPlace;
 
-    private int _radius = 2;
-    private bool _isGrassGrowDiferred = true;
-    private bool _locatedUnderPlayer;
-
-    private Collider _previousHitCollider;
-    private WaterReservoir _reservoir;
+    private Scanner _scanner;
+    private Reservoir _reservoir;
     private Resizer _resizer;
+
+    private bool _isAboveTheWater;
+    private bool _locatedUnderPlayer;
 
     public PlayerColliderController PlayerCollider => _playerCollider;
 
@@ -27,18 +26,29 @@ public class Cloud : MonoBehaviour
 
     public bool LocatedUnderPlayer => _locatedUnderPlayer;
 
-    private UnityAction _foundWater;
-
-    public event UnityAction FoundWater
+    private void Awake()
     {
-        add => _foundWater += value;
-        remove => _foundWater -= value;
+        _reservoir = GetComponent<Reservoir>();
+        _resizer = GetComponent<Resizer>();
+        _scanner = GetComponentInChildren<Scanner>();
+
+        _scanner.SetLevel(_level);
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        _reservoir = GetComponent<WaterReservoir>();
-        _resizer = GetComponent<Resizer>();
+        _scanner.FoundFlower += TryGrowFlower;
+        _scanner.FoundGrass += TryGrowGrass;
+        _scanner.FoundTree += TryMakeGreenTree;
+        _scanner.FoundWater += SetBeAboveTheWater;
+    }
+
+    private void OnDisable()
+    {
+        _scanner.FoundFlower -= TryGrowFlower;
+        _scanner.FoundGrass -= TryGrowGrass;
+        _scanner.FoundTree -= TryMakeGreenTree;
+        _scanner.FoundWater -= SetBeAboveTheWater;
     }
 
     private void Update()
@@ -46,47 +56,71 @@ public class Cloud : MonoBehaviour
         if (_locatedUnderPlayer == false)
             return;
 
-        Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit);
-
-        if (hit.collider.TryGetComponent<Grass>(out Grass grass))
-        {
-            if (_reservoir.IsEmpty == false && grass.Growed == false)
-            {              
-                _reservoir.MakeRain();
-                _resizer.ReduceSize();
-                grass.Grow();
-            }
-            else
-            {
-                _reservoir.StopChangeWaterValue();
-                _resizer.StopChangeSize();
-            }
-        }
-
-        if (hit.collider != _previousHitCollider)
-            _previousHitCollider = hit.collider;
-        else
+        if (_isAboveTheWater == false)
             return;
 
-        if (hit.collider.TryGetComponent<Water>(out Water water))
-        {
-            _foundWater?.Invoke();
-            _reservoir.Replenish();
-            _resizer.IncreaseSize();
-        }
-
-        if (hit.collider.TryGetComponent<Tree>(out Tree tree))
-            if (tree.HasGrassAround != true)
-                tree.GrowGrassAround();
+        DrinkWater();
     }
 
     public void TurnOnLocationUnderPlayer()
     {
         _locatedUnderPlayer = true;
+        _scanner.Activate();
     }
 
     public void TurnOffLacationUnderPlayer()
     {
         _locatedUnderPlayer = false;
+        _scanner.Deactivate();
+    }
+
+    private void TryGrowGrass(Grass grass)
+    {
+        _isAboveTheWater = false;
+
+        if(_reservoir.IsEmpty != true)
+        {
+            grass.Grow();
+            MakeRain();
+        }
+    }
+
+    private void TryGrowFlower(Flower flower)
+    {
+        _isAboveTheWater = false;
+
+        if (_reservoir.IsEmpty != true)
+        {
+            flower.TurnOnVisible();
+            MakeRain();
+        }
+    }
+
+    private void TryMakeGreenTree(Tree tree)
+    {
+        _isAboveTheWater = false;
+
+        if (_reservoir.IsEmpty != true)
+        {
+            tree.MakeGreenAround();
+            MakeRain();
+        }
+    }
+
+    private void MakeRain()
+    {
+        _reservoir.PourWater();
+        _resizer.DecreaseSize();
+    }
+
+    private void DrinkWater()
+    {
+        _reservoir.ReplenishWater();
+        _resizer.IncreaseSize();
+    }
+
+    private void SetBeAboveTheWater()
+    {
+        _isAboveTheWater = true;
     }
 }
