@@ -1004,6 +1004,10 @@ PrefabInstance:
       propertyPath: _tilemapPainter
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 312718444371641896, guid: 96344f4a10fc9d6418167824db0a7faf, type: 3}
+      propertyPath: _capacity
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 3722729066494719016, guid: 96344f4a10fc9d6418167824db0a7faf, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.06

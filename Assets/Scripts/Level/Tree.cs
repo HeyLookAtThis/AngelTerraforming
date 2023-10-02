@@ -1,28 +1,28 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class Tree : MonoBehaviour
+public class Tree : Plant
 {
+    [SerializeField] private float _radius;
     [SerializeField] private List<GameObject> _emptyTunks;
     [SerializeField] private List<GameObject> _greenTrunks;
 
-    private bool _hasGrassAround = false;
+    private bool _isTrunkEmpty => !IsGreen;
 
-    private bool _isTrunkEmpty => _hasGrassAround ? false : true;
-
-    public bool HasGrassAround => _hasGrassAround;
+    public bool HasGrassAround => IsGreen;
 
     private void Start()
     {
         ChangeLeaves();
     }
 
-    public void MakeGreenAround()
+    public override void MakeGreen()
     {
-        _hasGrassAround = true;
-        ChangeLeaves();
+        if (IsGreen == false)
+        {
+            SetGreen();
+            ChangeLeaves();
+        }    
     }
 
     private void ChangeLeaves()
@@ -31,6 +31,6 @@ public class Tree : MonoBehaviour
             tunk.SetActive(_isTrunkEmpty);
 
         foreach (var tunk in _greenTrunks)
-            tunk.SetActive(_hasGrassAround);
+            tunk.SetActive(IsGreen);
     }
 }

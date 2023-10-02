@@ -53,6 +53,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8382380347575856168}
   - component: {fileID: -6893515383154308948}
+  - component: {fileID: 1483462480774974292}
   - component: {fileID: 312718444371641896}
   - component: {fileID: 6624391512027601906}
   - component: {fileID: -5309729671527873412}
@@ -99,6 +100,18 @@ MonoBehaviour:
   _playerCollider: {fileID: 0}
   _playerMovement: {fileID: 0}
   _targetPlace: {fileID: 0}
+--- !u!114 &1483462480774974292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6050213412896984995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584dd743d69aede4fb10fc0e630e7003, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &312718444371641896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a3612e55b23634ebe1e5c826146118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _capacity: 3
+  _scanner: {fileID: 1483462480774974292}
 --- !u!114 &6624391512027601906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,7 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a17112da4e3afb2419f6b59f94c68193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cloud: {fileID: 3722729066495207432}
+  _scanner: {fileID: 1483462480774974292}
+  _cloudModel: {fileID: 3722729066495207432}
 --- !u!114 &-5309729671527873412
 MonoBehaviour:
   m_ObjectHideFlags: 0

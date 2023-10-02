@@ -1,10 +1,8 @@
 using UnityEngine;
 
-public class Flower : MonoBehaviour
+public class Flower : Plant
 {
     private GameObject _model;
-
-    public bool IsVisible { get; private set; }
 
     private void Awake()
     {
@@ -16,15 +14,17 @@ public class Flower : MonoBehaviour
         TurnOffVisible();
     }
 
-    public void TurnOnVisible()
+    public override void MakeGreen()
     {
-        _model.SetActive(true);
-        IsVisible = true;
+        if (IsGreen == false)
+        {
+            _model.SetActive(true);
+            SetGreen();
+        }
     }
 
     private void TurnOffVisible()
     {
         _model.SetActive(false);
-        IsVisible = false;
     }
 }

@@ -1,22 +1,7 @@
-using System.Collections;
-using UnityEngine;
 using UnityEngine.Events;
 
-public class Reservoir : MonoBehaviour
+public class Reservoir : IndicatorChanger
 {
-    [SerializeField] private float _capacity;
-
-    private float _currentStock;
-    private bool _isEmpty;    
-    
-    public bool IsEmpty => _isEmpty;
-
-    public float ChangeStepsCount => _capacity / _changeVolume;
-
-    private float _emptyStock => 0f;
-
-    private float _changeVolume => 0.1f;
-
     private UnityAction _waterIsOver;
 
     public event UnityAction WaterIsOver
@@ -25,35 +10,17 @@ public class Reservoir : MonoBehaviour
         remove => _waterIsOver -= value;
     }    
 
-    private void Start()
+    private void Awake()
     {
-        _currentStock = _capacity;
+        upperValue = GetComponent<Cloud>().Level;
+        lowerValue = 0f;
     }
 
-    public void ReplenishWater()
+    protected override void DecreaseCurrentValue()
     {
-        if (_currentStock < _capacity)
-        {
-            ChangeStock(_capacity);
-            _isEmpty = false;
-        }
-    }
-
-    public void PourWater()
-    {
-        if (_currentStock > _emptyStock)
-        {
-            ChangeStock(_emptyStock);
-        }
+        if(CurrentValue > lowerValue)
+            base.DecreaseCurrentValue();
         else
-        {
-            _isEmpty = true;
             _waterIsOver?.Invoke();
-        }
-    }
-
-    private void ChangeStock(float targetStock)
-    {
-        _currentStock = Mathf.MoveTowards(_currentStock, targetStock, _changeVolume);
     }
 }

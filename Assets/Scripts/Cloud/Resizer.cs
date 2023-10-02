@@ -1,46 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Reservoir))]
-public class Resizer : MonoBehaviour
+public class Resizer : IndicatorChanger
 {
-    [SerializeField] private GameObject _cloud;
+    [SerializeField] private GameObject _cloudModel;
 
-    private float _fullSize = 0.06f;
-    private float _emptySize = 0.02f;
+    private float _nextValue;
 
-    private float _currentSize;
-    private float _sizeChangerStep;
-
-    public float CurrentSize => _currentSize;
-
-    private void Start()
+    private void Awake()
     {
-        _sizeChangerStep = (_fullSize - _emptySize) / GetComponent<Reservoir>().ChangeStepsCount;
-
-        _currentSize = _fullSize;
-        SetSize();
+        upperValue = 0.06f;
+        lowerValue = 0.02f;
     }
 
-    public void IncreaseSize()
+    private void Update()
     {
-        if (_currentSize < _fullSize)
-            _currentSize += _sizeChangerStep;
-
-        SetSize();
+        if(_nextValue != CurrentValue)
+        {
+            _cloudModel.transform.localScale = new Vector3(CurrentValue, CurrentValue, CurrentValue);
+            _nextValue = CurrentValue;
+        }
     }
 
-    public void DecreaseSize()
+    protected override void DecreaseCurrentValue()
     {
-        if (_currentSize > _emptySize)
-            _currentSize -= _sizeChangerStep;
-
-        SetSize();
-    }
-
-    private void SetSize()
-    {
-        _cloud.transform.localScale = new Vector3(_currentSize, _currentSize, _currentSize);
+        if (CurrentValue > lowerValue)
+            base.DecreaseCurrentValue();
     }
 }

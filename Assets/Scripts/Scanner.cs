@@ -1,37 +1,20 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Scanner : MonoBehaviour
 {
-    private Cloud _cloud;
-
     private float _radius;
     private float _yPosition;
+    private bool _isActivated;
 
-    private bool _isActive;
+    private Collider[] _colliders;
+    private Vector3 _spherePosition;
+    private Vector3 _nextSpherePosition;
 
     private UnityAction _foundWater;
-    private UnityAction<Grass> _foundGrass;
-    private UnityAction<Tree> _foundTree;
-    private UnityAction<Flower> _foundFlower;
-
-    public event UnityAction<Grass> FoundGrass
-    {
-        add => _foundGrass += value;
-        remove => _foundGrass -= value;
-    }
-
-    public event UnityAction<Tree> FoundTree
-    {
-        add => _foundTree += value;
-        remove => _foundTree -= value;
-    }
-
-    public event UnityAction<Flower> FoundFlower
-    {
-        add => _foundFlower += value;
-        remove => _foundFlower -= value;
-    }
+    private UnityAction _waterIsOver;
+    private UnityAction _foundDryPlant;
 
     public event UnityAction FoundWater
     {
@@ -39,35 +22,57 @@ public class Scanner : MonoBehaviour
         remove => _foundWater -= value;
     }
 
+    public event UnityAction WaterIsOver
+    {
+        add => _waterIsOver += value;
+        remove => _waterIsOver -= value;
+    }
+
+    public event UnityAction FoundDryPlant
+    {
+        add => _foundDryPlant += value;
+        remove => _foundDryPlant -= value;
+    }
+
     private void Start()
     {
-        _cloud = GetComponentInParent<Cloud>();
-
         _yPosition = 1;
+        _radius = GetComponentInParent<Cloud>().Level;
+
+        _spherePosition = new Vector3(transform.position.x, _yPosition, transform.position.z);
+        _colliders = Physics.OverlapSphere(_spherePosition, _radius);
     }
 
     private void Update()
     {
-        if (_isActive)
+        if(_isActivated)
         {
-            Vector3 position = new Vector3(_cloud.transform.position.x, _yPosition, _cloud.transform.position.z);
-            CheckColliders(Physics.OverlapSphere(position, _radius));
-        }        
+            _spherePosition = new Vector3(transform.position.x, _yPosition, transform.position.z);
+
+            if (_spherePosition != _nextSpherePosition)
+            {
+                _colliders = GetSubstractColliders();
+                CheckColliders(_colliders);
+
+                _nextSpherePosition = _spherePosition;
+                _colliders = Physics.OverlapSphere(_nextSpherePosition, _radius);
+            }
+        }
     }
 
     public void Activate()
     {
-        _isActive = true;
+        _isActivated = true;
     }
 
     public void Deactivate()
     {
-        _isActive = false;
+        _isActivated = false;
     }
 
-    public void SetLevel(float level)
+    private Collider[] GetSubstractColliders()
     {
-        _radius = level;
+        return Physics.OverlapSphere(_spherePosition, _radius).Except(_colliders).ToArray();
     }
 
     private void CheckColliders(Collider[] colliders)
@@ -75,19 +80,21 @@ public class Scanner : MonoBehaviour
         foreach(var collider in colliders)
         {
             if (collider.TryGetComponent<Water>(out var water))
+            {
                 _foundWater?.Invoke();
+            }
+            else
+            {
+                _waterIsOver?.Invoke();
 
-            if (collider.TryGetComponent<Grass>(out var grass))
-                if (grass.Growed == false)
-                    _foundGrass?.Invoke(grass);
+                collider.TryGetComponent<Plant>(out var plant);
 
-            if (collider.TryGetComponent<Flower>(out var flower))
-                if (flower.IsVisible == false)
-                    _foundFlower?.Invoke(flower);
-
-            if (collider.TryGetComponent<Tree>(out Tree tree))
-                if (tree.HasGrassAround == false)
-                    _foundTree?.Invoke(tree);
+                if (plant.IsGreen == false)
+                {
+                    _foundDryPlant?.Invoke();
+                    plant.MakeGreen();
+                }
+            }
 
             Debug.Log(colliders);
         }

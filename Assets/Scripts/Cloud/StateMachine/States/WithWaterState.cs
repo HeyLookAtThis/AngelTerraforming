@@ -15,7 +15,7 @@ public class WithWaterState : State
 
     private void Update()
     {
-        positionIndent.y = _fullsize * _resizer.CurrentSize;
+        positionIndent.y = _fullsize * _resizer.CurrentValue;
 
         targetPosition = _cloud.TargetPlace.position - positionIndent;
         transform.position = targetPosition;
