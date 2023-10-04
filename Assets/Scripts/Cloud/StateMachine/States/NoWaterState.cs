@@ -8,12 +8,9 @@ public class NoWaterState : State
 
     private Coroutine _positionChanger;
 
-    private Transform _cloud;
-
     private void Awake()
     {
         positionIndent = new Vector3(-1.5f, 2f, -1.5f);
-        _cloud = this.transform;
     }
 
     private void Update()
@@ -22,9 +19,7 @@ public class NoWaterState : State
 
         if (Vector3.Distance(Target.transform.position, transform.position) > _distance)
         {
-            _cloud.DOMoveX(targetPosition.x, speed * Time.deltaTime);
-            _cloud.DOMoveZ(targetPosition.z, speed * Time.deltaTime);
-
+            Move(targetPosition);
             transform.LookAt(Target.transform.position);
         }
     }
@@ -47,19 +42,21 @@ public class NoWaterState : State
 
     private IEnumerator TakePosition()
     {
-        float seconds = 0.01f;
-        var waitTime = new WaitForSeconds(seconds);
+        var waitTime = new WaitForEndOfFrame();
 
         cloud.TurnOffLacationUnderPlayer();
 
         while (transform.position != targetPosition)
         {
             targetPosition = Target.transform.position + positionIndent;
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * seconds);
+            Move(targetPosition);
             yield return waitTime;
         }
 
         if (transform.position == targetPosition)
+        {
+            Debug.Log("Exit");
             yield break;
+        }
     }
 }

@@ -19,15 +19,13 @@ public abstract class IndicatorChanger : MonoBehaviour
 
     private void OnEnable()
     {
-        _scanner.FoundWater += BeginAddDivisionValue;
-        _scanner.WaterIsOver += StopAddDivisionValue;
+        _scanner.FoundWater += IncreaseCurrentValue;
         _scanner.FoundDryPlant += DecreaseCurrentValue;
     }
 
     private void OnDisable()
     {
-        _scanner.FoundWater -= BeginAddDivisionValue;
-        _scanner.WaterIsOver -= StopAddDivisionValue;
+        _scanner.FoundWater -= IncreaseCurrentValue;
         _scanner.FoundDryPlant -= DecreaseCurrentValue;
     }
 
@@ -41,12 +39,19 @@ public abstract class IndicatorChanger : MonoBehaviour
     protected virtual void DecreaseCurrentValue()
     {
         _currentValue -= _divisionValue;
+
+        if(_currentValue < lowerValue)
+            _currentValue = lowerValue;
     }
 
     private void IncreaseCurrentValue()
     {
         if (_currentValue < upperValue)
             _currentValue += _divisionValue;
+
+        if (_currentValue > upperValue)
+            _currentValue = upperValue;
+
     }
 
     private float GetDivisionsNumber()
@@ -54,33 +59,5 @@ public abstract class IndicatorChanger : MonoBehaviour
         float levelCoefficient = 100;
 
         return GetComponent<Cloud>().Level * levelCoefficient;
-    }
-
-    private void StopAddDivisionValue()
-    {
-        if (_divisionValueAdder != null)
-            StopCoroutine(_divisionValueAdder);
-    }
-
-    private void BeginAddDivisionValue()
-    {
-        StopAddDivisionValue();
-        _divisionValueAdder = StartCoroutine(DivisionValueAdder());
-    }
-
-    private IEnumerator DivisionValueAdder()
-    {
-        float seconds = 0.01f;
-        var waitTime = new WaitForSecondsRealtime(seconds);
-        bool isContinue = true;
-
-        while (isContinue)
-        {
-            IncreaseCurrentValue();
-            yield return waitTime;
-        }
-
-        if (_currentValue >= upperValue)
-            yield break;
     }
 }

@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Cloud))]
 public class Scanner : MonoBehaviour
 {
     private float _radius;
@@ -9,23 +10,18 @@ public class Scanner : MonoBehaviour
     private bool _isActivated;
 
     private Collider[] _colliders;
+    private Cloud _cloud;
+
     private Vector3 _spherePosition;
     private Vector3 _nextSpherePosition;
 
     private UnityAction _foundWater;
-    private UnityAction _waterIsOver;
     private UnityAction _foundDryPlant;
 
     public event UnityAction FoundWater
     {
         add => _foundWater += value;
         remove => _foundWater -= value;
-    }
-
-    public event UnityAction WaterIsOver
-    {
-        add => _waterIsOver += value;
-        remove => _waterIsOver -= value;
     }
 
     public event UnityAction FoundDryPlant
@@ -36,8 +32,10 @@ public class Scanner : MonoBehaviour
 
     private void Start()
     {
+        _cloud = GetComponent<Cloud>();
+
+        _radius =_cloud.Level;
         _yPosition = 1;
-        _radius = GetComponentInParent<Cloud>().Level;
 
         _spherePosition = new Vector3(transform.position.x, _yPosition, transform.position.z);
         _colliders = Physics.OverlapSphere(_spherePosition, _radius);
@@ -48,6 +46,9 @@ public class Scanner : MonoBehaviour
         if(_isActivated)
         {
             _spherePosition = new Vector3(transform.position.x, _yPosition, transform.position.z);
+
+            if (_cloud.IsAboveWater)
+                _foundWater?.Invoke();
 
             if (_spherePosition != _nextSpherePosition)
             {
@@ -81,13 +82,13 @@ public class Scanner : MonoBehaviour
         {
             if (collider.TryGetComponent<Water>(out var water))
             {
-                _foundWater?.Invoke();
+                Debug.Log(water);
+                _cloud.TurnOnIsAboveWater();
             }
-            else
+            else if (collider.TryGetComponent<Plant>(out var plant) && collider.TryGetComponent<Water>(out water) == false)
             {
-                _waterIsOver?.Invoke();
-
-                collider.TryGetComponent<Plant>(out var plant);
+                if (_cloud.IsAboveWater)
+                    _cloud.TurnOffIsAboveWater();
 
                 if (plant.IsGreen == false)
                 {
@@ -95,8 +96,6 @@ public class Scanner : MonoBehaviour
                     plant.MakeGreen();
                 }
             }
-
-            Debug.Log(colliders);
         }
     }
 }

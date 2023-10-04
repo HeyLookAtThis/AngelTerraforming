@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Player))]
@@ -56,12 +55,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerCollider.FoundWater += OnJumpOnCloud;
+        _playerCollider.FoundWater += OnBeginToJump;
     }
 
     private void OnDisable()
     {
-        _playerCollider.FoundWater -= OnJumpOnCloud;
+        _playerCollider.FoundWater -= OnBeginToJump;
     }
 
     private void Update()
@@ -82,16 +81,10 @@ public class PlayerMovement : MonoBehaviour
         _falling?.Invoke();
     }
 
-    public void TurnOffGravity()
+    private void TurnOffGravity()
     {
         _currentGravityValue = _noGravityValue;
         _sitting?.Invoke();
-    }
-
-    private void OnJumpOnCloud()
-    {
-        TurnOffGravity();
-        BeginToJump();
     }
 
     private void UzeGravity()
@@ -126,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
             transform.forward = _direction;
     }
 
-    private void BeginToJump()
+    private void OnBeginToJump()
     {
         if (_jumper != null)
             StopCoroutine(_jumper);
@@ -150,6 +143,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (heightCounter >= jumpTime)
+        {
+            TurnOffGravity();
             yield break;
+        }
     }
 }

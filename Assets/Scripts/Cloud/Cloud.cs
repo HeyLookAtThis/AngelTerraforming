@@ -16,13 +16,13 @@ public class Cloud : MonoBehaviour
 
     public Transform TargetPlace => _targetPlace;
 
-    public Scanner Scanner => _scanner;
-
     public float Level => _level;
+
+    public bool IsAboveWater { get; private set; }
 
     private void Awake()
     {
-        _scanner = GetComponentInChildren<Scanner>();
+        _scanner = GetComponent<Scanner>();
     }
 
     public void TurnOnLocationUnderPlayer()
@@ -33,5 +33,17 @@ public class Cloud : MonoBehaviour
     public void TurnOffLacationUnderPlayer()
     {
         _scanner.Deactivate();
+    }
+
+    public void TurnOnIsAboveWater()
+    {
+        IsAboveWater = true;
+        Debug.Log(IsAboveWater);
+    }
+
+    public void TurnOffIsAboveWater()
+    {
+        IsAboveWater = false;
+        Debug.Log(IsAboveWater);
     }
 }

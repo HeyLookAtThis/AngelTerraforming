@@ -8,14 +8,21 @@ public class PlayerColliderController : MonoBehaviour
     private bool _grounded;
 
     private UnityAction _foundWater;
-
-    public bool IsGrounded => _grounded;
+    private UnityAction _foundCloud;
 
     public event UnityAction FoundWater
     {
         add => _foundWater += value;
         remove => _foundWater -= value;
     }
+
+    public event UnityAction FoundCloud
+    {
+        add => _foundWater += value;
+        remove => _foundWater -= value;
+    }
+
+    public bool IsGrounded => _grounded;
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -25,7 +32,7 @@ public class PlayerColliderController : MonoBehaviour
             _foundWater?.Invoke();
         }
 
-        if (hit.collider.TryGetComponent<Ground>(out Ground ground) || hit.collider.TryGetComponent<Grass>(out Grass grass))
+        if (hit.collider.TryGetComponent<Ground>(out Ground ground) || hit.collider.TryGetComponent<Plant>(out Plant plant))
             _grounded = true;
     }
 }

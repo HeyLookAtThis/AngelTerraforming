@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(Cloud))]
@@ -50,5 +50,12 @@ public abstract class State : MonoBehaviour
             _transition.enabled = false;
             enabled = false;
         }
+    }
+
+    protected void Move(Vector3 direction)
+    {
+        cloud.transform.DOMoveX(direction.x, Time.deltaTime);
+        cloud.transform.DOMoveY(direction.y, Time.deltaTime);
+        cloud.transform.DOMoveZ(direction.z, Time.deltaTime);
     }
 }

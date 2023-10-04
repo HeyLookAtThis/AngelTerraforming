@@ -1,7 +1,10 @@
+using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Cloud))]
 public class Reservoir : IndicatorChanger
 {
+    private Cloud _cloud;
     private UnityAction _waterIsOver;
 
     public event UnityAction WaterIsOver
@@ -12,15 +15,17 @@ public class Reservoir : IndicatorChanger
 
     private void Awake()
     {
-        upperValue = GetComponent<Cloud>().Level;
+        _cloud = GetComponent<Cloud>();
+        upperValue = _cloud.Level;
         lowerValue = 0f;
     }
 
     protected override void DecreaseCurrentValue()
     {
-        if(CurrentValue > lowerValue)
+        if (CurrentValue > lowerValue)
             base.DecreaseCurrentValue();
         else
-            _waterIsOver?.Invoke();
+            if (_cloud.IsAboveWater == false)
+                _waterIsOver?.Invoke();
     }
 }
