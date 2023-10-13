@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Ground))]
 public class VolcanoCreator : Instantiator
 {
     [SerializeField] private uint _count;
@@ -18,7 +19,7 @@ public class VolcanoCreator : Instantiator
             {
                 Vector3 volcanoPosition = GetRandomCoordinate();
 
-                Instantiate(tree, volcanoPosition, Quaternion.identity, Container).Initialize(Ground);
+                Instantiate(tree, volcanoPosition, Quaternion.identity, Container).Initialize(GetComponent<Ground>());
 
                 AddObjectCoordinate(volcanoPosition);
 

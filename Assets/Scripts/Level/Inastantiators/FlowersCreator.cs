@@ -16,12 +16,13 @@ public class FlowersCreator : Instantiator
         {
             foreach (var flower in _prefabs)
             {
-                Vector3 flowerPosition = new Vector3(Random.Range(Ground.StartingCoordinate.x, Ground.EndingCoordinate.x), Ground.StartingCoordinate.y, Random.Range(Ground.StartingCoordinate.z, Ground.EndingCoordinate.z));
+                Vector3 flowerPosition = Grid.GetRandomCoordinate();
 
                 if (IsEmptyGround(flowerPosition, rayOriginHeingt))
+                {
                     Instantiate(flower, flowerPosition, Quaternion.identity, Container);
-
-                count--;
+                    count--;
+                }
 
                 if (count == 0)
                     break;

@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 424238316}
   - component: {fileID: 424238315}
   - component: {fileID: 424238314}
+  - component: {fileID: 424238318}
   - component: {fileID: 424238317}
   - component: {fileID: 424238322}
   - component: {fileID: 424238321}
@@ -288,6 +289,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _heatingDuration: 2.5
+--- !u!114 &424238318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424238313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 982ad0240311bea43a0d66fe8b38e79c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &424238319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,7 +347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectDistance: 1
   _container: {fileID: 530850594}
-  _count: 200
+  _count: 100
   _prefabs:
   - {fileID: 5129033363317150966, guid: b81b2135f1f522346afbce8690bee226, type: 3}
   - {fileID: -2381091514886308339, guid: 2ce1924e2fc3fb6478abadf7671a08ee, type: 3}
@@ -353,7 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectDistance: 5
   _container: {fileID: 734438308}
-  _count: 5
+  _count: 10
   _prefabs:
   - {fileID: -9118588001581387132, guid: f850971937d20074eaeefe5382c4d967, type: 3}
   - {fileID: 5707677923366262138, guid: 0861ea40897c38e4f845624482873a33, type: 3}
@@ -971,7 +984,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.3420201, y: -0, z: -0, w: 0.9396927}
-  m_LocalPosition: {x: 51.2, y: 9, z: 37.16959}
+  m_LocalPosition: {x: 25, y: 9, z: 25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
