@@ -1,4 +1,3 @@
-using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -28,6 +27,7 @@ public class NoWaterState : State
     {
         base.Enter(target);
 
+        scanner.Deactivate();
         target.TurnOnGravity();
         BeginChangePosition();
     }
@@ -44,19 +44,14 @@ public class NoWaterState : State
     {
         var waitTime = new WaitForEndOfFrame();
 
-        cloud.TurnOffLacationUnderPlayer();
-
         while (transform.position != targetPosition)
         {
             targetPosition = Target.transform.position + positionIndent;
-            Move(targetPosition);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, Target.Speed * Time.deltaTime);
             yield return waitTime;
         }
 
         if (transform.position == targetPosition)
-        {
-            Debug.Log("Exit");
             yield break;
-        }
     }
 }

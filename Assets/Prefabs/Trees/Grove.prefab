@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ec1d21b04665a499e4abf38b58046a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _radius: 7
   _emptyTunks:
   - {fileID: 4023145705325697865}
   - {fileID: 7513841944923931802}
@@ -72,7 +73,6 @@ MonoBehaviour:
   - {fileID: 8442185758419257618}
   - {fileID: 1715142180401217757}
   - {fileID: 3856737338438068664}
-  _painter: {fileID: 0}
 --- !u!1001 &730398015258476491
 PrefabInstance:
   m_ObjectHideFlags: 0

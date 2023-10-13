@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Cloud))]
@@ -12,8 +11,6 @@ public abstract class IndicatorChanger : MonoBehaviour
     private float _currentValue;
     private float _divisionValue;
     private float _divisionsNumber;
-
-    private Coroutine _divisionValueAdder;
 
     public float CurrentValue => _currentValue;
 
@@ -51,7 +48,6 @@ public abstract class IndicatorChanger : MonoBehaviour
 
         if (_currentValue > upperValue)
             _currentValue = upperValue;
-
     }
 
     private float GetDivisionsNumber()

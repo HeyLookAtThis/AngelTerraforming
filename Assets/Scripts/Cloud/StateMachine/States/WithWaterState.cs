@@ -1,5 +1,4 @@
 using UnityEngine;
-using DG.Tweening;
 
 [RequireComponent(typeof(Cloud), typeof(Resizer))]
 public class WithWaterState : State
@@ -19,7 +18,7 @@ public class WithWaterState : State
 
         targetPosition = cloud.TargetPlace.position - positionIndent;
 
-        Move(targetPosition);
+        transform.position = targetPosition;
 
         transform.forward = Target.transform.forward;
     }
@@ -28,6 +27,7 @@ public class WithWaterState : State
     {
         base.Enter(target);
 
-        cloud.TurnOnLocationUnderPlayer();
+        scanner.Activate();
+        target.TurnOffGravity();
     }
 }

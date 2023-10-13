@@ -60,11 +60,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ec1d21b04665a499e4abf38b58046a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _radius: 3
   _emptyTunks:
   - {fileID: 3178293815232738300}
   _greenTrunks:
   - {fileID: 7712893208461420936}
-  _painter: {fileID: 0}
 --- !u!1001 &1442275125680217937
 PrefabInstance:
   m_ObjectHideFlags: 0

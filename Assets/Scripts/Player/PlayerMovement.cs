@@ -2,8 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(Player))]
+[RequireComponent(typeof(CharacterController), typeof(Player))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private FloatingJoystick _joystick;
@@ -81,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         _falling?.Invoke();
     }
 
-    private void TurnOffGravity()
+    public void TurnOffGravity()
     {
         _currentGravityValue = _noGravityValue;
         _sitting?.Invoke();
@@ -143,9 +142,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (heightCounter >= jumpTime)
-        {
-            TurnOffGravity();
             yield break;
-        }
     }
 }

@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerAnimationsController : MonoBehaviour
 {
-    private Animator _animator;
+    [SerializeField] private Animator _animator;
     private PlayerMovement _movement;
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
         _movement = GetComponent<PlayerMovement>();
     }
 

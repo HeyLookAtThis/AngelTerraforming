@@ -7,19 +7,13 @@ public abstract class State : MonoBehaviour
     [SerializeField] private Transition _transition;
 
     protected Cloud cloud;
+    protected Scanner scanner;
 
     protected float speed;
     protected Vector3 targetPosition;
     protected Vector3 positionIndent;
 
-    private float _speedMultiplier = 5;
-
     protected PlayerMovement Target { get; private set; }
-
-    private void Start()
-    {
-        speed = Target.Speed * _speedMultiplier;
-    }
 
     public virtual void Enter(PlayerMovement target)
     {
@@ -28,6 +22,7 @@ public abstract class State : MonoBehaviour
             enabled = true;
             Target = target;
             cloud = GetComponent<Cloud>();
+            scanner = GetComponent<Scanner>();
 
             _transition.enabled = true;
             _transition.Initialize(target);
@@ -54,8 +49,8 @@ public abstract class State : MonoBehaviour
 
     protected void Move(Vector3 direction)
     {
-        cloud.transform.DOMoveX(direction.x, Time.deltaTime);
-        cloud.transform.DOMoveY(direction.y, Time.deltaTime);
-        cloud.transform.DOMoveZ(direction.z, Time.deltaTime);
+        cloud.transform.DOMoveX(direction.x, Target.Speed * Time.deltaTime);
+        cloud.transform.DOMoveY(direction.y, Target.Speed * Time.deltaTime);
+        cloud.transform.DOMoveZ(direction.z, Target.Speed * Time.deltaTime);
     }
 }

@@ -11,21 +11,23 @@ public class Reservoir : IndicatorChanger
     {
         add => _waterIsOver += value;
         remove => _waterIsOver -= value;
-    }    
+    }
+
+    public bool HaveWater => CurrentValue > lowerValue ? true : false;
 
     private void Awake()
     {
         _cloud = GetComponent<Cloud>();
+
         upperValue = _cloud.Level;
         lowerValue = 0f;
     }
 
     protected override void DecreaseCurrentValue()
     {
-        if (CurrentValue > lowerValue)
+        if (HaveWater)
             base.DecreaseCurrentValue();
         else
-            if (_cloud.IsAboveWater == false)
-                _waterIsOver?.Invoke();
+            _waterIsOver?.Invoke();
     }
 }
