@@ -4,7 +4,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Cloud))]
 public class Reservoir : IndicatorChanger
 {
-    private Cloud _cloud;
     private UnityAction _waterIsOver;
 
     public event UnityAction WaterIsOver
@@ -13,21 +12,26 @@ public class Reservoir : IndicatorChanger
         remove => _waterIsOver -= value;
     }
 
-    public bool HaveWater => CurrentValue > lowerValue ? true : false;
+    public bool HaveWater => CurrentValue > LowerValue;
 
-    private void Awake()
+    private void Start()
     {
-        _cloud = GetComponent<Cloud>();
+        float upperValue = Cloud.Level;
+        float lowerValue = 0f;
 
-        upperValue = _cloud.Level;
-        lowerValue = 0f;
+        InitializeValues(upperValue, lowerValue);
     }
 
     protected override void DecreaseCurrentValue()
     {
         if (HaveWater)
+        {
             base.DecreaseCurrentValue();
+        }
         else
-            _waterIsOver?.Invoke();
+        {
+            if (Scanner.IsContainsWater() == false)
+                _waterIsOver?.Invoke();
+        }
     }
 }

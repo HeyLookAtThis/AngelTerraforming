@@ -6,10 +6,12 @@ public class Resizer : IndicatorChanger
 
     private float _nextValue;
 
-    private void Awake()
+    private void Start()
     {
-        upperValue = 0.06f;
-        lowerValue = 0.02f;
+        float upperValue = 0.06f;
+        float lowerValue = 0.02f;
+
+        InitializeValues(upperValue, lowerValue);
     }
 
     private void Update()
@@ -23,7 +25,7 @@ public class Resizer : IndicatorChanger
 
     protected override void DecreaseCurrentValue()
     {
-        if (CurrentValue > lowerValue)
+        if (CurrentValue > LowerValue)
             base.DecreaseCurrentValue();
     }
 }

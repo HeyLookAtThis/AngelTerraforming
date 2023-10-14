@@ -5,8 +5,10 @@ using UnityEngine;
 public abstract class Instantiator : MonoBehaviour
 {
     [SerializeField] private float _objectDistance;
+    [SerializeField] private Water _water;
     [SerializeField] private Transform _container;
 
+    private float _waterDistance;
     private Grid _grid;
 
     private static List<Vector3> _positions = new List<Vector3>();
@@ -20,6 +22,7 @@ public abstract class Instantiator : MonoBehaviour
     private void Awake()
     {
         _grid = GetComponent<Grid>();
+        _waterDistance = 5;
     }
 
     private void Start()
@@ -51,7 +54,8 @@ public abstract class Instantiator : MonoBehaviour
         while (isSuccess != true)
         {
             position = Grid.GetRandomCell();
-            isSuccess = IsEmptyGround(position,rayOriginHeight);
+
+            isSuccess = IsEmptyGround(position, rayOriginHeight) && Vector3.Distance(position, _water.transform.position) > _waterDistance;
         }
 
         return position;

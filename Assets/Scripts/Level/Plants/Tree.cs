@@ -38,8 +38,17 @@ public class Tree : Plant
         Collider[] colliders = Physics.OverlapSphere(transform.position, _radius);
 
         foreach (var collider in colliders)
-            if (collider.TryGetComponent<Plant>(out Plant plant))
-                if(plant.IsGreen == false)
-                    plant.MakeGreen();
+        {
+            if (collider.TryGetComponent<Grass>(out Grass grass))
+            {
+                if (grass.IsGreen == false)
+                    grass.MakeGreen();
+            }
+            else if (collider.TryGetComponent<Flower>(out Flower flower))
+            {
+                if (flower.IsGreen == false)
+                    flower.MakeGreen();
+            }
+        }
     }
 }

@@ -3,24 +3,21 @@ using UnityEngine;
 
 public class NoWaterState : State
 {
-    private float _distance { get { return Vector3.Distance(Target.transform.position, Target.transform.position + positionIndent); } }
-
     private Coroutine _positionChanger;
 
-    private void Awake()
+    private void Start()
     {
-        positionIndent = new Vector3(-1.5f, 2f, -1.5f);
+        float yIndent = 2f;
+        positionIndent.y = yIndent;        
     }
 
     private void Update()
     {
         targetPosition = Target.transform.position + positionIndent;
+        speed = Target.Speed * Vector3.Distance(targetPosition, transform.position);
 
-        if (Vector3.Distance(Target.transform.position, transform.position) > _distance)
-        {
-            Move(targetPosition);
-            transform.LookAt(Target.transform.position);
-        }
+        Move(targetPosition);
+        transform.LookAt(targetPosition);
     }
 
     public override void Enter(PlayerMovement target)

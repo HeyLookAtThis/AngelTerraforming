@@ -6,7 +6,7 @@ public class Grass : Plant
     [SerializeField] private ParticleSystem _particleSystem;
 
     private Coroutine _growBeginner;
-    private float _duration = 0.2f;
+    private float _duration = 0.1f;
 
     public override void MakeGreen()
     {

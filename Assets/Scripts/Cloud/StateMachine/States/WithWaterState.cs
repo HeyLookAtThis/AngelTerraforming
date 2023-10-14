@@ -12,13 +12,18 @@ public class WithWaterState : State
         _resizer = GetComponent<Resizer>();
     }
 
+    private void Start()
+    {
+        float _speedCoefficient = 2f;
+        speed = Target.Speed * _speedCoefficient;
+    }
+
     private void Update()
     {
         positionIndent.y = _fullsize * _resizer.CurrentValue;
-
         targetPosition = cloud.TargetPlace.position - positionIndent;
 
-        transform.position = targetPosition;
+        Move(targetPosition);
 
         transform.forward = Target.transform.forward;
     }
@@ -28,6 +33,5 @@ public class WithWaterState : State
         base.Enter(target);
 
         scanner.Activate();
-        target.TurnOffGravity();
     }
 }

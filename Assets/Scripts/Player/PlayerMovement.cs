@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,17 +8,17 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private FloatingJoystick _joystick;
     [SerializeField] private float _speed;
-    [SerializeField] private float _jumpForse;
 
     private PlayerColliderController _playerCollider;
     private CharacterController _controller;
     private Coroutine _jumper;
 
-    private Vector3 _velosity;
+    private Vector3 _velocity;
     private Vector3 _direction;
 
-    private float _gravityValue = -9.81f;
-    private float _noGravityValue = 0;
+    private float _jumpHeight;
+    private float _gravityValue;
+    private float _noGravityValue;
     private float _currentGravityValue;
 
     private UnityAction<float> _running;
@@ -49,7 +50,9 @@ public class PlayerMovement : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _playerCollider = GetComponent<PlayerColliderController>();
 
-        TurnOffGravity();
+        _gravityValue = -9.81f;
+        _noGravityValue = 0;
+        _jumpHeight = 4;
     }
 
     private void OnEnable()
@@ -60,6 +63,11 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         _playerCollider.FoundWater -= OnBeginToJump;
+    }
+
+    private void Start()
+    {
+        TurnOffGravity();
     }
 
     private void Update()
@@ -80,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         _falling?.Invoke();
     }
 
-    public void TurnOffGravity()
+    private void TurnOffGravity()
     {
         _currentGravityValue = _noGravityValue;
         _sitting?.Invoke();
@@ -88,14 +96,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void UzeGravity()
     {
-        if (_playerCollider.IsGrounded && _velosity.y < 0)
+        if (_playerCollider.IsGrounded && _velocity.y < 0)
         {
-            _velosity.y = 0;
+            _velocity.y = 0;
             return;
         }
 
-        _velosity.y += _currentGravityValue * Time.fixedDeltaTime;
-        _controller.Move(_velosity * Time.fixedDeltaTime);
+        _velocity.y += _currentGravityValue * Time.fixedDeltaTime;
+        _controller.Move(_velocity * Time.fixedDeltaTime);
     }
 
     private void Move()
@@ -120,6 +128,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnBeginToJump()
     {
+        TurnOffGravity();
+
         if (_jumper != null)
             StopCoroutine(_jumper);
 
@@ -130,18 +140,16 @@ public class PlayerMovement : MonoBehaviour
     {
         var waitTime = new WaitForEndOfFrame();
 
-        Vector3 targetHeight = Vector3.up * _jumpForse;
-        float heightCounter = 0;
-        float jumpTime = 0.3f;
-
-        while (heightCounter < jumpTime)
+        while (transform.position.y != _jumpHeight)
         {
-            heightCounter += Time.deltaTime;
-            _controller.Move(targetHeight * Time.deltaTime);
+            transform.DOMoveY(_jumpHeight, Speed * Time.deltaTime);
             yield return waitTime;
         }
 
-        if (heightCounter >= jumpTime)
+        if (transform.position.y >= _jumpHeight)
+        {
+            transform.position = new Vector3(transform.position.x, _jumpHeight, transform.position.z);
             yield break;
+        }
     }
 }

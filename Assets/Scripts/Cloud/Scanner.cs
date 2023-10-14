@@ -49,12 +49,13 @@ public class Scanner : MonoBehaviour
         {
             _spherePosition = new Vector3(transform.position.x, _yPosition, transform.position.z);
 
-            TryCallWaterEvent(_colliders);
+            if (IsContainsWater())
+                _foundWater?.Invoke();
 
             if (_spherePosition != _nextSpherePosition)
             {
                 _colliders = GetSubstractColliders();
-                CheckColliders(_colliders);
+                CheckColliders();
 
                 _nextSpherePosition = _spherePosition;
                 _colliders = Physics.OverlapSphere(_nextSpherePosition, _radius);
@@ -72,22 +73,24 @@ public class Scanner : MonoBehaviour
         _isActivated = false;
     }
 
+    public bool IsContainsWater()
+    {
+        var waterCollider = _colliders.Where(collider => collider.TryGetComponent<Water>(out Water water)).FirstOrDefault();
+
+        if (waterCollider != null)
+            return true;
+
+        return false;
+    }
+
     private Collider[] GetSubstractColliders()
     {
         return Physics.OverlapSphere(_spherePosition, _radius).Except(_colliders).ToArray();
     }
 
-    private void TryCallWaterEvent(Collider[] colliders)
+    private void CheckColliders()
     {
-        var waterCollider = colliders.Where(collider => collider.TryGetComponent<Water>(out Water water)).FirstOrDefault();
-
-        if(waterCollider != null)
-            _foundWater?.Invoke();
-    }
-
-    private void CheckColliders(Collider[] colliders)
-    {
-        foreach(var collider in colliders)
+        foreach(var collider in _colliders)
         {
             if (collider.TryGetComponent<Plant>(out var plant))
             {

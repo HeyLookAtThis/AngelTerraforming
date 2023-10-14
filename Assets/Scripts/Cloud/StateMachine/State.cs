@@ -49,8 +49,6 @@ public abstract class State : MonoBehaviour
 
     protected void Move(Vector3 direction)
     {
-        cloud.transform.DOMoveX(direction.x, Target.Speed * Time.deltaTime);
-        cloud.transform.DOMoveY(direction.y, Target.Speed * Time.deltaTime);
-        cloud.transform.DOMoveZ(direction.z, Target.Speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, direction, speed * Time.deltaTime);
     }
 }

@@ -314,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectDistance: 5
+  _water: {fileID: 549283246}
   _container: {fileID: 1914332877}
   _count: 5
   _prefabs:
@@ -330,7 +331,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f9441cd7b30e324ab5635c87d68ebd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectDistance: 0.7
+  _objectDistance: 0.5
+  _water: {fileID: 549283246}
   _container: {fileID: 563527074}
   _grass: {fileID: -4221053479525628819, guid: 025bdaed35d31164cb58cc707320b56d, type: 3}
 --- !u!114 &424238321
@@ -346,6 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectDistance: 1
+  _water: {fileID: 549283246}
   _container: {fileID: 530850594}
   _count: 100
   _prefabs:
@@ -365,6 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectDistance: 5
+  _water: {fileID: 549283246}
   _container: {fileID: 734438308}
   _count: 10
   _prefabs:
@@ -428,13 +432,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 549283241}
-  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 25, y: 1, z: 25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 579464261}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &549283243
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1308,6 +1312,10 @@ PrefabInstance:
     - target: {fileID: 2275777730966327512, guid: 7a64f49dcb60d5841aad59f7e6c8c897, type: 3}
       propertyPath: _jumpForse
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2275777730966327512, guid: 7a64f49dcb60d5841aad59f7e6c8c897, type: 3}
+      propertyPath: _jumpHeight
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3968495174540741802, guid: 7a64f49dcb60d5841aad59f7e6c8c897, type: 3}
       propertyPath: m_Name
