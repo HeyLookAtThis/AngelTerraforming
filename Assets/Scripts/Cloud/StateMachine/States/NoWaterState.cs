@@ -5,19 +5,20 @@ public class NoWaterState : State
 {
     private Coroutine _positionChanger;
 
+    private float _indent;
+
     private void Start()
     {
-        float yIndent = 2f;
-        positionIndent.y = yIndent;        
+        _indent = 2f;
+        positionIndent.y = _indent;        
     }
 
     private void Update()
     {
         targetPosition = Target.transform.position + positionIndent;
-        speed = Target.Speed * Vector3.Distance(targetPosition, transform.position);
+        speed = Target.Speed * Vector3.Distance(targetPosition, transform.position) / _indent;
 
         Move(targetPosition);
-        transform.LookAt(targetPosition);
     }
 
     public override void Enter(PlayerMovement target)

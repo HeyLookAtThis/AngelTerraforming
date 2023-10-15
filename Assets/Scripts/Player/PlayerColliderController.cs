@@ -5,7 +5,14 @@ public class PlayerColliderController : MonoBehaviour
 {
     private bool _isGrounded = false;
 
+    private UnityAction<bool> _changedGrounded;
     private UnityAction _foundWater;
+
+    public event UnityAction<bool> ChangedGrounded
+    {
+        add => _changedGrounded += value;
+        remove => _changedGrounded -= value;
+    }
 
     public event UnityAction FoundWater
     {
@@ -21,8 +28,20 @@ public class PlayerColliderController : MonoBehaviour
             _foundWater?.Invoke();
 
         if (hit.collider.TryGetComponent<Plant>(out Plant plant) || hit.collider.TryGetComponent<Ground>(out Ground ground))
-            _isGrounded = true;
+        {
+            if (_isGrounded == false)
+            {
+                _isGrounded = true;
+                _changedGrounded?.Invoke(_isGrounded);
+            }
+        }
         else
-            _isGrounded = false;
+        {
+            if (_isGrounded)
+            {
+                _isGrounded = false;
+                _changedGrounded?.Invoke(_isGrounded);
+            }
+        }
     }
 }

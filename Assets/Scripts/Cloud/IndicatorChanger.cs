@@ -17,6 +17,10 @@ public abstract class IndicatorChanger : MonoBehaviour
 
     public float CurrentValue => _currentValue;
 
+    public float UpperValue => _upperValue;
+
+    public float DivisionsNumber => _divisionsNumber;
+
     public Cloud Cloud => _cloud;
 
     public Scanner Scanner => _scanner;
@@ -47,6 +51,15 @@ public abstract class IndicatorChanger : MonoBehaviour
             _currentValue = _lowerValue;
     }
 
+    protected virtual void IncreaseCurrentValue()
+    {
+        if (_currentValue < _upperValue)
+            _currentValue += _divisionValue;
+
+        if (_currentValue > _upperValue)
+            _currentValue = _upperValue;
+    }
+
     protected void InitializeValues(float upperValueNumber, float lowerValueNumber)
     {
         _upperValue = upperValueNumber;
@@ -55,15 +68,6 @@ public abstract class IndicatorChanger : MonoBehaviour
         _divisionsNumber = GetDivisionsNumber();
         _divisionValue = (_upperValue - _lowerValue) / _divisionsNumber;
         _currentValue = _upperValue;
-    }
-
-    private void IncreaseCurrentValue()
-    {
-        if (_currentValue < _upperValue)
-            _currentValue += _divisionValue;
-
-        if (_currentValue > _upperValue)
-            _currentValue = _upperValue;
     }
 
     private float GetDivisionsNumber()

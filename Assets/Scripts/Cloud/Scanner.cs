@@ -17,12 +17,19 @@ public class Scanner : MonoBehaviour
     private Vector3 _nextSpherePosition;
 
     private UnityAction _foundWater;
+    private UnityAction _lostWater;
     private UnityAction _foundDryPlant;
 
     public event UnityAction FoundWater
     {
         add => _foundWater += value;
         remove => _foundWater -= value;
+    }
+
+    public event UnityAction LostWater
+    {
+        add => _lostWater += value;
+        remove => _lostWater -= value;
     }
 
     public event UnityAction FoundDryPlant
@@ -51,6 +58,8 @@ public class Scanner : MonoBehaviour
 
             if (IsContainsWater())
                 _foundWater?.Invoke();
+            else
+                _lostWater?.Invoke();
 
             if (_spherePosition != _nextSpherePosition)
             {
