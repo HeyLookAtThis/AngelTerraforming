@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Resizer : IndicatorChanger
+public class Resizer : Indicator
 {
     [SerializeField] private GameObject _cloudModel;
 

@@ -37,11 +37,13 @@ public class Volcano : MonoBehaviour
 
     private IEnumerator HeatGenerator()
     {
-        var waitTime = new WaitForEndOfFrame();
+        float seconds = 0.1f;
+        var waitTime = new WaitForSecondsRealtime(seconds);
+        Debug.Log(this);
 
         while(_isFrozen == false)
         {
-            _ground.AddTemperature(Time.deltaTime);
+            _ground.AddTemperature(seconds);
             yield return waitTime;
         }
 

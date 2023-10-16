@@ -11,6 +11,8 @@ public class CloudParticleController : MonoBehaviour
     private Reservoir _reservoir;
     private Scanner _scanner;
 
+    private float _previousValue;
+
     private void Awake()
     {
         _reservoir = GetComponent<Reservoir>();

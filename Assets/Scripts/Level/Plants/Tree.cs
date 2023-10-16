@@ -49,6 +49,10 @@ public class Tree : Plant
                 if (flower.IsGreen == false)
                     flower.MakeGreen();
             }
+            else if(collider.TryGetComponent<Coin>(out Coin coin))
+            {
+                coin.TurnOn();
+            }
         }
     }
 }

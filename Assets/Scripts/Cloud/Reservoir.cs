@@ -2,12 +2,10 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Cloud))]
-public class Reservoir : IndicatorChanger
+public class Reservoir : Indicator
 {
     private UnityAction _waterIsOver;
     private UnityAction _filledUp;
-    private UnityAction<float> _increasedValue;
-    private UnityAction<float> _decreasedValue;
 
     public event UnityAction WaterIsOver
     {
@@ -19,18 +17,6 @@ public class Reservoir : IndicatorChanger
     {
         add => _filledUp += value;
         remove => _filledUp -= value;
-    }
-
-    public event UnityAction<float> IncreasedValue 
-    {
-        add => _increasedValue += value;
-        remove => _increasedValue -= value;
-    }
-
-    public event UnityAction<float> DecreasedValue
-    {
-        add => _decreasedValue += value;
-        remove => _decreasedValue -= value;
     }
 
     public bool HaveWater => CurrentValue > LowerValue;
@@ -48,7 +34,6 @@ public class Reservoir : IndicatorChanger
         if (HaveWater)
         {
             base.DecreaseCurrentValue();
-            _decreasedValue?.Invoke(DivisionsNumber);
         }
         else
         {
@@ -60,7 +45,6 @@ public class Reservoir : IndicatorChanger
     protected override void IncreaseCurrentValue()
     {
         base.IncreaseCurrentValue();
-        _increasedValue?.Invoke(DivisionsNumber);
 
         if (CurrentValue >= UpperValue)
             _filledUp?.Invoke();

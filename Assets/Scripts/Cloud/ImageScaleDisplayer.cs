@@ -11,7 +11,8 @@ public class ImageScaleDisplayer : MonoBehaviour
 
     private Quaternion _rotation;
     private Image _image;
-    private float _totalAmount;
+    private float _totalValue;
+    private float _previousValue;
 
 
     private void Awake()
@@ -22,21 +23,19 @@ public class ImageScaleDisplayer : MonoBehaviour
 
     private void OnEnable()
     {
-        _reservoir.IncreasedValue += AddAmount;
-        _reservoir.DecreasedValue += RemoveAmount;
+        _reservoir.ChangedValue += ChangeValue;
     }
 
     private void OnDisable()
     {
-        _reservoir.IncreasedValue -= AddAmount;
-        _reservoir.DecreasedValue -= RemoveAmount;
+        _reservoir.ChangedValue -= ChangeValue;
     }
 
     private void Start()
     {
         _rotation = new Quaternion(0, 90, 90, 1);
-        _totalAmount = 1;
-        _image.fillAmount = _totalAmount;
+        _totalValue = 1;
+        _image.fillAmount = _totalValue;
     }
 
     private void Update()
@@ -44,13 +43,17 @@ public class ImageScaleDisplayer : MonoBehaviour
         _rectTransform.rotation = _rotation;
     }
 
-    private void AddAmount(float divisionsNumber)
+    private void ChangeValue()
     {
-        _image.fillAmount += _totalAmount / divisionsNumber;
-    }
-
-    private void RemoveAmount(float divisionsNumber)
-    {
-        _image.fillAmount -= _totalAmount / divisionsNumber;
+        if(_reservoir.CurrentValue > _previousValue)
+        {
+            _image.fillAmount += _totalValue / _reservoir.DivisionsNumber;
+            _previousValue = _reservoir.CurrentValue;
+        }
+        else
+        {
+            _image.fillAmount -= _totalValue / _reservoir.DivisionsNumber;
+            _previousValue = _reservoir.CurrentValue;
+        }
     }
 }

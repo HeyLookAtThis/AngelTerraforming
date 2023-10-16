@@ -111,6 +111,9 @@ public class Scanner : MonoBehaviour
                         plant.MakeGreen();
                 }
             }
+
+            if (collider.TryGetComponent<Coin>(out var coin))
+                coin.TurnOn();
         }
     }
 }

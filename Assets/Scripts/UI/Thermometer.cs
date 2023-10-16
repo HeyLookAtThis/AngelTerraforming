@@ -42,11 +42,12 @@ public class Thermometer : MonoBehaviour
     private IEnumerator ValueChanger(float currentValue)
     {
         float seconds = 0.01f;
+        float changeScale = 0.2f;
         var waitTime = new WaitForSeconds(seconds);
 
         while (_slider.value != currentValue)
         {
-            _slider.value = Mathf.MoveTowards(_slider.value, currentValue, seconds);
+            _slider.value = Mathf.MoveTowards(_slider.value, currentValue, changeScale);
             yield return waitTime;
         }
 
