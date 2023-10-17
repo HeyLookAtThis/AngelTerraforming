@@ -53,6 +53,10 @@ public class Tree : Plant
             {
                 coin.TurnOn();
             }
+            else if(collider.TryGetComponent<IceCristall>(out IceCristall cristall))
+            {
+                cristall.TurnOn();
+            }
         }
     }
 }

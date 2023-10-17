@@ -19,6 +19,8 @@ public abstract class Instantiator : MonoBehaviour
 
     public Grid Grid => _grid;
 
+    public IReadOnlyList<Vector3> Positions => _positions;
+
     private void Awake()
     {
         _grid = GetComponent<Grid>();
