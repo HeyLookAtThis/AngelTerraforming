@@ -24,7 +24,7 @@ public class Thermometer : MonoBehaviour
         _ground.TemperatureChanged -= BeginChangeValue;
     }
 
-    private void Start()
+    public void Initialize()
     {
         _slider.minValue = _ground.StartingTemperature;
         _slider.maxValue = _ground.EndingTemperature;

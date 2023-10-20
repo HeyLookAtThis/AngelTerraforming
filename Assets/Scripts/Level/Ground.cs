@@ -4,15 +4,8 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Terrain))]
 public class Ground : MonoBehaviour
 {
-    [SerializeField] private float _heatingDuration;
-
-    public float StartingTemperature { get; private set; }
-
-    public float EndingTemperature { get; private set; }
-
-    public float CurrentTemperature { get; private set; }
-
-    private float _secondsInMinute => 60;
+    [SerializeField] private Water _water;
+    [SerializeField] private LevelGenerator _levelGenerator;
 
     private UnityAction<float> _temperatureChanged;
 
@@ -22,10 +15,22 @@ public class Ground : MonoBehaviour
         remove => _temperatureChanged -= value;
     }
 
-    private void Awake()
+    public float StartingTemperature { get; private set; }
+
+    public float EndingTemperature { get; private set; }
+
+    public float CurrentTemperature { get; private set; }
+
+    private float _secondsInMinute => 60;
+
+    public LevelGenerator LevelGenerator => _levelGenerator;
+
+    public Water Water => _water;
+
+    public void Initialize()
     {
         StartingTemperature = 0;
-        EndingTemperature = _heatingDuration * _secondsInMinute * GetComponent<VolcanoCreator>().Count;
+        EndingTemperature = _secondsInMinute * _levelGenerator.TimeForOneVolcano * _levelGenerator.VolcanoCount;
         CurrentTemperature = StartingTemperature;
     }
 

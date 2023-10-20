@@ -4,13 +4,10 @@ using UnityEngine;
 public class Cloud : MonoBehaviour
 {
     [SerializeField] private float _level;
-    [SerializeField] private PlayerColliderController _playerCollider;
-    [SerializeField] private PlayerMovement _playerMovement;
+    [SerializeField] private Player _player;
     [SerializeField] private Transform _targetPlace;
 
-    public PlayerColliderController PlayerCollider => _playerCollider;
-
-    public PlayerMovement PlayerMovement => _playerMovement;
+    public Player Player => _player;
 
     public Transform TargetPlace => _targetPlace;
 

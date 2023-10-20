@@ -4,15 +4,19 @@ using UnityEngine.UIElements;
 
 public class FlowersCreator : Instantiator
 {
-    [SerializeField] private uint _count;
+    [SerializeField] private int _count;
     [SerializeField] private List<Flower> _prefabs;
 
-    protected override void Create()
+    private void Start()
     {
-        uint count = _count;
+        Create();
+    }
+
+    public override void Create()
+    {
         float rayOriginHeingt = 1f;
 
-        while (count > 0)
+        while (_count > 0)
         {
             foreach (var flower in _prefabs)
             {
@@ -21,10 +25,10 @@ public class FlowersCreator : Instantiator
                 if (IsEmptyGround(flowerPosition, rayOriginHeingt))
                 {
                     Instantiate(flower, flowerPosition, Quaternion.identity, Container);
-                    count--;
+                    _count--;
                 }
 
-                if (count == 0)
+                if (_count == 0)
                     break;
             }
         }

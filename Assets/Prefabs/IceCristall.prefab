@@ -44,12 +44,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2193435746141189250}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86497a4793a33bd41b1f41c6e3c07ba6, type: 3}
+  m_Script: {fileID: 11500000, guid: 81c960297c3882448bd31c2d304db3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _effect: {fileID: 5681532812029814021}
   _sound: {fileID: 8300000, guid: 11390b4b43824e54e9eaada95422a366, type: 3}
   _model: {fileID: 5577964068158422139}
+  _chaseSpeed: 10
 --- !u!135 &3866855645846698398
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -61,7 +62,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!82 &2329792374524297907
 AudioSource:

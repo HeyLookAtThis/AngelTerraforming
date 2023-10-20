@@ -14,13 +14,13 @@ public class FoundWaterTransition : Transition
 
     private void OnEnable()
     {
-        _cloud.PlayerMovement.Sitting += TurnOnNeedTransit;
+        _cloud.Player.Movement.Sitting += TurnOnNeedTransit;
         _scanner.FoundWater += TurnOnNeedTransit;
     }
 
     private void OnDisable()
     {
-        _cloud.PlayerMovement.Sitting -= TurnOnNeedTransit;
+        _cloud.Player.Movement.Sitting -= TurnOnNeedTransit;
         _scanner.FoundWater -= TurnOnNeedTransit;
     }
 }

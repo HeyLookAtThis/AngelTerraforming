@@ -50,6 +50,7 @@ MonoBehaviour:
   _effect: {fileID: 6517942689349690774}
   _sound: {fileID: 8300000, guid: 8e746bda97a9f634f9c225c03bd4bfcb, type: 3}
   _model: {fileID: 8569898176674333449}
+  _chaseSpeed: 10
 --- !u!82 &5707977577854667408
 AudioSource:
   m_ObjectHideFlags: 0
@@ -157,7 +158,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 1
   m_Center: {x: 0, y: 0.45, z: 0}
 --- !u!1 &8569898176674333449
 GameObject:

@@ -1,35 +1,55 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Volcano : MonoBehaviour
 {
-    [SerializeField] private Material _coldMaterial;
+    [SerializeField] private Color _iceColor;
     [SerializeField] private MeshRenderer _renderer;
+    [SerializeField] private ParticleSystem _smoke;
+    [SerializeField] private FreezEffect _freezEffect;
 
+    private float _colorChangeSpeed;
     private Ground _ground;
     private bool _isFrozen;
 
     private Coroutine _heatGenerator;
+    private Coroutine _freezer;
 
     private void Start()
     {
-        BeginGenerateHeat();
+        _colorChangeSpeed = 2;
     }
 
     public void Initialize(Ground ground)
     {
         _ground = ground;
+        _isFrozen = false;
+        BeginGenerateGeat();
     }
 
     public void Freeze()
     {
         _isFrozen = true;
-        _renderer.material = _coldMaterial;
+
+        _smoke.Stop();
+        _freezEffect.Play();
+
+        BeginFreeze();
     }
     
-    public void BeginGenerateHeat()
+    public void BeginFreeze()
     {
-        if( _heatGenerator != null )
+        if (_freezer != null)
+            StopCoroutine(_freezer);
+
+        _freezer = StartCoroutine(Freezer());
+    }
+
+    private void BeginGenerateGeat()
+    {
+        if (_heatGenerator != null)
             StopCoroutine(_heatGenerator);
 
         _heatGenerator = StartCoroutine(HeatGenerator());
@@ -39,7 +59,6 @@ public class Volcano : MonoBehaviour
     {
         float seconds = 0.1f;
         var waitTime = new WaitForSecondsRealtime(seconds);
-        Debug.Log(this);
 
         while(_isFrozen == false)
         {
@@ -48,6 +67,21 @@ public class Volcano : MonoBehaviour
         }
 
         if(_isFrozen)
+            yield break;
+    }
+
+    private IEnumerator Freezer()
+    {
+        float seconds = 0.2f;
+        var waitTime = new WaitForSecondsRealtime(seconds);
+
+        while (_renderer.material.color != _iceColor)
+        {
+            _renderer.material.DOColor(_iceColor, seconds * _colorChangeSpeed);
+            yield return waitTime;
+        }
+
+        if(_renderer.material.color == _iceColor)
             yield break;
     }
 }

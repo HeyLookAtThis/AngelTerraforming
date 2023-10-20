@@ -114,6 +114,16 @@ public class Scanner : MonoBehaviour
 
             if (collider.TryGetComponent<Coin>(out var coin))
                 coin.TurnOn();
+
+            if (collider.TryGetComponent<Volcano>(out var volcano))
+            {
+                if (_cloud.Player.HaveCristall)
+                {
+                    volcano.Freeze();
+                    _cloud.Player.RemoveIceCristall();
+                }
+
+            }
         }
     }
 }

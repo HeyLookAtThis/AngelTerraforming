@@ -1,18 +1,14 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class IceCristallCreator : MonoBehaviour
+public class CristallCreator : MonoBehaviour
 {
-    [SerializeField] private uint _count;
-    [SerializeField] private IceCristall _cristall;
+    [SerializeField] private Cristall _cristall;
     [SerializeField] private Transform _cantainer;
 
-    public uint Count => _count;
-
-    public void Create(Vector3 position)
+    public Cristall Create(Vector3 position)
     {
-        Instantiate(_cristall, position, Quaternion.identity, _cantainer);
-        _count--;
+        return Instantiate(_cristall, position, Quaternion.identity, _cantainer);
     }
 
     public Vector3 GetRandomPosition(Vector3 treePosition)

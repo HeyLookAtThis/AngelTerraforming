@@ -7,7 +7,12 @@ public class CoinsCreator : Instantiator
     [SerializeField] private Coin _coin;
     [SerializeField] private uint _amount;
 
-    protected override void Create()
+    private void Start()
+    {
+        Create();
+    }
+
+    public override void Create()
     {
         float rayOriginHeingt = 0.2f;
 

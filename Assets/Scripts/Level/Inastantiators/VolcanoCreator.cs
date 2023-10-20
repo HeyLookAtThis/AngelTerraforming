@@ -4,24 +4,36 @@ using UnityEngine;
 [RequireComponent(typeof(Ground))]
 public class VolcanoCreator : Instantiator
 {
-    [SerializeField] private uint _count;
     [SerializeField] private List<Volcano> _prefabs;
 
-    public uint Count => _count;
+    private List<Volcano> _objects = new List<Volcano>();
 
-    protected override void Create()
+    private int _countCoefficient = 6;
+
+    public int VolcanoCount => _countCoefficient - LevelGenerator.CurrentLevel;
+
+    public void ClearLevel()
     {
-        uint count = _count;
+        if (_objects != null)
+        {
+            foreach (var volcano in _objects)
+                Destroy(volcano);
+
+            _objects.Clear();
+        }
+    }
+
+    public override void Create()
+    {
+        int count = VolcanoCount;
 
         while (count > 0)
         {
-            foreach (var tree in _prefabs)
+            foreach (var volcano in _prefabs)
             {
-                Vector3 volcanoPosition = GetRandomCoordinate();
-
-                Instantiate(tree, volcanoPosition, Quaternion.identity, Container).Initialize(GetComponent<Ground>());
-
-                AddObjectCoordinate(volcanoPosition);
+                Volcano newVolcano = Instantiate(volcano, GetRandomCoordinate(), Quaternion.identity, Container);
+                newVolcano.Initialize(GetComponent<Ground>());
+                _objects.Add(newVolcano);
 
                 count--;
 

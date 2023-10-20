@@ -1,17 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Grid))]
+[RequireComponent(typeof(Grid), typeof(Ground))]
 public abstract class Instantiator : MonoBehaviour
 {
     [SerializeField] private float _objectDistance;
-    [SerializeField] private Water _water;
     [SerializeField] private Transform _container;
 
     private float _waterDistance;
+    private LevelGenerator _levelGenerator;
+    private Water _water;
     private Grid _grid;
-
-    private static List<Vector3> _positions = new List<Vector3>();
 
     public Transform Container => _container;
     
@@ -19,20 +18,17 @@ public abstract class Instantiator : MonoBehaviour
 
     public Grid Grid => _grid;
 
-    public IReadOnlyList<Vector3> Positions => _positions;
+    public LevelGenerator LevelGenerator => _levelGenerator;
 
     private void Awake()
     {
+        _levelGenerator = GetComponent<Ground>().LevelGenerator;
         _grid = GetComponent<Grid>();
+        _water = GetComponent<Ground>().Water;
         _waterDistance = 5;
     }
 
-    private void Start()
-    {
-        Create();
-    }
-
-    protected abstract void Create();
+    public abstract void Create();
 
     protected bool IsEmptyGround(Vector3 position, float rayOriginHeight)
     {
@@ -61,10 +57,5 @@ public abstract class Instantiator : MonoBehaviour
         }
 
         return position;
-    }
-
-    protected void AddObjectCoordinate(Vector3 coordinate)
-    {
-        _positions.Add(coordinate);
     }
 }

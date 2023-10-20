@@ -4,7 +4,12 @@ public class GrassCreator : Instantiator
 {
     [SerializeField] private Grass _grass;
 
-    protected override void Create()
+    private void Start()
+    {
+        Create();
+    }
+
+    public override void Create()
     {
         float rayOriginHeingt = 0.2f;
 
