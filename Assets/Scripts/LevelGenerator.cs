@@ -5,12 +5,14 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] float _timeForOneVolcano;
     [SerializeField] private VolcanoCreator _volcanoCreator;
     [SerializeField] private TreesCreator _treesCreator;
+    [SerializeField] private CoinsCreator _coinCreator;
+    [SerializeField] private FlowersCreator _flowerCreator;
     [SerializeField] private Thermometer _thermometer;
     [SerializeField] private Ground _ground;
 
     private int _firstLevel;
     private int _lastLevel;
-    [SerializeField] private int _currentLevel;
+    private int _currentLevel;
     private int _nextLevel;
 
     public int CurrentLevel => _currentLevel;
@@ -19,36 +21,39 @@ public class LevelGenerator : MonoBehaviour
 
     public float VolcanoCount => _volcanoCreator.VolcanoCount;
 
-    private void Start()
+    private void Awake()
     {
         _firstLevel = 1;
         _lastLevel = 5;
-        SetLevel(_currentLevel);
+        SetLevel(_firstLevel);
+    }
+
+    public void GenerateLevel()
+    {
+        _volcanoCreator.Create();
+        _ground.Initialize();
+        _treesCreator.Create();
+        _thermometer.Initialize();
+
+        if(_coinCreator.Created == false && _flowerCreator.Created == false)
+        {
+            _coinCreator.Create();
+            _flowerCreator.Create();
+        }
     }
 
     public void SetNextLevel()
     {
-        _nextLevel++;
+        _nextLevel += _currentLevel;
         SetLevel(_nextLevel);
     }
 
-    private void SetLevel(int nextLevel)
+    private void SetLevel(int level)
     {
         ClearTerrain();
 
-        if (nextLevel <= _lastLevel)
-        {
-            _currentLevel = nextLevel;
-            GenerateLevel();
-        }
-    }
-
-    private void GenerateLevel()
-    {
-        _ground.Initialize();
-        _volcanoCreator.Create();
-        _treesCreator.Create();
-        _thermometer.Initialize();
+        if (level <= _lastLevel)
+            _currentLevel = level;
     }
 
     private void ClearTerrain()

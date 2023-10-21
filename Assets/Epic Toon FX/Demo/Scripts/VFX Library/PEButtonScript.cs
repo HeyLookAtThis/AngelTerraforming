@@ -11,13 +11,13 @@ public enum ButtonTypes {
 
 public class PEButtonScript : MonoBehaviour, IEventSystemHandler, IPointerEnterHandler, IPointerExitHandler {
 	#pragma warning disable 414
-	private Button myButton;
+	private MenuButton myButton;
 	#pragma warning disable 414
 	public ButtonTypes ButtonType = ButtonTypes.NotDefined;
 
 	// Use this for initialization
 	void Start () {
-		myButton = gameObject.GetComponent<Button> ();
+		myButton = gameObject.GetComponent<MenuButton> ();
 	}
 
 	public void OnPointerEnter(PointerEventData eventData) {

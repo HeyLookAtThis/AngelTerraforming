@@ -31,12 +31,15 @@ public class Volcano : MonoBehaviour
 
     public void Freeze()
     {
-        _isFrozen = true;
+        if( _isFrozen == false)
+        {
+            _isFrozen = true;
 
-        _smoke.Stop();
-        _freezEffect.Play();
+            _smoke.Stop();
+            _freezEffect.Play();
 
-        BeginFreeze();
+            BeginFreeze();
+        }
     }
     
     public void BeginFreeze()

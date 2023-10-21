@@ -7,10 +7,7 @@ public class FlowersCreator : Instantiator
     [SerializeField] private int _count;
     [SerializeField] private List<Flower> _prefabs;
 
-    private void Start()
-    {
-        Create();
-    }
+    public bool Created { get; private set; }
 
     public override void Create()
     {
@@ -29,7 +26,10 @@ public class FlowersCreator : Instantiator
                 }
 
                 if (_count == 0)
+                {
+                    Created = true;
                     break;
+                }
             }
         }
     }

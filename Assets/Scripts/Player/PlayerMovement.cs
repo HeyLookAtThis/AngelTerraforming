@@ -6,7 +6,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(CharacterController), typeof(Player))]
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private FloatingJoystick _joystick;
+    [SerializeField] private FixedJoystick _joystick;
     [SerializeField] private float _speed;
 
     private PlayerColliderController _playerCollider;

@@ -20,13 +20,13 @@ public abstract class Loot : MonoBehaviour
     {
         _sphereCollider = GetComponent<SphereCollider>();
         _audioSourse = GetComponent<AudioSource>();
+        _effect.Stop();
     }
 
     public abstract void GiveReward(Player player);
 
     public void Initialize()
     {
-        _effect.Stop();
         _model.SetActive(false);
         _used = false;
         _audioSourse.clip = _sound;

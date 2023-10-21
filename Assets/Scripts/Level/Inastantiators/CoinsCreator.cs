@@ -7,10 +7,7 @@ public class CoinsCreator : Instantiator
     [SerializeField] private Coin _coin;
     [SerializeField] private uint _amount;
 
-    private void Start()
-    {
-        Create();
-    }
+    public bool Created { get; private set; }
 
     public override void Create()
     {
@@ -26,5 +23,7 @@ public class CoinsCreator : Instantiator
                 _amount--;
             }
         }
+
+        Created = true;
     }
 }
