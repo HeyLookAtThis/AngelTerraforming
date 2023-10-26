@@ -9,26 +9,13 @@ public class TreesCreator : Instantiator
     private List<Cristall> _iceCristalls = new List<Cristall>();
     private List<Tree> _trees = new List<Tree>();
 
-    public void ClearLevel()
-    {
-        if (_trees != null)
-        {
-            foreach (Tree tree in _trees)
-                tree.Destroy();
-
-            foreach (Cristall cristall in _iceCristalls)
-                cristall.Destroy();
-
-            _trees.Clear();
-            _iceCristalls.Clear();
-        }
-    }
-
     public override void Create()
     {
         int multiplier = 2;
         int count = LevelGenerator.CurrentLevel * multiplier;
         int cristallCount = LevelGenerator.CurrentLevel;
+
+        ClearLevel();
 
         while (count > 0)
         {
@@ -56,6 +43,21 @@ public class TreesCreator : Instantiator
                 if (count == 0)
                     break;
             }
+        }
+    }
+
+    private void ClearLevel()
+    {
+        if (_trees != null)
+        {
+            foreach (Tree tree in _trees)
+                tree.Destroy();
+
+            foreach (Cristall cristall in _iceCristalls)
+                cristall.Destroy();
+
+            _trees.Clear();
+            _iceCristalls.Clear();
         }
     }
 }

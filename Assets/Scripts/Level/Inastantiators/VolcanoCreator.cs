@@ -12,19 +12,11 @@ public class VolcanoCreator : Instantiator
 
     public IReadOnlyList<Volcano> Objects => _objects;
 
-    public void ClearLevel()
-    {
-        if (_objects != null)
-        {
-            foreach (var volcano in _objects)
-                volcano.Destroy();
-
-            _objects.Clear();
-        }
-    }
 
     public override void Create()
     {
+        ClearLevel();
+
         int count = LevelGenerator.CurrentLevel;
 
         while (count > 0)
@@ -40,6 +32,17 @@ public class VolcanoCreator : Instantiator
                 if (count == 0)
                     break;
             }
+        }
+    }
+
+    private void ClearLevel()
+    {
+        if (_objects != null)
+        {
+            foreach (var volcano in _objects)
+                volcano.Destroy();
+
+            _objects.Clear();
         }
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,6 +5,7 @@ using UnityEngine.Events;
 public class VolcanoDisplayer : MonoBehaviour
 {
     [SerializeField] private VolcanoCreator _creator;
+    [SerializeField] private StartGameButton _startGameButton;
     [SerializeField] private TextMeshProUGUI _textMeshProUGUI;
 
     private int _currentValue;
@@ -17,6 +16,16 @@ public class VolcanoDisplayer : MonoBehaviour
     {
         add => _fulled += value;
         remove => _fulled -= value;
+    }
+
+    private void OnEnable()
+    {
+        _startGameButton.AddAction(Initialize);
+    }
+
+    private void OnDisable()
+    {
+        _startGameButton.RemoveAction(Unsubscribe);
     }
 
     public void Initialize()

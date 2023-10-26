@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class Thermometer : MonoBehaviour
 {
-    [SerializeField] private Ground _ground;
-
     private Coroutine _valueChanger;
     private Slider _slider;
 
@@ -14,24 +12,14 @@ public class Thermometer : MonoBehaviour
         _slider = GetComponent<Slider>();
     }
 
-    private void OnEnable()
+    public void Initialize(float startingTemperature, float endingTemperature)
     {
-        _ground.TemperatureChanged += BeginChangeValue;
+        _slider.minValue = startingTemperature;
+        _slider.maxValue = endingTemperature;
+        _slider.value = startingTemperature;
     }
 
-    private void OnDisable()
-    {
-        _ground.TemperatureChanged -= BeginChangeValue;
-    }
-
-    public void Initialize()
-    {
-        _slider.minValue = _ground.StartingTemperature;
-        _slider.maxValue = _ground.EndingTemperature;
-        _slider.value = _ground.CurrentTemperature;
-    }
-
-    private void BeginChangeValue(float currentValue)
+    public void BeginChangeValue(float currentValue)
     {
         if (_valueChanger != null)
             StopCoroutine(_valueChanger);

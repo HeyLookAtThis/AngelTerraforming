@@ -8,7 +8,9 @@ public abstract class Instantiator : MonoBehaviour
     [SerializeField] private Transform _container;
 
     private float _waterDistance;
-    private LevelGenerator _levelGenerator;
+
+    private LevelCounter _levelGenerator;
+    private StartGameButton _startGameButton;
     private Water _water;
     private Grid _grid;
 
@@ -18,14 +20,25 @@ public abstract class Instantiator : MonoBehaviour
 
     public Grid Grid => _grid;
 
-    public LevelGenerator LevelGenerator => _levelGenerator;
+    public LevelCounter LevelGenerator => _levelGenerator;
 
     private void Awake()
     {
         _levelGenerator = GetComponent<Ground>().LevelGenerator;
+        _startGameButton = _levelGenerator.StartGameButton;
         _grid = GetComponent<Grid>();
         _water = GetComponent<Ground>().Water;
         _waterDistance = 5;
+    }
+
+    private void OnEnable()
+    {
+        _startGameButton.AddAction(Create);
+    }
+
+    private void OnDisable()
+    {
+        _startGameButton.RemoveAction(Create);
     }
 
     public abstract void Create();

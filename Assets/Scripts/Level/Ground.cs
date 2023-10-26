@@ -1,19 +1,12 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Terrain))]
+[RequireComponent(typeof(Terrain), typeof(VolcanoCreator))]
 public class Ground : MonoBehaviour
 {
     [SerializeField] private Water _water;
-    [SerializeField] private LevelGenerator _levelGenerator;
-
-    private UnityAction<float> _temperatureChanged;
-
-    public event UnityAction<float> TemperatureChanged
-    {
-        add => _temperatureChanged += value;
-        remove => _temperatureChanged -= value;
-    }
+    [SerializeField] private LevelCounter _levelGenerator;
+    [SerializeField] private Thermometer _thermometer;
 
     public float StartingTemperature { get; private set; }
 
@@ -23,26 +16,31 @@ public class Ground : MonoBehaviour
 
     private float _secondsInMinute => 60;
 
-    public LevelGenerator LevelGenerator => _levelGenerator;
+    public LevelCounter LevelGenerator => _levelGenerator;
 
     public Water Water => _water;
 
-    public void Initialize()
+    private void OnEnable()
+    {
+        _levelGenerator.StartGameButton.AddAction(Initialize);
+    }
+
+    private void OnDisable()
+    {
+        _levelGenerator.StartGameButton.RemoveAction(Initialize);
+    }
+
+    private void Initialize()
     {
         StartingTemperature = 0;
-        EndingTemperature = _secondsInMinute * _levelGenerator.TimeForOneVolcano * _levelGenerator.VolcanoCount;
+        EndingTemperature = _secondsInMinute * _levelGenerator.TimeForOneVolcano * _levelGenerator.CurrentLevel;
         CurrentTemperature = StartingTemperature;
+        _thermometer.Initialize(StartingTemperature, EndingTemperature);
     }
 
     public void AddTemperature(float temperature)
     {
         CurrentTemperature += temperature;
-        _temperatureChanged?.Invoke(CurrentTemperature);
-    }
-
-    public void RemoveTemperature(float temperature)
-    {
-        CurrentTemperature -= temperature;
-        _temperatureChanged?.Invoke(CurrentTemperature);
+        _thermometer.BeginChangeValue(CurrentTemperature);
     }
 }
