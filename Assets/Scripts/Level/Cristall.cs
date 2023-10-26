@@ -7,6 +7,6 @@ public class Cristall : Loot
 
     public override void GiveReward(Player player)
     {
-        player.AddIceCristall();
+        player.AddCristall();
     }
 }

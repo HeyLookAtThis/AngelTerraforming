@@ -8,16 +8,16 @@ public class VolcanoCreator : Instantiator
 
     private List<Volcano> _objects = new List<Volcano>();
 
-    private int _countCoefficient = 6;
+    public int ObjectsCount => _objects.Count;
 
-    public int VolcanoCount => _countCoefficient - LevelGenerator.CurrentLevel;
+    public IReadOnlyList<Volcano> Objects => _objects;
 
     public void ClearLevel()
     {
         if (_objects != null)
         {
             foreach (var volcano in _objects)
-                Destroy(volcano);
+                volcano.Destroy();
 
             _objects.Clear();
         }
@@ -25,7 +25,7 @@ public class VolcanoCreator : Instantiator
 
     public override void Create()
     {
-        int count = VolcanoCount;
+        int count = LevelGenerator.CurrentLevel;
 
         while (count > 0)
         {

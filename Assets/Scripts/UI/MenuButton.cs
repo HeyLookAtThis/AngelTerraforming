@@ -36,11 +36,11 @@ public class MenuButton : MonoBehaviour
 
     public void AddAction(UnityAction action)
     {
-        _button.onClick.AddListener(action);
+        _button?.onClick.AddListener(action);
     }
 
     public void RemoveAction(UnityAction action)
     {
-        _button.onClick.RemoveListener(action);
+        _button?.onClick.RemoveListener(action);
     }
 }

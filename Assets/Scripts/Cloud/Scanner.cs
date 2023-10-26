@@ -117,12 +117,11 @@ public class Scanner : MonoBehaviour
 
             if (collider.TryGetComponent<Volcano>(out var volcano))
             {
-                if (_cloud.Player.HaveCristall)
+                if (_cloud.Player.HaveCristall && volcano.IsFrozen == false)
                 {
                     volcano.Freeze();
                     _cloud.Player.RemoveIceCristall();
                 }
-
             }
         }
     }

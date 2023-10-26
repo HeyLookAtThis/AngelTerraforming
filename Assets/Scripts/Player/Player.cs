@@ -5,14 +5,31 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
-    private uint _coinsNumber;
-    private uint _iceCristallNumber;
+    private int _coinsNumber;
+    private int _cristallNumber;
 
     private PlayerMovement _movment;
 
-    public uint CoinsNumber => _coinsNumber;
+    private UnityAction<int> _cristallsNumberChanged;
+    private UnityAction<int> _coinsNumberChanged;
 
-    public bool HaveCristall => _iceCristallNumber > 0;
+    public event UnityAction<int> CristallsNumberChanged
+    {
+        add => _cristallsNumberChanged += value;
+        remove => _cristallsNumberChanged -= value;
+    }
+
+    public event UnityAction<int> CoinsNumberChanged
+    {
+        add => _coinsNumberChanged += value;
+        remove => _coinsNumberChanged -= value;
+    }
+
+    public int CoinsNumber => _coinsNumber;
+
+    public int Cristallnumber => _cristallNumber;
+
+    public bool HaveCristall => _cristallNumber > 0;
 
     public PlayerMovement Movement => _movment;
 
@@ -24,21 +41,30 @@ public class Player : MonoBehaviour
     public void AddCoin()
     {
         _coinsNumber++;
+        _coinsNumberChanged?.Invoke(_coinsNumber);
     }
 
     public void RemoveCoin()
     {
-        _coinsNumber--;
+        if(_coinsNumber > 0)
+        {
+            _coinsNumber--;
+            _coinsNumberChanged?.Invoke(_coinsNumber);
+        }
     }
 
-    public void AddIceCristall()
+    public void AddCristall()
     {
-        _iceCristallNumber++;
+        _cristallNumber++;
+        _cristallsNumberChanged?.Invoke(_cristallNumber);
     }
 
     public void RemoveIceCristall()
     {
         if (HaveCristall)
-            _iceCristallNumber--;
+        {
+            _cristallNumber--;
+            _cristallsNumberChanged?.Invoke(_cristallNumber);
+        }
     }
 }

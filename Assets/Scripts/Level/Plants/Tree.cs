@@ -24,6 +24,11 @@ public class Tree : Plant
         }    
     }
 
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
     private void ChangeLeaves()
     {
         foreach (var tunk in _emptyTunks)

@@ -44,6 +44,11 @@ public abstract class Loot : MonoBehaviour
         }
     }
 
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (_model.activeSelf)

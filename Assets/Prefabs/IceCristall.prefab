@@ -298,6 +298,18 @@ PrefabInstance:
       propertyPath: prewarm
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 19806880, guid: 5d24c8b5c9abd754d877d25ebd733bdf, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 19864196, guid: 5d24c8b5c9abd754d877d25ebd733bdf, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 19870512, guid: 5d24c8b5c9abd754d877d25ebd733bdf, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 19870512, guid: 5d24c8b5c9abd754d877d25ebd733bdf, type: 3}
       propertyPath: InitialModule.startSizeY.minMaxState
       value: 3
@@ -305,6 +317,10 @@ PrefabInstance:
     - target: {fileID: 19870512, guid: 5d24c8b5c9abd754d877d25ebd733bdf, type: 3}
       propertyPath: InitialModule.startSizeZ.minMaxState
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19870512, guid: 5d24c8b5c9abd754d877d25ebd733bdf, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 19870512, guid: 5d24c8b5c9abd754d877d25ebd733bdf, type: 3}
       propertyPath: InitialModule.startRotationX.minMaxState

@@ -33,9 +33,14 @@ public class Grid : MonoBehaviour
 
     public Vector3 GetRandomCell()
     {
-        Vector3 coordinate = _coordinates[Random.Range(0, _coordinates.Count)];
-        _coordinates.Remove(coordinate);
-        return coordinate;
+        if(_coordinates.Count > 0)
+        {
+            Vector3 coordinate = _coordinates[Random.Range(0, _coordinates.Count)];
+            _coordinates.Remove(coordinate);
+            return coordinate;
+        }
+
+        return Vector3.zero;
     }
 
     public Vector3 GetRandomCoordinate()

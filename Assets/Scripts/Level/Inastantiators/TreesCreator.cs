@@ -14,10 +14,10 @@ public class TreesCreator : Instantiator
         if (_trees != null)
         {
             foreach (Tree tree in _trees)
-                Destroy(tree);
+                tree.Destroy();
 
-            foreach (Cristall iceCristall in _iceCristalls)
-                Destroy(iceCristall);
+            foreach (Cristall cristall in _iceCristalls)
+                cristall.Destroy();
 
             _trees.Clear();
             _iceCristalls.Clear();
@@ -26,10 +26,9 @@ public class TreesCreator : Instantiator
 
     public override void Create()
     {
-        int levelCoefficient = 12;
         int multiplier = 2;
-        int count = levelCoefficient - LevelGenerator.CurrentLevel * multiplier;
-        int cristallCount = count / multiplier;
+        int count = LevelGenerator.CurrentLevel * multiplier;
+        int cristallCount = LevelGenerator.CurrentLevel;
 
         while (count > 0)
         {

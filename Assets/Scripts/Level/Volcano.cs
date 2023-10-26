@@ -17,6 +17,16 @@ public class Volcano : MonoBehaviour
     private Coroutine _heatGenerator;
     private Coroutine _freezer;
 
+    private UnityAction _frozed;
+
+    public event UnityAction Frozed
+    {
+        add => _frozed += value;
+        remove => _frozed -= value;
+    }
+
+    public bool IsFrozen => _isFrozen;
+
     private void Start()
     {
         _colorChangeSpeed = 2;
@@ -39,7 +49,14 @@ public class Volcano : MonoBehaviour
             _freezEffect.Play();
 
             BeginFreeze();
+
+            _frozed?.Invoke();
         }
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
     
     public void BeginFreeze()

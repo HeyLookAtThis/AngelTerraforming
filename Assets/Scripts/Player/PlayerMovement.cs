@@ -74,10 +74,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Move();
         Rotate();
-    }
 
-    private void FixedUpdate()
-    {
         if (_currentGravityValue == _gravityValue)
             UzeGravity();
     }

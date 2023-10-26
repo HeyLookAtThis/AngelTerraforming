@@ -6,9 +6,9 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private VolcanoCreator _volcanoCreator;
     [SerializeField] private TreesCreator _treesCreator;
     [SerializeField] private CoinsCreator _coinCreator;
-    [SerializeField] private FlowersCreator _flowerCreator;
     [SerializeField] private Thermometer _thermometer;
     [SerializeField] private Ground _ground;
+    [SerializeField] private VolcanoDisplayer _displayer;
 
     private int _firstLevel;
     private int _lastLevel;
@@ -19,7 +19,7 @@ public class LevelGenerator : MonoBehaviour
 
     public float TimeForOneVolcano => _timeForOneVolcano;
 
-    public float VolcanoCount => _volcanoCreator.VolcanoCount;
+    public float VolcanoCount => _volcanoCreator.ObjectsCount;
 
     private void Awake()
     {
@@ -34,11 +34,11 @@ public class LevelGenerator : MonoBehaviour
         _ground.Initialize();
         _treesCreator.Create();
         _thermometer.Initialize();
+        _displayer.Initialize();
 
-        if(_coinCreator.Created == false && _flowerCreator.Created == false)
+        if(_coinCreator.Created == false)
         {
             _coinCreator.Create();
-            _flowerCreator.Create();
         }
     }
 
@@ -60,5 +60,6 @@ public class LevelGenerator : MonoBehaviour
     {
         _volcanoCreator.ClearLevel();
         _treesCreator.ClearLevel();
+        _displayer.Unsubscribe();
     }
 }
