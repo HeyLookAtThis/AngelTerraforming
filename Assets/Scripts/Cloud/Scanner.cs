@@ -5,6 +5,9 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Cloud), typeof(Reservoir))]
 public class Scanner : MonoBehaviour
 {
+    [SerializeField] private StartGameButton _startButton;
+    [SerializeField] private VolcanoDisplayer _endTrigger;
+
     private float _radius;
     private float _yPosition;
     private bool _isActivated;
@@ -38,20 +41,36 @@ public class Scanner : MonoBehaviour
         remove => _foundDryPlant -= value;
     }
 
-    private void Start()
+    private void Awake()
     {
         _reservoir = GetComponent<Reservoir>();
         _cloud = GetComponent<Cloud>();
 
-        _radius =_cloud.Level;
+        _radius = 1;
         _yPosition = 1;
 
         _spherePosition = new Vector3(transform.position.x, _yPosition, transform.position.z);
         _colliders = Physics.OverlapSphere(_spherePosition, _radius);
+
+        _isActivated = false;
+    }
+
+    private void OnEnable()
+    {
+        _startButton.AddAction(Activate);
+        _endTrigger.Fulled += Deactivate;
+    }
+
+    private void OnDisable()
+    {
+        _startButton.RemoveAction(Activate);
+        _endTrigger.Fulled -= Deactivate;
     }
 
     private void Update()
     {
+        Debug.Log(_isActivated);
+
         if(_isActivated)
         {
             _spherePosition = new Vector3(transform.position.x, _yPosition, transform.position.z);

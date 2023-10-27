@@ -20,7 +20,7 @@ public class Grass : Plant
 
     public void TurnOff()
     {
-        _particleSystem.gameObject.SetActive(false);
+        _particleSystem.Stop();
     }
 
     private void BeginToGrow()

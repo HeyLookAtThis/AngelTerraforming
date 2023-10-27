@@ -85,7 +85,7 @@ public abstract class Indicator : MonoBehaviour
     {
         float levelCoefficient = 100;
 
-        return _cloud.Level * levelCoefficient;
+        return levelCoefficient;
     }
 
     private void BeginChangeValue(float targetValue)

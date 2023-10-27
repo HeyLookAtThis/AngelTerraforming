@@ -35,13 +35,15 @@ public class RewardsPanel : MonoBehaviour
 
     private IEnumerator ValueChanger()
     {
-        var waitTime = new WaitForEndOfFrame();
+        float seconds = 0.1f;
+        var waitTime = new WaitForSeconds(seconds);
         int newRewards = _rewards + _player.CoinsNumber;
 
         while (_rewards != newRewards)
         {
             _textMeshProUGUI.text = _rewards.ToString();
             _rewards++;
+            _player.RemoveCoin();
             yield return waitTime;
         }
 

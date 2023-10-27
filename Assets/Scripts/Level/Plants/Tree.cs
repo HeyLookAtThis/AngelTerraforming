@@ -49,11 +49,6 @@ public class Tree : Plant
                 if (grass.IsGreen == false)
                     grass.MakeGreen();
             }
-            else if (collider.TryGetComponent<Flower>(out Flower flower))
-            {
-                if (flower.IsGreen == false)
-                    flower.MakeGreen();
-            }
             else if(collider.TryGetComponent<Coin>(out Coin coin))
             {
                 coin.TurnOn();

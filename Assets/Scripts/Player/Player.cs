@@ -27,8 +27,6 @@ public class Player : MonoBehaviour
 
     public int CoinsNumber => _coinsNumber;
 
-    public int Cristallnumber => _cristallNumber;
-
     public bool HaveCristall => _cristallNumber > 0;
 
     public PlayerMovement Movement => _movment;

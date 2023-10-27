@@ -9,7 +9,7 @@ public abstract class Instantiator : MonoBehaviour
 
     private float _waterDistance;
 
-    private LevelCounter _levelGenerator;
+    private LevelCounter _levelCounter;
     private StartGameButton _startGameButton;
     private Water _water;
     private Grid _grid;
@@ -20,12 +20,12 @@ public abstract class Instantiator : MonoBehaviour
 
     public Grid Grid => _grid;
 
-    public LevelCounter LevelGenerator => _levelGenerator;
+    public LevelCounter LevelGenerator => _levelCounter;
 
     private void Awake()
     {
-        _levelGenerator = GetComponent<Ground>().LevelGenerator;
-        _startGameButton = _levelGenerator.StartGameButton;
+        _levelCounter = GetComponent<Ground>().LevelGenerator;
+        _startGameButton = _levelCounter.StartGameButton;
         _grid = GetComponent<Grid>();
         _water = GetComponent<Ground>().Water;
         _waterDistance = 5;

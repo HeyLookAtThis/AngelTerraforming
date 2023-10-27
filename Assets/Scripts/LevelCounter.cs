@@ -5,10 +5,8 @@ public class LevelCounter : MonoBehaviour
     [SerializeField] float _timeForOneVolcano;
     [SerializeField] private StartGameButton _gameButton;
 
-    private int _firstLevel;
     private int _lastLevel;
     private int _currentLevel;
-    private int _nextLevel;
 
     public int CurrentLevel => _currentLevel;
 
@@ -18,25 +16,13 @@ public class LevelCounter : MonoBehaviour
 
     private void Awake()
     {
-        _firstLevel = 1;
         _lastLevel = 5;
-        SetLevel(_firstLevel);
     }
 
-    private void OnEnable()
+    public void SetNextLevel()
     {
-        _gameButton.AddAction(SetNextLevel);
-    }
-
-    private void OnDisable()
-    {
-        _gameButton.RemoveAction(SetNextLevel);
-    }
-
-    private void SetNextLevel()
-    {
-        _nextLevel += _currentLevel;
-        SetLevel(_nextLevel);
+        _currentLevel++;
+        SetLevel(_currentLevel);
     }
 
     private void SetLevel(int level)

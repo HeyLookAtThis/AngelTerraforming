@@ -26,7 +26,6 @@ public class PanelChanger : MonoBehaviour
 
     private void ShowRewards()
     {
-        _menu.TurnOff();
         _rewardsPanel.TurnOn();
         _rewardsPanel.BeginChangeValue();
     }

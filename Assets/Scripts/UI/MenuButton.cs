@@ -4,32 +4,38 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button), typeof(AudioSource))]
-public class MenuButton : MonoBehaviour
+public abstract class MenuButton : MonoBehaviour
 {
     [SerializeField] private AudioClip _audio;
-    [SerializeField] private string _text;
 
-    private TextMeshProUGUI _textMeshPro;
-    private Button _button;
     private AudioSource _audioSource;
+    private Button _button;
     
 
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
-        _textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
         _button = GetComponent<Button>();
         _audioSource.clip = _audio;
         _audioSource.playOnAwake = false;
-        _textMeshPro.SetText(_text);
     }
 
     private void OnEnable()
     {
-        AddAction(_audioSource.Play);
+        Initialize();
     }
 
     private void OnDisable()
+    {
+        Unsubscrube();
+    }
+
+    public virtual void Initialize()
+    {
+        AddAction(_audioSource.Play);
+    }
+
+    public virtual void Unsubscrube()
     {
         RemoveAction(_audioSource.Play);
     }
@@ -42,5 +48,15 @@ public class MenuButton : MonoBehaviour
     public void RemoveAction(UnityAction action)
     {
         _button?.onClick.RemoveListener(action);
+    }
+
+    public void Click()
+    {
+        _button.onClick?.Invoke();
+    }
+
+    public void Clicked()
+    {
+        Debug.Log("Clicked!");
     }
 }

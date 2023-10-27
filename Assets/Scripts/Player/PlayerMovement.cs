@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private FixedJoystick _joystick;
     [SerializeField] private float _speed;
+    [SerializeField] private Transform _waterTransform;
+    [SerializeField] private StartGameButton _startButton;
 
     private PlayerColliderController _playerCollider;
     private CharacterController _controller;
@@ -15,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 _velocity;
     private Vector3 _direction;
+
+    private Vector3 _startPosition;
 
     private float _jumpHeight;
     private float _gravityValue;
@@ -53,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
         _gravityValue = -9.81f;
         _noGravityValue = 0;
         _jumpHeight = 4;
+
+        _startPosition = new Vector3(_waterTransform.position.x, _jumpHeight, _waterTransform.position.z);
     }
 
     private void OnEnable()
@@ -63,11 +69,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         _playerCollider.FoundWater -= OnBeginToJump;
-    }
-
-    private void Start()
-    {
-        TurnOffGravity();
     }
 
     private void Update()
@@ -83,6 +84,13 @@ public class PlayerMovement : MonoBehaviour
     {
         _currentGravityValue = _gravityValue;
         _falling?.Invoke();
+    }
+
+    public void SetStartingPosition()
+    {
+        TurnOffGravity();
+
+        transform.position = _startPosition;
     }
 
     private void TurnOffGravity()

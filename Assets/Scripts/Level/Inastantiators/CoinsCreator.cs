@@ -7,11 +7,13 @@ public class CoinsCreator : Instantiator
     [SerializeField] private Coin _coin;
     [SerializeField] private uint _amount;
 
-    public bool Created { get; private set; }
+    private List<Coin> _coins = new List<Coin>();
 
     public override void Create()
     {
         float rayOriginHeingt = 0.2f;
+
+        ClearLevel();
 
         while(_amount > 0)
         {
@@ -19,11 +21,23 @@ public class CoinsCreator : Instantiator
 
             if (IsEmptyGround(position, rayOriginHeingt))
             {
-                Instantiate(_coin, position, Quaternion.identity, Container).Initialize();
+                Coin coin = Instantiate(_coin, position, Quaternion.identity, Container);
+                coin.Initialize();
+                _coins.Add(coin);
                 _amount--;
             }
         }
-
-        Created = true;
     }
+
+    private void ClearLevel()
+    {
+        if (_coins != null)
+        {
+            foreach (Coin coin in _coins)
+                coin.Destroy();
+
+            _coins.Clear();
+        }
+    }
+
 }

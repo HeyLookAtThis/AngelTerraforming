@@ -6,17 +6,27 @@ public class CanvasChanger : MonoBehaviour
 {
     [SerializeField] private Canvas _gameCanvas;
     [SerializeField] private Canvas _menuCanvas;
+    [SerializeField] private VolcanoDisplayer _volcanoDisplayer;
 
-    public void ActivateGameCamera()
+    private void OnEnable()
     {
-        _menuCanvas.enabled = false;
-        _gameCanvas.enabled = true;
+        _volcanoDisplayer.Fulled += ActivateMenuCanvas;
     }
 
-    public void ActivateMenuCamera()
+    private void OnDisable()
+    {
+        _volcanoDisplayer.Fulled -= ActivateMenuCanvas;
+    }
+
+    public void ActivateGameCanvas()
+    {
+        _gameCanvas.enabled = true;
+        _menuCanvas.enabled = false;
+    }
+
+    public void ActivateMenuCanvas()
     {
         _gameCanvas.enabled = false;
         _menuCanvas.enabled = true;
     }
-
 }

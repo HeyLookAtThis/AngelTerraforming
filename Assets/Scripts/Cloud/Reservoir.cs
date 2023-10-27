@@ -23,7 +23,7 @@ public class Reservoir : Indicator
 
     private void Start()
     {
-        float upperValue = Cloud.Level;
+        float upperValue = 1f;
         float lowerValue = 0f;
 
         InitializeValues(upperValue, lowerValue);
