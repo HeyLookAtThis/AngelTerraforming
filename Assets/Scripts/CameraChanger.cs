@@ -4,16 +4,19 @@ public class CameraChanger : MonoBehaviour
 {
     [SerializeField] private CameraController _gameCamera;
     [SerializeField] private CameraController _menuCamera;
-    [SerializeField] private VolcanoDisplayer _volcanoDisplayer;
+    [SerializeField] private LevelFinisher _levelFinisher;
+    [SerializeField] private LevelStarter _levelStarter;
 
     private void OnEnable()
     {
-        _volcanoDisplayer.Fulled += ActivateMenuCamera;
+        _levelFinisher.Begun += ActivateMenuCamera;
+        _levelStarter.Beginning += ActivateGameCamera;
     }
 
     private void OnDisable()
     {
-        _volcanoDisplayer.Fulled -= ActivateMenuCamera;
+        _levelFinisher.Begun -= ActivateMenuCamera;
+        _levelStarter.Beginning -= ActivateGameCamera;
     }
 
     public void ActivateGameCamera()

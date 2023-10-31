@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Ground))]
 public class VolcanoCreator : Instantiator
 {
-    [SerializeField] private List<Volcano> _prefabs;
+    [SerializeField] private Volcano _prefab;
 
     private List<Volcano> _objects = new List<Volcano>();
 
@@ -12,30 +11,25 @@ public class VolcanoCreator : Instantiator
 
     public IReadOnlyList<Volcano> Objects => _objects;
 
-
     public override void Create()
     {
-        ClearLevel();
-
         int count = LevelGenerator.CurrentLevel;
+        Debug.Log(count);
 
         while (count > 0)
         {
-            foreach (var volcano in _prefabs)
-            {
-                Volcano newVolcano = Instantiate(volcano, GetRandomCoordinate(), Quaternion.identity, Container);
-                newVolcano.Initialize(GetComponent<Ground>());
-                _objects.Add(newVolcano);
+            Volcano newVolcano = Instantiate(_prefab, GetRandomCoordinate(), Quaternion.identity, Container);
+            newVolcano.Initialize(GetComponent<Ground>());
+            _objects.Add(newVolcano);
 
-                count--;
+            count--;
 
-                if (count == 0)
-                    break;
-            }
+            if (count == 0)
+                break;
         }
     }
 
-    private void ClearLevel()
+    public override void SetDefaultState()
     {
         if (_objects != null)
         {

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class VolcanoDisplayer : MonoBehaviour
 {
     [SerializeField] private VolcanoCreator _creator;
-    [SerializeField] private StartGameButton _startGameButton;
+    [SerializeField] private LevelStarter _levelStarter;
     [SerializeField] private TextMeshProUGUI _textMeshProUGUI;
 
     private int _currentValue;
@@ -20,12 +20,12 @@ public class VolcanoDisplayer : MonoBehaviour
 
     private void OnEnable()
     {
-        _startGameButton.AddAction(Initialize);
+        _levelStarter.Beginning += Initialize;
     }
 
     private void OnDisable()
     {
-        _startGameButton.RemoveAction(Unsubscribe);
+        _levelStarter.Beginning -= Unsubscribe;
     }
 
     public void Initialize()

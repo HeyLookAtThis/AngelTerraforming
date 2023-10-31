@@ -7,9 +7,8 @@ using UnityEngine.Events;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private FixedJoystick _joystick;
+    [SerializeField] private float _jumpHeight;
     [SerializeField] private float _speed;
-    [SerializeField] private Transform _waterTransform;
-    [SerializeField] private StartGameButton _startButton;
 
     private PlayerColliderController _playerCollider;
     private CharacterController _controller;
@@ -18,9 +17,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _velocity;
     private Vector3 _direction;
 
-    private Vector3 _startPosition;
-
-    private float _jumpHeight;
     private float _gravityValue;
     private float _noGravityValue;
     private float _currentGravityValue;
@@ -30,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     private UnityAction _sitting;
 
     public float Speed => _speed;
+
+    public float JumpHeight => _jumpHeight;
 
     public event UnityAction<float> Runnibg
     {
@@ -56,9 +54,6 @@ public class PlayerMovement : MonoBehaviour
 
         _gravityValue = -9.81f;
         _noGravityValue = 0;
-        _jumpHeight = 4;
-
-        _startPosition = new Vector3(_waterTransform.position.x, _jumpHeight, _waterTransform.position.z);
     }
 
     private void OnEnable()
@@ -86,14 +81,7 @@ public class PlayerMovement : MonoBehaviour
         _falling?.Invoke();
     }
 
-    public void SetStartingPosition()
-    {
-        TurnOffGravity();
-
-        transform.position = _startPosition;
-    }
-
-    private void TurnOffGravity()
+    public void TurnOffGravity()
     {
         _currentGravityValue = _noGravityValue;
         _sitting?.Invoke();

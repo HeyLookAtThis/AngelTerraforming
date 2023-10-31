@@ -3,7 +3,7 @@ using UnityEngine;
 public class LevelCounter : MonoBehaviour
 {
     [SerializeField] float _timeForOneVolcano;
-    [SerializeField] private StartGameButton _gameButton;
+    [SerializeField] private LevelStarter _levelStarter;
 
     private int _lastLevel;
     private int _currentLevel;
@@ -12,22 +12,25 @@ public class LevelCounter : MonoBehaviour
 
     public float TimeForOneVolcano => _timeForOneVolcano;
 
-    public StartGameButton StartGameButton => _gameButton;
-
     private void Awake()
     {
         _lastLevel = 5;
+        _currentLevel = 1;
+    }
+
+    private void OnEnable()
+    {
+        _levelStarter.Beginning += SetNextLevel;
+    }
+
+    private void OnDisable()
+    {
+        _levelStarter.Beginning -= SetNextLevel;
     }
 
     public void SetNextLevel()
     {
-        _currentLevel++;
-        SetLevel(_currentLevel);
-    }
-
-    private void SetLevel(int level)
-    {
-        if (level <= _lastLevel)
-            _currentLevel = level;
+        if (_currentLevel <= _lastLevel)
+            _currentLevel++;
     }
 }

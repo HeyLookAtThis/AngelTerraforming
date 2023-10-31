@@ -5,8 +5,10 @@ using UnityEngine.Events;
 public class Ground : MonoBehaviour
 {
     [SerializeField] private Water _water;
-    [SerializeField] private LevelCounter _levelGenerator;
+    [SerializeField] private LevelCounter _levelCounter;
     [SerializeField] private Thermometer _thermometer;
+    [SerializeField] private LevelStarter _levelStarter;
+    [SerializeField] private LevelFinisher _levelFinisher;
 
     public float StartingTemperature { get; private set; }
 
@@ -16,24 +18,28 @@ public class Ground : MonoBehaviour
 
     private float _secondsInMinute => 60;
 
-    public LevelCounter LevelGenerator => _levelGenerator;
+    public LevelCounter LevelGenerator => _levelCounter;
+
+    public LevelStarter LevelStarter => _levelStarter;
+
+    public LevelFinisher LevelFinisher => _levelFinisher;
 
     public Water Water => _water;
 
     private void OnEnable()
     {
-        _levelGenerator.StartGameButton.AddAction(Initialize);
+        _levelStarter.Beginning += Initialize;
     }
 
     private void OnDisable()
     {
-        _levelGenerator.StartGameButton.RemoveAction(Initialize);
+        _levelStarter.Beginning -= Initialize;
     }
 
     private void Initialize()
     {
         StartingTemperature = 0;
-        EndingTemperature = _secondsInMinute * _levelGenerator.TimeForOneVolcano * _levelGenerator.CurrentLevel;
+        EndingTemperature = _secondsInMinute * _levelCounter.TimeForOneVolcano * _levelCounter.CurrentLevel;
         CurrentTemperature = StartingTemperature;
         _thermometer.Initialize(StartingTemperature, EndingTemperature);
     }

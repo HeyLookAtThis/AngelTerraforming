@@ -1,26 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PanelChanger : MonoBehaviour
 {
-    [SerializeField] private Menu _menu;
     [SerializeField] private RewardsPanel _rewardsPanel;
-    [SerializeField] private VolcanoDisplayer _displayer;
+    [SerializeField] private LevelFinisher _levelFinisher;
 
     private void OnEnable()
     {
-        _displayer.Fulled += ShowRewards;
+        _levelFinisher.Begun += ShowRewards;
     }
 
     private void OnDisable()
     {
-        _displayer.Fulled -= ShowRewards;
+        _levelFinisher.Begun -= ShowRewards;
     }
 
     private void Start()
     {
-        _menu.TurnOn();
         _rewardsPanel.TurnOff();
     }
 

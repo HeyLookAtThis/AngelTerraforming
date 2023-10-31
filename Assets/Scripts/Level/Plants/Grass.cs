@@ -14,13 +14,15 @@ public class Grass : Plant
         {
             _particleSystem.gameObject.SetActive(true);
             BeginToGrow();
-            SetGreen();
+            TurnOnGreen();
         }
     }
 
     public void TurnOff()
     {
         _particleSystem.Stop();
+        _particleSystem.gameObject.SetActive(false);
+        TurnOffGreen();
     }
 
     private void BeginToGrow()

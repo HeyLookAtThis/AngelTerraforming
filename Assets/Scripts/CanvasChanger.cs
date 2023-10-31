@@ -1,21 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CanvasChanger : MonoBehaviour
 {
     [SerializeField] private Canvas _gameCanvas;
     [SerializeField] private Canvas _menuCanvas;
-    [SerializeField] private VolcanoDisplayer _volcanoDisplayer;
+    [SerializeField] private LevelFinisher _levelFinisher;
+    [SerializeField] private LevelStarter _levelStarter;
 
     private void OnEnable()
     {
-        _volcanoDisplayer.Fulled += ActivateMenuCanvas;
+        _levelFinisher.Begun += ActivateMenuCanvas;
+        _levelStarter.Beginning += ActivateGameCanvas;
     }
 
     private void OnDisable()
     {
-        _volcanoDisplayer.Fulled -= ActivateMenuCanvas;
+        _levelFinisher.Begun -= ActivateMenuCanvas;
+        _levelStarter.Beginning -= ActivateGameCanvas;
     }
 
     public void ActivateGameCanvas()

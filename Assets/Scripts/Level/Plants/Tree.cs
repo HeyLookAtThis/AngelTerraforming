@@ -18,7 +18,7 @@ public class Tree : Plant
     {
         if (IsGreen == false)
         {
-            SetGreen();
+            TurnOnGreen();
             ChangeLeaves();
             RunPlantAround();
         }    

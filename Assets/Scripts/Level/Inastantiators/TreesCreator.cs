@@ -15,8 +15,6 @@ public class TreesCreator : Instantiator
         int count = LevelGenerator.CurrentLevel * multiplier;
         int cristallCount = LevelGenerator.CurrentLevel;
 
-        ClearLevel();
-
         while (count > 0)
         {
             foreach (var tree in _prefabs)
@@ -46,7 +44,7 @@ public class TreesCreator : Instantiator
         }
     }
 
-    private void ClearLevel()
+    public override void SetDefaultState()
     {
         if (_trees != null)
         {

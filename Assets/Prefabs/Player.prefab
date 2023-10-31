@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 2275777730966327512}
   - component: {fileID: 2473276538766325442}
   - component: {fileID: 8456217311004074580}
+  - component: {fileID: 8617034625837241048}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -123,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f81364a61d49a949aa9676c16076be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _joystick: {fileID: 8170153791668043265, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
+  _joystick: {fileID: 0}
   _speed: 3
 --- !u!114 &2473276538766325442
 MonoBehaviour:
@@ -151,6 +152,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _particleSystem: {fileID: 5469461685948429285}
+--- !u!114 &8617034625837241048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3968495174540741802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d94e8497d32d7c42aa9a61eaecfbab2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelStarter: {fileID: 0}
+  _levelFinisher: {fileID: 0}
+  _water: {fileID: 0}
 --- !u!1001 &2175763890133080493
 PrefabInstance:
   m_ObjectHideFlags: 0

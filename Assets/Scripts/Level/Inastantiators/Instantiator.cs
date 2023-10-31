@@ -4,19 +4,19 @@ using UnityEngine;
 [RequireComponent(typeof(Grid), typeof(Ground))]
 public abstract class Instantiator : MonoBehaviour
 {
-    [SerializeField] private float _objectDistance;
     [SerializeField] private Transform _container;
 
     private float _waterDistance;
 
     private LevelCounter _levelCounter;
-    private StartGameButton _startGameButton;
+    protected LevelStarter levelStarter;
+    protected LevelFinisher levelFinisher;
+
     private Water _water;
     private Grid _grid;
+    private Ground _ground;
 
-    public Transform Container => _container;
-    
-    public float Distance => _objectDistance;
+    public Transform Container => _container;    
 
     public Grid Grid => _grid;
 
@@ -24,24 +24,33 @@ public abstract class Instantiator : MonoBehaviour
 
     private void Awake()
     {
-        _levelCounter = GetComponent<Ground>().LevelGenerator;
-        _startGameButton = _levelCounter.StartGameButton;
+        _ground = GetComponent<Ground>();
         _grid = GetComponent<Grid>();
-        _water = GetComponent<Ground>().Water;
+
+        _levelCounter = _ground.LevelGenerator;
+        levelStarter = _ground.LevelStarter;
+        levelFinisher = _ground.LevelFinisher;
+
+        _water = _ground.Water;
+
         _waterDistance = 5;
     }
 
     private void OnEnable()
     {
-        _startGameButton.AddAction(Create);
+        levelStarter.Beginning += Create;
+        levelFinisher.Begun += SetDefaultState;
     }
 
     private void OnDisable()
     {
-        _startGameButton.RemoveAction(Create);
+        levelStarter.Beginning -= Create;
+        levelFinisher.Begun -= SetDefaultState;
     }
 
     public abstract void Create();
+
+    public abstract void SetDefaultState();
 
     protected bool IsEmptyGround(Vector3 position, float rayOriginHeight)
     {

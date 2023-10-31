@@ -5,9 +5,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Cloud), typeof(Reservoir))]
 public class Scanner : MonoBehaviour
 {
-    [SerializeField] private StartGameButton _startButton;
-    [SerializeField] private VolcanoDisplayer _endTrigger;
-
     private float _radius;
     private float _yPosition;
     private bool _isActivated;
@@ -51,20 +48,18 @@ public class Scanner : MonoBehaviour
 
         _spherePosition = new Vector3(transform.position.x, _yPosition, transform.position.z);
         _colliders = Physics.OverlapSphere(_spherePosition, _radius);
-
-        _isActivated = false;
     }
 
     private void OnEnable()
     {
-        _startButton.AddAction(Activate);
-        _endTrigger.Fulled += Deactivate;
+        _cloud.LevelStarter.Beginning += Activate;
+        _cloud.LevelFinisher.Begun += Deactivate;
     }
 
     private void OnDisable()
     {
-        _startButton.RemoveAction(Activate);
-        _endTrigger.Fulled -= Deactivate;
+        _cloud.LevelStarter.Beginning -= Activate;
+        _cloud.LevelFinisher.Begun -= Deactivate;
     }
 
     private void Update()
@@ -93,12 +88,19 @@ public class Scanner : MonoBehaviour
 
     public void Activate()
     {
+        ClearColliders();
         _isActivated = true;
     }
 
     public void Deactivate()
     {
         _isActivated = false;
+        ClearColliders();
+    }
+
+    private void ClearColliders()
+    {
+        _colliders = new Collider[0];
     }
 
     public bool IsContainsWater()

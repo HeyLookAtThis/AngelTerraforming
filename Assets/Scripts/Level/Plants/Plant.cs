@@ -11,8 +11,13 @@ public abstract class Plant : MonoBehaviour
 
     public abstract void MakeGreen();
 
-    public void SetGreen()
+    public void TurnOnGreen()
     {
         IsGreen = true;
+    }
+
+    public void TurnOffGreen()
+    {
+        IsGreen = false;
     }
 }
