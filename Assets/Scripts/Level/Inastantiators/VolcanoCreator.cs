@@ -14,7 +14,6 @@ public class VolcanoCreator : Instantiator
     public override void Create()
     {
         int count = LevelGenerator.CurrentLevel;
-        Debug.Log(count);
 
         while (count > 0)
         {

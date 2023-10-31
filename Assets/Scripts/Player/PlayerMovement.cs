@@ -24,10 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private UnityAction<float> _running;
     private UnityAction _falling;
     private UnityAction _sitting;
-
-    public float Speed => _speed;
-
-    public float JumpHeight => _jumpHeight;
+    private UnityAction<Vector3> _changePosition;
 
     public event UnityAction<float> Runnibg
     {
@@ -46,6 +43,14 @@ public class PlayerMovement : MonoBehaviour
         add => _sitting += value;
         remove => _sitting -= value;
     }
+
+    public event UnityAction<Vector3> ChangePosition
+    {
+        add => _changePosition += value;
+        remove => _changePosition -= value;
+    }
+
+    public float Speed => _speed;
 
     private void Awake()
     {
@@ -70,7 +75,10 @@ public class PlayerMovement : MonoBehaviour
     {
         Move();
         Rotate();
+    }
 
+    private void FixedUpdate()
+    {
         if (_currentGravityValue == _gravityValue)
             UzeGravity();
     }
@@ -111,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
             _running?.Invoke(0);
 
         _controller.Move(_direction);
+        _changePosition?.Invoke(transform.position);
     }
 
     private void Rotate()
